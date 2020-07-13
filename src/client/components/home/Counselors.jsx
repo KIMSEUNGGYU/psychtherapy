@@ -1,6 +1,5 @@
 import React from "react";
 import "./Counselors.scss";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import t from "client/images/t.jpg";
 
 const Counselors = () => {

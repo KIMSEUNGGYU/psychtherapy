@@ -1,9 +1,9 @@
 import { LayerKeyGen } from "./LayerKeyGen";
 import { EventName } from "./EventName";
-import { store } from "store";
-import { actions as globalActions } from "modules/global";
+import { store } from "client/store";
+// import { actions as globalActions } from "modules/global";
 
-(function() {
+(function () {
     if (typeof window.CustomEvent === "function") return false;
 
     function CustomEvent(event, params) {
@@ -54,12 +54,12 @@ export default class LayerPopup {
         });
         document.dispatchEvent(evt);
         const reduxState = store.getState();
-        if (!reduxState.signingFinished)
-            store.dispatch(
-                globalActions.closePopup({
-                    payload: { signingFinished: false }
-                })
-            );
+        // if (!reduxState.signingFinished)
+        //     store.dispatch(
+        //         globalActions.closePopup({
+        //             payload: { signingFinished: false }
+        //         })
+        //     );
     }
 
     static clear() {

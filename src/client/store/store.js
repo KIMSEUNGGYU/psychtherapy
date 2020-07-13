@@ -4,7 +4,7 @@ import rootSaga from "./saga";
 import rootReducer from "./reducer";
 import history from "./history";
 import { routerMiddleware } from "react-router-redux";
-import persistState from "redux-sessionstorage";
+// import persistState from "redux-sessionstorage";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const appSagaMiddleware = createSagaMiddleware();
@@ -20,13 +20,13 @@ if (process.env.NODE_ENV === "development") {
 const store = createStore(
     rootReducer,
     composeEnhancer(
-        persistState(null, {
-            slicer: () => (state) => {
-                return {
-                    storage: state.storage
-                };
-            }
-        }),
+        // persistState(null, {
+        //     slicer: () => (state) => {
+        //         return {
+        //             storage: state.storage
+        //         };
+        //     }
+        // }),
         applyMiddleware(...middlewares)
     )
 );

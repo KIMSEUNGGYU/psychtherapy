@@ -1,8 +1,12 @@
 import React from "react";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
+import { Popup } from "client/components";
 
 const Header = () => {
+    const onClickLogin = () => {
+        Popup.loginPopup();
+    };
     return (
         <div className="header">
             <div className="header_top">
@@ -19,7 +23,8 @@ const Header = () => {
                     </div>
                     <div className="login">
                         <span>
-                            <MdPerson /> <button>로그인</button>
+                            <MdPerson />{" "}
+                            <button onClick={onClickLogin}>로그인</button>
                         </span>
                         <span>|</span>
                         <span className="last">
