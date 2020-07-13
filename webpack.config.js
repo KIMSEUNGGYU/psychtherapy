@@ -20,17 +20,23 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loader"],
+                exclude: /node_modules/
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
                 loader: "url-loader?limit=100000"
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: "file-loader?name=/src/client/images/[name].[ext]"
             }
         ]
     },
     resolve: {
-        extensions: ["*", ".js", ".jsx"]
+        extensions: ["*", ".js", ".jsx"],
+        modules: [path.join(__dirname, "src"), "node_modules"]
     },
     devServer: {
         port: 3000,

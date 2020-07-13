@@ -1,0 +1,47 @@
+@import "../../styles/variables";
+
+.feature {
+    background: $ivory;
+    .intro_box {
+        img {
+            width: 67.5%;
+        }
+        .intro_txt_box {
+            width: 32.5%;
+            padding: 0 0 0 2rem;
+            text-align: left;
+            .intro_txt_title {
+                font-size: 1.25rem;
+                margin-bottom: 2rem;
+                &:after {
+                    content: "";
+                    display: block;
+                    width: 4rem;
+                    height: 1px;
+                    background: $primary;
+                    margin-top: 2rem;
+                }
+            }
+            .intro_txt_description {
+                color: $d_font;
+                line-height: 2;
+            }
+            .btn_box {
+                margin-top: 3.5rem;
+                button {
+                    width: 7rem;
+                    height: 2.375rem;
+                }
+                .popup_btn {
+                    background: $primary;
+                    color: #fff;
+                }
+                .link_btn {
+                    border: 1px solid $primary;
+                    color: $primary;
+                    margin-left: 0.75rem;
+                }
+            }
+        }
+    }
+}

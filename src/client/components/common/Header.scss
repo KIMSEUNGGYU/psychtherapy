@@ -1,0 +1,52 @@
+@import "../../styles/variables";
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9;
+    background: #fff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    svg {
+        margin-right: 0.25rem;
+    }
+    .header_top {
+        color: #fff;
+        border-bottom: 1px solid #eee;
+        background: $primary;
+        line-height: 2.5rem;
+        span {
+            margin: 0 0.5rem;
+            &.first {
+                margin-left: 0;
+            }
+            &.last {
+                margin-right: 0;
+            }
+        }
+    }
+    .header_bottom {
+        line-height: 4rem;
+        .logo {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: $primary;
+            font-family: "Crimson Text", serif;
+        }
+        .nav_box {
+            ul li {
+                float: left;
+                margin-left: 1.5rem;
+                &.active {
+                    color: $primary;
+                }
+                .last_btn {
+                    background: $primary;
+                    padding: 0.675rem 1.25rem;
+                    color: #fff;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+    }
+}

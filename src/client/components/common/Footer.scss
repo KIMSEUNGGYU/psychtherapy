@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+
+.footer {
+    text-align: center;
+    background: $dark_gray;
+    padding: 2rem 0;
+    .logo {
+        font-family: "Crimson Text", serif;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.125rem;
+    }
+    .copyright {
+        margin-top: 0.5rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.75rem;
+    }
+}
