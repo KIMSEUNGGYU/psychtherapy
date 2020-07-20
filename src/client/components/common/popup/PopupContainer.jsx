@@ -52,7 +52,7 @@ class PopupContainer extends Component {
                     onKeyDown={this.blockBackspace}
                     tabIndex="0"
                 >
-                    <div className="popup">
+                    <div className="popup center_box x y">
                         <button
                             className="close-btn"
                             onClick={this.onClickClose}

@@ -143,11 +143,11 @@ table {
     border-spacing: 0;
 }
 
-input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
+// input {
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     appearance: none;
+// }
 
 input::-ms-clear {
     display: none;
@@ -193,6 +193,7 @@ svg {
 
 .flex_box {
     display: flex;
+    flex-wrap: wrap;
     &.between {
         justify-content: space-between;
     }
@@ -239,8 +240,9 @@ svg {
 
 .container {
     width: 100%;
-    height: calc(100vh - 6.375rem);
+    min-height: calc(100vh - 6.375rem);
     padding-top: 8.5rem;
+    padding-bottom: 2rem;
 }
 
 .input_box {
@@ -259,12 +261,19 @@ svg {
         color: $d_font;
     }
     input {
-        border: none;
-        border-bottom: 1px solid $d_font;
-        width: calc(100% - 1.7rem);
-        outline: none;
-        &:focus {
-            border-bottom: 1px solid $primary;
-        }
+        width: 100%;
     }
+}
+
+input[type="text"] {
+    padding: 0.25rem;
+    border: none;
+    border-bottom: 1px solid #bdbdbd;
+    outline: none;
+    &:focus {
+        border-bottom: 1px solid $primary;
+    }
+}
+input[type="radio"] {
+    margin: 0;
 }

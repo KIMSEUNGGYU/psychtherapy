@@ -1,11 +1,18 @@
 import React from "react";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
+import { history } from "client/store";
 import { Popup } from "client/components";
 
-const Header = () => {
+const Header = (props) => {
     const onClickLogin = () => {
-        Popup.loginPopup();
+        Popup.loginPopup({ className: "login" });
+    };
+    const onClickJoin = () => {
+        Popup.joinPopup({ className: "join" });
+    };
+    const onClickCounselors = () => {
+        history.push("/counselors");
     };
     return (
         <div className="header">
@@ -28,14 +35,17 @@ const Header = () => {
                         </span>
                         <span>|</span>
                         <span className="last">
-                            <MdLock /> <button>회원가입</button>
+                            <MdLock />{" "}
+                            <button onClick={onClickJoin}>회원가입</button>
                         </span>
                     </div>
                 </div>
             </div>
             <div className="header_bottom">
                 <div className="layout flex_box between">
-                    <h1 className="logo">Be Simple</h1>
+                    <h1 className="logo" onClick={() => history.push("/")}>
+                        Be Simple
+                    </h1>
                     <div className="nav_box">
                         <ul>
                             <li>
@@ -51,7 +61,10 @@ const Header = () => {
                                 <button>요금 안내</button>
                             </li>
                             <li>
-                                <button className="last_btn">
+                                <button
+                                    className="last_btn"
+                                    onClick={onClickCounselors}
+                                >
                                     나만의 상담사 찾기
                                 </button>
                             </li>

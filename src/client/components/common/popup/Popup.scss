@@ -6,26 +6,104 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 99;
     .close-btn {
         position: absolute;
-        right: 3rem;
-        top: 3rem;
-        color: #fff;
-        font-size: 2rem;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.25rem;
     }
     .popup {
-        width: 100%;
-        height: 100%;
-        .login {
-            background: #fff;
-            width: 21rem;
-            padding: 2rem;
-            text-align: center;
-            .title {
-                font-size: 1.125rem;
-                margin-bottom: 2rem;
+        background: #fff;
+        padding: 3rem;
+        .title {
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+    }
+    &.join {
+        .popup {
+            width: 30rem;
+            .tab_box {
+                width: 100%;
+                .tab_btn_box {
+                    width: 100%;
+                    border-bottom: 1px solid #bdbdbd;
+                    .tab_btn {
+                        width: 4rem;
+                        height: 2rem;
+                        margin-bottom: -1px;
+                        &.active {
+                            background-color: white;
+                            border: 1px solid #bdbdbd;
+                            border-bottom: 1px solid white;
+                        }
+                    }
+                }
+                .tab_content {
+                    padding: 2rem 0;
+                    li {
+                        margin-bottom: 1rem;
+                        line-height: 1.5rem;
+                    }
+                    .label {
+                        display: inline-block;
+                        width: 25%;
+                        font-size: 0.75rem;
+                        font-weight: 500;
+                    }
+                    input[type="text"] {
+                        width: 75%;
+                    }
+                    input[type="radio"] {
+                        width: 0.75rem;
+                        height: 0.75rem;
+                        margin-right: 0.25rem;
+                    }
+                    label {
+                        margin-right: 1rem;
+                    }
+                }
+                .guide_msg_box {
+                    font-size: 0.75rem;
+                    color: $d_font;
+                    line-height: 1.5;
+                    margin: 2rem 0;
+                    .toggle_btn {
+                        font-size: 0.75rem;
+                        font-weight: 800;
+                        margin-bottom: 0.5rem;
+                        svg {
+                            width: 1.125rem;
+                            height: 1.125rem;
+                        }
+                    }
+                }
+                .join_btn {
+                    width: 100%;
+                    background: $primary;
+                    color: #fff;
+                    height: 2.5rem;
+                }
+            }
+        }
+    }
+    &.login {
+        .popup {
+            width: 22rem;
+            // text-align: center;
+
+            .join_msg {
+                margin-top: 0.75rem;
+                font-size: 0.75rem;
+                text-align: center;
+
+                .join_btn {
+                    color: $primary;
+                    font-size: 0.75rem;
+                }
             }
             .login_btn {
                 width: 100%;
