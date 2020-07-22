@@ -1,11 +1,12 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class userDetails extends Model {
     static associate(models) {
       userDetails.belongsTo(models.users, {
         foreignKey: "userId",
-        sourceKey: "id",
+        targetKey: "id",
       });
       userDetails.hasOne(models.points, {
         foreignKey: "userId",

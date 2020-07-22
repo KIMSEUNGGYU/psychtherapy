@@ -1,5 +1,8 @@
 "use strict";
 
+const createdAt = new Date();
+const updatedAt = new Date();
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
@@ -18,6 +21,8 @@ module.exports = {
           keyword: "keyword 1",
           level: 3,
           image: "image 1",
+          createdAt,
+          updatedAt,
         },
         {
           partnerId: 5,
@@ -32,6 +37,8 @@ module.exports = {
           keyword: "keyword 2",
           level: 3,
           image: "image 2",
+          createdAt,
+          updatedAt,
         },
         {
           partnerId: 6,
@@ -46,6 +53,8 @@ module.exports = {
           keyword: "keyword 3",
           level: 3,
           image: "image 3",
+          createdAt,
+          updatedAt,
         },
       ],
       {}

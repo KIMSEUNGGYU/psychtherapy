@@ -1,15 +1,16 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class schedules extends Model {
     static associate(models) {
       schedules.belongsTo(models.userDetails, {
         foreignKey: "userId",
-        sourceKey: "userId",
+        targetKey: "userId",
       });
       schedules.belongsTo(models.partnerDetails, {
         foreignKey: "partnerId",
-        sourceKey: "partnerId",
+        targetKey: "partnerId",
       });
     }
   }
