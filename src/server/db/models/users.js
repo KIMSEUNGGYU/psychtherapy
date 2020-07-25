@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const Op = require("sequelize").Sequelize;
 
 module.exports = (sequelize, DataTypes) => {
   class users extends Model {
@@ -18,12 +19,26 @@ module.exports = (sequelize, DataTypes) => {
     {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
+      type: DataTypes.TINYINT,
     },
     {
       sequelize,
       modelName: "users",
     }
   );
+
+  users.signup = async (email, password, type, transaction) => {
+    return await users.create({ email, password, type }, { transaction });
+  };
+
+  users.signin = async (email, password) => {
+    return await users.findOne({ where: { email, password } });
+  };
+
+  users.emailCheck = async (email) => {
+    console.log("edd", email);
+    return await users.findOne({ where: { email } });
+  };
 
   return users;
 };

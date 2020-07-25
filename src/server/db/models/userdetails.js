@@ -30,5 +30,13 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "userDetails",
     }
   );
+
+  userDetails.signup = async (userId, name, age, gender, transaction) => {
+    return await userDetails.create(
+      { userId, name, age, gender },
+      { transaction }
+    );
+  };
+
   return userDetails;
 };
