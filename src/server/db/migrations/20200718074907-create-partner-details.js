@@ -21,6 +21,9 @@ module.exports = {
       age: {
         type: Sequelize.TINYINT,
       },
+      phoneNumber: {
+        type: Sequelize.STRING,
+      },
       url: {
         type: Sequelize.STRING,
       },
@@ -42,8 +45,14 @@ module.exports = {
       level: {
         type: Sequelize.TINYINT,
       },
+      certificate: {
+        type: Sequelize.TINYINT,
+      },
       image: {
         type: Sequelize.STRING,
+      },
+      evaluate: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
