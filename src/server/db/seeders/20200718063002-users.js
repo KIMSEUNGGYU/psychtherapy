@@ -6,12 +6,6 @@ const updatedAt = new Date();
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert("users", [
-      // { email: "gyu1", password: "1234", type: 0, createdAt, updatedAt },
-      // { email: "gyu2", password: "1234", type: 0, createdAt, updatedAt },
-      // { email: "gyu3", password: "1234", type: 0, createdAt, updatedAt },
-      // { email: "doctor1", password: "1234", type: 1, createdAt, updatedAt },
-      // { email: "doctor2", password: "1234", type: 1, createdAt, updatedAt },
-      // { email: "doctor3", password: "1234", type: 1, createdAt, updatedAt },
       {
         email: "min1@gmail.com",
         password: "excbxhpgwg",
@@ -134,6 +128,34 @@ module.exports = {
       {
         email: "min18@gmail.com",
         password: "rckpgrxhrg",
+        type: 0,
+        createdAt,
+        updatedAt,
+      },
+      {
+        email: "min19@gmail.com",
+        password: "qkivnswbkx",
+        type: 1,
+        createdAt,
+        updatedAt,
+      },
+      {
+        email: "min20@gmail.com",
+        password: "qkivnshws",
+        type: 0,
+        createdAt,
+        updatedAt,
+      },
+      {
+        email: "min21@gmail.com",
+        password: "hdpwmdwbkx",
+        type: 1,
+        createdAt,
+        updatedAt,
+      },
+      {
+        email: "min22@gmail.com",
+        password: "rckvowjsrg",
         type: 0,
         createdAt,
         updatedAt,
