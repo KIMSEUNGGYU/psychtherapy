@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const Op = require("sequelize").Sequelize;
 
 module.exports = (sequelize, DataTypes) => {
   class users extends Model {
@@ -36,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   users.emailCheck = async (email) => {
-    console.log("edd", email);
     return await users.findOne({ where: { email } });
   };
 
