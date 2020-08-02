@@ -25,6 +25,22 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "schedules",
     },
   );
+
+  schedules.getScheduleByPartnerId = async partnerId => {
+    return await schedules.findAll({
+      attributes: [
+        ["id", "scheduleId"],
+        [sequelize.literal("IF (userId IS NULL, false, true)"), "reservation"],
+        "startedAt",
+      ],
+      where: { partnerId },
+    });
+  };
+
+  schedules.createSchedules = async _schedules => {
+    return await schedules.bulkCreate(_schedules);
+  };
+
   schedules.reserveConfirm = async (
     userId,
     partnerId,
