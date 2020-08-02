@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "partnerDetails",
-    }
+    },
   );
 
   partnerDetails.signup = async (
@@ -46,11 +46,11 @@ module.exports = (sequelize, DataTypes) => {
     phoneNumber,
     gender,
     evaluate,
-    transaction
+    transaction,
   ) => {
     return await partnerDetails.create(
       { partnerId, name, age, phoneNumber, gender, evaluate },
-      { transaction }
+      { transaction },
     );
   };
 

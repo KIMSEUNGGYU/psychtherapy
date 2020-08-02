@@ -1,7 +1,7 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
-exports.userSignup = async (user) => {
+exports.userSignup = async user => {
   user.type = 0;
   const { email, password, name, age, gender, type } = user;
 
@@ -12,9 +12,10 @@ exports.userSignup = async (user) => {
       email,
       password,
       type,
-      transaction
+      transaction,
     ); // users 테이블에 데이터를 넣고, 해당 id 값 가져옴
     await models.userDetails.signup(id, name, age, gender, transaction); // usersDetails 테이블에 데이터를 삽입
+    await models.points.signup(id, transaction);
     transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
     return true;
   } catch (err) {
@@ -25,11 +26,11 @@ exports.userSignup = async (user) => {
   // await
 };
 
-exports.signin = async (user) => {
+exports.signin = async user => {
   const { email, password } = user;
   return await models.users.signin(email, password);
 };
 
-exports.emailCheck = async (email) => {
+exports.emailCheck = async email => {
   return await models.users.emailCheck(email);
 };

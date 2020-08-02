@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "logs",
-    }
+    },
   );
   return logs;
 };

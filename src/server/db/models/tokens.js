@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "tokens",
-    }
+    },
   );
   return tokens;
 };

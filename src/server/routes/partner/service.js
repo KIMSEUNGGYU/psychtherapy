@@ -1,7 +1,7 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
-exports.getPartners = async (query) => {
+exports.getPartners = async query => {
   const { gender, level, certificate, keyword } = query; // condition
   const condition = {
     gender,
@@ -11,7 +11,7 @@ exports.getPartners = async (query) => {
   return partners;
 };
 
-exports.generatePartner = async (user) => {
+exports.generatePartner = async user => {
   user.type = 1; // partner
   user.evaluate = 0; // 파트너 초반 가입은 평가를 받아야함
   const {
@@ -32,7 +32,7 @@ exports.generatePartner = async (user) => {
       email,
       password,
       type,
-      transaction
+      transaction,
     ); // users 테이블에 데이터를 넣고, 해당 id 값 가져옴
     await models.partnerDetails.signup(
       id,
@@ -41,7 +41,7 @@ exports.generatePartner = async (user) => {
       phoneNumber,
       gender,
       evaluate,
-      transaction
+      transaction,
     ); // usersDetails 테이블에 데이터를 삽입
     transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
     return true;
@@ -52,7 +52,7 @@ exports.generatePartner = async (user) => {
   }
 };
 
-exports.getPartner = async (partnerId) => {
+exports.getPartner = async partnerId => {
   const condition = { partnerId };
   const result = await models.partnerDetails.getPartner(condition, models);
   return result;

@@ -28,17 +28,17 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "userDetails",
-    }
+    },
   );
 
   userDetails.signup = async (userId, name, age, gender, transaction) => {
     return await userDetails.create(
       { userId, name, age, gender },
-      { transaction }
+      { transaction },
     );
   };
 
-  userDetails.getUsers = async (models) => {
+  userDetails.getUsers = async models => {
     return await userDetails.findAll({
       raw: true,
       attributes: {

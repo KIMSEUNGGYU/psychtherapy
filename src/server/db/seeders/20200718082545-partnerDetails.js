@@ -218,7 +218,7 @@ module.exports = {
           updatedAt,
         },
       ],
-      {}
+      {},
     );
   },
 

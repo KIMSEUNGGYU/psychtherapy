@@ -6,12 +6,10 @@ exports.partners = async (req, res, next) => {
   const partners = await service.getPartners(query);
 
   partners.length
-    ? res
-        .status(200)
-        .json({
-          message: "PARTNER LIST",
-          result: { partners, totalCount: partners.length },
-        })
+    ? res.status(200).json({
+        message: "PARTNER LIST",
+        result: { partners, totalCount: partners.length },
+      })
     : res.status(200).json({
         message: "PARTNER LIST - IT DOSEN'T EXIST",
         result: {},

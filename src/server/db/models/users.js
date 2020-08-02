@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "users",
-    }
+    },
   );
 
   users.signup = async (email, password, type, transaction) => {
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     return await users.findOne({ where: { email, password } });
   };
 
-  users.emailCheck = async (email) => {
+  users.emailCheck = async email => {
     return await users.findOne({ where: { email } });
   };
 
