@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+
   partnerDetails.init(
     {
       partnerId: DataTypes.INTEGER,
@@ -35,7 +36,71 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "partnerDetails",
-    }
+    },
   );
+
+  partnerDetails.signup = async (
+    partnerId,
+    name,
+    age,
+    phoneNumber,
+    gender,
+    evaluate,
+    transaction,
+  ) => {
+    return await partnerDetails.create(
+      { partnerId, name, age, phoneNumber, gender, evaluate },
+      { transaction },
+    );
+  };
+
+  partnerDetails.updatePartner = async (partnerId, partner) => {
+    return await partnerDetails.update(partner, {
+      where: { partnerId },
+    });
+  };
+
+  partnerDetails.getPartners = async (condition, models) => {
+    const result = await partnerDetails.findAll({
+      raw: true,
+      attributes: {
+        include: [
+          [sequelize.col("user.id"), "id"],
+          [sequelize.col("user.email"), "email"],
+        ],
+        exclude: ["id", "partnerId", "evaluate", "createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: models.users,
+          attributes: [],
+        },
+      ],
+      where: { ...condition },
+    });
+    return result;
+  };
+
+  partnerDetails.getPartner = async (condition, models) => {
+    const result = await partnerDetails.findOne({
+      raw: true,
+      attributes: {
+        include: [
+          [sequelize.col("user.id"), "id"],
+          [sequelize.col("user.email"), "email"],
+        ],
+        exclude: ["id", "partnerId", "evaluate", "createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: models.users,
+          attributes: [],
+        },
+      ],
+      where: { ...condition },
+    });
+    return result;
+  };
+
   return partnerDetails;
 };

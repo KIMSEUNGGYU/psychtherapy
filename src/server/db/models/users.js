@@ -18,12 +18,25 @@ module.exports = (sequelize, DataTypes) => {
     {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
+      type: DataTypes.TINYINT,
     },
     {
       sequelize,
       modelName: "users",
-    }
+    },
   );
+
+  users.signup = async (email, password, type, transaction) => {
+    return await users.create({ email, password, type }, { transaction });
+  };
+
+  users.signin = async (email, password) => {
+    return await users.findOne({ where: { email, password } });
+  };
+
+  users.emailCheck = async email => {
+    return await users.findOne({ where: { email } });
+  };
 
   return users;
 };

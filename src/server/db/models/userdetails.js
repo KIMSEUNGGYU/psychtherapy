@@ -28,7 +28,37 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "userDetails",
-    }
+    },
   );
+
+  userDetails.signup = async (userId, name, age, gender, transaction) => {
+    return await userDetails.create(
+      { userId, name, age, gender },
+      { transaction },
+    );
+  };
+
+  userDetails.getUsers = async models => {
+    return await userDetails.findAll({
+      raw: true,
+      attributes: {
+        include: [
+          [sequelize.col("user.id"), "id"],
+          [sequelize.col("user.email"), "email"],
+          "name",
+          "gender",
+          "age",
+        ],
+        exclude: ["id", "userId", "createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: models.users,
+          attributes: [],
+        },
+      ],
+    });
+  };
+
   return userDetails;
 };
