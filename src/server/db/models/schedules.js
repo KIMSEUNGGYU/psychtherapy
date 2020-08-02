@@ -25,5 +25,18 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "schedules",
     },
   );
+  schedules.reserveConfirm = async (
+    userId,
+    partnerId,
+    scheduleId,
+    transaction,
+  ) => {
+    return await schedules.update(
+      { userId },
+      { where: { partnerId, id: scheduleId } },
+      { transaction },
+    );
+  };
+
   return schedules;
 };

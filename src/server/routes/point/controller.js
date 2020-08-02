@@ -10,8 +10,13 @@ exports.charge = async (req, res, next) => {
 };
 
 exports.purchase = async (req, res, next) => {
-  const { userId, point, partnerId } = req.body;
-  const success = await service.pointPurchase(userId, point, partnerId);
+  const { userId, point, partnerId, scheduleId } = req.body;
+  const success = await service.pointPurchase(
+    userId,
+    point,
+    partnerId,
+    scheduleId,
+  );
 
   success
     ? res.status(201).json({ message: "Updated Success", result: {} })

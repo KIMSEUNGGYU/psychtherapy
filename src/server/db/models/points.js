@@ -42,17 +42,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  // points.purchase = async (userId, _point, partnerId) => {
-  //   try {
-  //     let { point } = await points.getPointByUserId(userId);
-  //     if (point < _point) {
-  //       throw new Error("포인트가 부족합니다.");
-  //     }
-
-  //   } catch (err) {
-  //     return false;
-  //   }
-  // };
+  points.updatePoint = async (userId, point, transaction) => {
+    return await points.update(
+      { point },
+      { where: { userId } },
+      { transaction },
+    );
+  };
 
   return points;
 };
