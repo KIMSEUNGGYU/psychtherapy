@@ -9,3 +9,4 @@ yarn.lock
 ### backend
 request.rest
 .prettierrc
+.env
