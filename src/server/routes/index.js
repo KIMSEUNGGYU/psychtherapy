@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const BASEURL = "/api/v1";
+const cors = require("cors");
 
 const middleware = require("../middlewares");
 const user = require("./user");
@@ -8,9 +8,10 @@ const admin = require("./admin");
 const keyword = require("./keyword");
 const point = require("./point");
 const schedule = require("./schedule");
+const { BASEURL } = require("../library/constant");
 
 // middleware
-router.use(`${BASEURL}/`, middleware.cors);
+router.use(`${BASEURL}/`, cors());
 router.use(`${BASEURL}/`, middleware.apiKeyAuth);
 
 // api
