@@ -4,7 +4,7 @@ exports.MESSAGE = Object.freeze({
 });
 
 exports.STATUSCODE = Object.freeze({
-  ERROR_API_KEY: 403,
+  ERROR_API_KEY: 401,
   ERROR_DEFAULT: 500,
 });
 
