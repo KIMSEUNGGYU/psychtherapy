@@ -7,7 +7,7 @@ import {
     MdKeyboardArrowRight
 } from "react-icons/md";
 
-//[TODO]
+// [TODO]
 const Pagination = (props) => {
     const { total, queryData, setQueryData } = props;
     const limit = Number(queryData.limit);
@@ -31,8 +31,8 @@ const Pagination = (props) => {
         setQueryData({ ...queryData, limit: _limit, offset: 0 });
     };
 
-    const onClickPage = (page) => {
-        gotoPage(page);
+    const onClickPage = (_page) => {
+        gotoPage(_page);
     };
 
     const onClickPrev = (step) => {
@@ -45,9 +45,9 @@ const Pagination = (props) => {
 
     const onKeyDown = (e) => {
         if (
-            !pageInputValue ||
-            e.keyCode !== 13 ||
-            totalPages < Number(pageInputValue)
+            !pageInputValue
+            || e.keyCode !== 13
+            || totalPages < Number(pageInputValue)
         ) {
             return;
         }
@@ -57,12 +57,12 @@ const Pagination = (props) => {
 
     const range = (from, to, step = 1) => {
         let i = from;
-        const range = [];
+        const _range = [];
         while (i <= to) {
-            range.push(i);
+            _range.push(i);
             i += step;
         }
-        return range;
+        return _range;
     };
 
     const makePageNumbers = () => {
@@ -116,7 +116,7 @@ const Pagination = (props) => {
                                 <li
                                     key={key}
                                     className="dropdown-item"
-                                    onClick={() => onClickLimit(el)}
+                                    onClick={() => { return onClickLimit(el); }}
                                 >
                                     {el}
                                 </li>
@@ -130,7 +130,7 @@ const Pagination = (props) => {
                     <li className="dir-item">
                         <button
                             className="prev-btn"
-                            onClick={() => onClickPrev(1)}
+                            onClick={() => { return onClickPrev(1); }}
                             disabled={page === 1}
                         >
                             <MdKeyboardArrowLeft />
@@ -144,17 +144,17 @@ const Pagination = (props) => {
                                         <li
                                             key={key}
                                             className="page-item"
-                                            onClick={() => onClickPrev(9)}
+                                            onClick={() => { return onClickPrev(9); }}
                                         >
                                             <MdMoreHoriz />
                                         </li>
                                     );
-                                } else if (el === "next") {
+                                } if (el === "next") {
                                     return (
                                         <li
                                             key={key}
                                             className="page-item"
-                                            onClick={() => onClickNext(9)}
+                                            onClick={() => { return onClickNext(9); }}
                                         >
                                             <MdMoreHoriz />
                                         </li>
@@ -166,7 +166,7 @@ const Pagination = (props) => {
                                         className={`page-item${
                                             page === el ? " active" : ""
                                         }`}
-                                        onClick={() => onClickPage(el)}
+                                        onClick={() => { return onClickPage(el); }}
                                     >
                                         {el}
                                     </li>
@@ -176,7 +176,7 @@ const Pagination = (props) => {
                     </div>
                     <li className="dir-item">
                         <button
-                            onClick={() => onClickNext(1)}
+                            onClick={() => { return onClickNext(1); }}
                             disabled={
                                 page === totalPages || Number(total) === 0
                             }
@@ -192,12 +192,12 @@ const Pagination = (props) => {
                     type="number"
                     className="goto-input"
                     value={pageInputValue}
-                    onChange={(e) => setPageInputValue(e.target.value)}
+                    onChange={(e) => { return setPageInputValue(e.target.value); }}
                     onKeyDown={onKeyDown}
                 />
                 <button
                     className="goto-btn"
-                    onClick={() => gotoPage(pageInputValue)}
+                    onClick={() => { return gotoPage(pageInputValue); }}
                     disabled={
                         !pageInputValue || totalPages < Number(pageInputValue)
                     }

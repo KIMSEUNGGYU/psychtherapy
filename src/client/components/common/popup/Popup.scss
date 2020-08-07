@@ -114,4 +114,118 @@
             }
         }
     }
+
+    &.profile {
+        .popup {
+            width: 60rem;
+            .sub-title {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .save_btn {
+                background: $primary;
+                color: #fff;
+                width: 8rem;
+                height: 2.5rem;
+                float: right;
+                margin-top: 2rem;
+                font-size: 1rem;
+            }
+            .left_box,
+            .right_box {
+                width: 50%;
+                height: 35rem;
+                overflow-y: scroll;
+                button {
+                    svg {
+                        margin-right: 0.5rem;
+                    }
+                }
+                button.active {
+                    svg {
+                        color: $primary;
+                    }
+                }
+            }
+            .left_box {
+                padding-right: 2rem;
+                border-right: 1px solid #dfdfdf;
+            }
+            .right_box {
+                padding-left: 2rem;
+                .input_box {
+                    input[type="textarea"] {
+                        height: 8rem;
+                    }
+                }
+            }
+            .picture_box {
+                display: flex;
+                .img_box {
+                    width: 15rem;
+                    height: 15rem;
+                    background: #eee;
+                    overflow: hidden;
+                    img {
+                        width: 100%;
+                    }
+                }
+                .upload_btn {
+                    width: 6rem;
+                    height: 2rem;
+                    margin: 13rem 0 0 1rem;
+                    border: 1px solid $primary;
+                    color: $primary;
+                    font-size: 0.8rem;
+                }
+            }
+            .input_box {
+                margin-top: 2rem;
+                ul {
+                    li {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 1.5rem;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                        input {
+                            width: 16rem;
+                        }
+                        .radio_btn_box {
+                            width: 16rem;
+                            button {
+                                text-align: left;
+                                width: 4rem;
+                                margin-right: 1rem;
+                            }
+                        }
+                        &.career_box {
+                            input {
+                                width: 14rem;
+                            }
+                            button {
+                                margin-left: 1rem;
+                                background: $primary;
+                                color: #fff;
+                                width: 1rem;
+                                height: 1rem;
+                            }
+                        }
+                        &.keyword_box {
+                            line-height: 1.875rem;
+                            .checkbox_box {
+                                width: 16rem;
+                                margin-bottom: 1rem;
+                                button {
+                                    width: 5rem;
+                                    text-align: left;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
