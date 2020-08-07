@@ -31,6 +31,4 @@ exports.signin = async user => {
   return await models.users.signin(email, password);
 };
 
-exports.emailCheck = async email => {
-  return await models.users.emailCheck(email);
-};
+exports.emailCheck = async email => await models.users.getUser(email);
