@@ -1,5 +1,6 @@
 import React from "react";
 import "./Counselors.scss";
+import { history } from "client/store";
 import { MdZoomIn } from "react-icons/md";
 import { FaBitcoin } from "react-icons/fa";
 import { Filter, Pagination } from "client/components";
@@ -38,7 +39,12 @@ const Counselors = () => {
                                     가치를 거선의 바이며, 피다. 것은 곧 봄날의
                                     무엇이 부패뿐이다.
                                 </p>
-                                <button className="more_btn">
+                                <button
+                                    className="more_btn"
+                                    onClick={() =>
+                                        history.push("/counselors/1")
+                                    }
+                                >
                                     자세히 보기
                                     <MdZoomIn />
                                 </button>

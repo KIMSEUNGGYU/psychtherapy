@@ -12,6 +12,8 @@ import Feature from "client/components/home/Counselors";
 import Counselors from "client/components/counselors/Counselors";
 import Filter from "client/components/counselors/Filter";
 
+import Counselor from "client/components/counselors/Counselor";
+
 export {
     Header,
     Footer,
@@ -23,6 +25,7 @@ export {
     Feature,
     Counselors,
     Filter,
+    Counselor,
     Pagination,
     Table
 };
