@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+
 const JoinPopup = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [toggle, setToggle] = useState(true);
@@ -16,13 +17,13 @@ const JoinPopup = () => {
                 <div className="tab_btn_box">
                     <button
                         className={`tab_btn ${activeTab === 0 && "active"}`}
-                        onClick={() => onClickTab(0)}
+                        onClick={() => { return onClickTab(0); }}
                     >
                         일반
                     </button>
                     <button
                         className={`tab_btn ${activeTab === 1 && "active"}`}
-                        onClick={() => onClickTab(1)}
+                        onClick={() => { return onClickTab(1); }}
                     >
                         상담사
                     </button>
@@ -61,9 +62,11 @@ const JoinPopup = () => {
                         <li>
                             <span className="label">성별</span>
                             <input type="radio" name="gender" value="male" />
-                            <label>남성</label>{" "}
+                            <label>남성</label>
+                            {" "}
                             <input type="radio" name="gender" value="female" />
-                            <label>여성</label>{" "}
+                            <label>여성</label>
+                            {" "}
                         </li>
                     </ul>
                     {activeTab === 1 && (

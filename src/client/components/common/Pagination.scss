@@ -39,11 +39,11 @@
     }
 }
 .pagination-box {
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     padding-top: 0;
     line-height: 2rem;
-    margin: 3rem 0;
     .pagination {
         .page-items {
             min-width: 20rem;

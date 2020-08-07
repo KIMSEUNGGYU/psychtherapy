@@ -4,28 +4,29 @@ import { MdClose } from "react-icons/md";
 import { LayerPopup } from "client/libs/popup";
 
 class PopupContainer extends Component {
-    componentWillUnmount() {
-        document.body.style.overflow = "visible";
+    componentDidMount() {
+        document.body.style.overflow = "hidden";
     }
 
     componentDidUpdate(prevProps, prevState) {
         document.body.style.overflow = "hidden";
     }
 
-    componentDidMount() {
-        document.body.style.overflow = "hidden";
+    componentWillUnmount() {
+        document.body.style.overflow = "visible";
     }
 
     onClickClose = () => {
         LayerPopup.hide(this.props.layerKey);
     };
+
     blockBackspace = (e) => {
         let doPrevent;
         if (e.keyCode === 8) {
-            let d = e.srcElement || e.target;
+            const d = e.srcElement || e.target;
             if (
-                d.tagName.toUpperCase() === "INPUT" ||
-                d.tagName.toUpperCase() === "TEXTAREA"
+                d.tagName.toUpperCase() === "INPUT"
+                || d.tagName.toUpperCase() === "TEXTAREA"
             ) {
                 doPrevent = d.readOnly || d.disabled;
             } else doPrevent = true;
@@ -33,13 +34,14 @@ class PopupContainer extends Component {
 
         if (doPrevent) e.preventDefault();
     };
+
     render() {
         const newProps = {
             location: this.props.location,
             history: this.props.history,
             layerKey: this.props.layerKey,
             layerCount: this.props.layerCount,
-            LayerPopup: LayerPopup
+            LayerPopup
         };
         const { className } = this.props.children.props;
 
@@ -47,10 +49,9 @@ class PopupContainer extends Component {
             <React.Fragment>
                 <div
                     layerkey={this.props.layerKey}
-                    className={`popup-container ${className ? className : ""}`}
-                    id={className ? className : ""}
+                    className={`popup-container ${className || ""}`}
+                    id={className || ""}
                     onKeyDown={this.blockBackspace}
-                    tabIndex="0"
                 >
                     <div className="popup center_box x y">
                         <button

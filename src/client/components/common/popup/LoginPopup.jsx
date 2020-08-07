@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import { LayerPopup } from "client/libs/popup";
+import { Popup } from "client/components";
 
-const LoginPopup = () => {
+const LoginPopup = (props) => {
     const onClickJoin = () => {
         Popup.joinPopup({ className: "join" });
-        LayerPopup.hide(this.props.layerKey);
+        LayerPopup.hide(props.layerKey);
     };
     return (
         <Fragment>
@@ -17,7 +18,8 @@ const LoginPopup = () => {
             </div>
             <button className="login_btn">로그인</button>
             <div className="join_msg">
-                계정이 없으신가요?{" "}
+                계정이 없으신가요?
+                {" "}
                 <button className="join_btn" onClick={onClickJoin}>
                     가입하기
                 </button>
