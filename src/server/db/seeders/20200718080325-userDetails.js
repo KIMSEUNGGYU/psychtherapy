@@ -96,6 +96,22 @@ module.exports = {
           createdAt,
           updatedAt,
         },
+        {
+          userId: 23,
+          name: "admin",
+          gender: 0,
+          age: 26,
+          createdAt,
+          updatedAt,
+        },
+        {
+          userId: 24,
+          name: "root",
+          gender: 0,
+          age: 26,
+          createdAt,
+          updatedAt,
+        },
       ],
       {},
     );

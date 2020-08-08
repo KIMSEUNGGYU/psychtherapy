@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     return await users.findOne({ where: { email, password } });
   };
 
-  users.emailCheck = async email => {
+  users.getUser = async email => {
     return await users.findOne({ where: { email } });
   };
 
