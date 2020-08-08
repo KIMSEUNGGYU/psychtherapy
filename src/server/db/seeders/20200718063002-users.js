@@ -160,6 +160,20 @@ module.exports = {
         createdAt,
         updatedAt,
       },
+      {
+        email: "admin@gmail.com",
+        password: "admin",
+        type: 99,
+        createdAt,
+        updatedAt,
+      },
+      {
+        email: "root@gmail.com",
+        password: "root",
+        type: 99,
+        createdAt,
+        updatedAt,
+      },
     ]);
   },
 
