@@ -38,15 +38,11 @@ exports.detail = async (req, res, next) => {
 
 exports.check = async (req, res, next) => {
   const email = req.query["email"];
-  // console.log("email", email);
-  const result = await service.emailCheck(email);
 
-  console.log("result", result);
-  // 데이터가 있으면 result 값이 있음.
-  // 나중에 service.emailCheck [Op.ne] 사용
-  result
-    ? res
-        .status(409)
-        .json({ message: "resource Conflict -  Email duplicates", result: {} }) // 리소스 충돌 409
-    : res.status(200).json(view.check());
+  // email check 했는데 유저가 있으면 이메일 중복이므로 409
+  const user = await service.emailCheck(email);
+
+  return user
+    ? res.status(409).json(view.emailNotAvailable()) // 리소스 충돌 409
+    : res.status(200).json(view.emailAvailable());
 };

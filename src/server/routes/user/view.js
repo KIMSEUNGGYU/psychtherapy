@@ -11,12 +11,9 @@ exports.detail = () => {
   };
 };
 
-exports.check = () => {
-  return {
-    message: "user check",
-    result: {},
-  };
-};
+// email validation view
+exports.emailAvailable = () => ({ message: "success", result: {} });
+exports.emailNotAvailable = () => ({ message: "fail", result: {} });
 
 exports.signup = () => {
   // 유저 회원가입
