@@ -19,6 +19,7 @@ const App = (props) => {
                     path="/counselors"
                     component={PageCounselors}
                 />
+		<PublicRoute path="/counselors/:id" component={PageHome} />
                 <PublicRoute exact path="/admin" component={PageAdmin} />
                 <Footer />
                 <LayerPopupContainer {...props} />

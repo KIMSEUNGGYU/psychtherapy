@@ -16,7 +16,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: "[name].[hash].js",
-    publicPath: "./",
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -38,8 +38,8 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: "file-loader?name=/src/client/images/[name].[ext]",
-        // loader: "file-loader?name=dist/src/client/images/[name].[ext]",
+        //loader: "file-loader?name=/src/client/images/[name].[ext]",
+        loader: "file-loader?name=dist/src/client/images/[name].[ext]",
       },
     ],
   },
