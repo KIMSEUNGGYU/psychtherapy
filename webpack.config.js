@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
@@ -8,8 +9,9 @@ module.exports = {
     entry: ["babel-polyfill", "./src/client/index.js"],
     output: {
         path: path.join(__dirname, outputDirectory),
-        filename: "bundle.js"
-    },
+        filename: "bundle.[hash].js",
+        publicPath: '/'
+        },
     module: {
         rules: [
             {
@@ -30,7 +32,7 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                loader: "file-loader?name=/src/client/images/[name].[ext]"
+                loader: "file-loader?name=dist/src/client/images/[name].[ext]"
             }
         ]
     },
@@ -39,10 +41,9 @@ module.exports = {
         modules: [path.join(__dirname, "src"), "node_modules"]
     },
     devServer: {
+        historyApiFallback: true,
         port: 3000,
         open: true,
-
-        historyApiFallback: true,
         hot: true,
         inline: true,
         proxy: {
@@ -50,6 +51,7 @@ module.exports = {
         }
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new CleanWebpackPlugin([outputDirectory]),
         new HtmlWebpackPlugin({
             template: "./public/index.html",
