@@ -26,17 +26,17 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  users.signup = async (email, password, type, transaction) => {
-    return await users.create({ email, password, type }, { transaction });
-  };
+  users.signup = async (email, password, type, transaction) =>
+    await users.create({ email, password, type }, { transaction });
 
-  users.signin = async (email, password) => {
-    return await users.findOne({ where: { email, password } });
-  };
+  users.signin = async (email, password) =>
+    await users.findOne({
+      raw: true,
+      attributes: ["id", "type"],
+      where: { email, password },
+    });
 
-  users.getUser = async email => {
-    return await users.findOne({ where: { email } });
-  };
+  users.getUser = async email => await users.findOne({ where: { email } });
 
   return users;
 };

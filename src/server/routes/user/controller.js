@@ -16,18 +16,23 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.signin = async (req, res, next) => {
-  const user = req.body;
-  const result = await service.signin(user);
+  const { email, password } = req.body;
 
-  result
-    ? res.status(200).json({
-        message: "Signin Success",
-        result: { accessToken: "accessToken", refreshToken: "refreshToken" },
-      })
-    : res.status(400).json({ message: "Signin Fail", result: {} });
+  // 요청 파라미터 검증
+  if (!(email && password)) return res.status(400).json(view.badRequset());
 
-  // 400 : 비밀번호 틀림, 이메일 존재 하지 않음. (비지니스 로직에 문제 있는 경우)
-  // 401 : api key 에 해당하는 문제가 있는 경우
+  const user = await service.signin(email, password);
+  // 로그인 실패
+  if (!user) return res.status(401).json(view.signinFail()); // email, 비밀번호 틀림
+
+  // token 발행
+  const payload = {
+    userId: user.id,
+    type: user.type,
+  };
+  const { accessToken, refreshToken } = await service.generateTokens(payload);
+
+  return res.status(200).json(view.signin(accessToken, refreshToken));
 };
 
 exports.signout = async (req, res, next) => {

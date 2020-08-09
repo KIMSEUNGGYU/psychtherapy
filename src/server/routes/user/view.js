@@ -25,13 +25,12 @@ exports.emailNotAvailable = () => ({
 exports.createUser = () => ({ message: "Created Success", result: {} });
 exports.createUserFail = () => ({ message: "Created Fail", result: {} });
 
-exports.signin = () => {
-  // 유저 로그인
-  return {
-    message: "user signin",
-    result: {},
-  };
-};
+// user signin
+exports.signin = (accessToken, refreshToken) => ({
+  message: "Success",
+  result: { accessToken, refreshToken },
+});
+exports.signinFail = () => ({ message: "Unauthorized", result: {} });
 
 exports.signout = () => {
   return {
