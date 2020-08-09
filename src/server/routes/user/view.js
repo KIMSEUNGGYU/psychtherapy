@@ -23,7 +23,7 @@ exports.emailNotAvailable = () => ({
 
 // user signup
 exports.createUser = () => ({ message: "Created Success", result: {} });
-exports.createFail = () => ({ message: "Created Fail", result: {} });
+exports.createUserFail = () => ({ message: "Created Fail", result: {} });
 
 exports.signin = () => {
   // 유저 로그인
