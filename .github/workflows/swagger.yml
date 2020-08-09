@@ -20,6 +20,6 @@ jobs:
             cd ~/psych_therapy
             git checkout BS-3/feature
             git pull origin BS-3/feature
-            cd ./swagger
+            cd ./src/swagger
             npm i
             pm2 restart swagger

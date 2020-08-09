@@ -1,0 +1,1406 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BE-SIMPLE-ORG",
+    "version": "0.2.0",
+    "description": "BE SIMPLE ORG Project API"
+  },
+  "servers": [
+    {
+      "url": "{protocol}://{domain}/api/{version}",
+      "variables": {
+        "protocol": {
+          "enum": ["http", "https"],
+          "default": "http"
+        },
+        "domain": {
+          "enum": [
+            "15.164.52.189",
+            "api.staging-domain.co.kr",
+            "api.production-domain.co.kr"
+          ],
+          "default": "15.164.52.189"
+        },
+        "version": {
+          "enum": ["v1", "v2"],
+          "default": "v1"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "유저 관련 API"
+    },
+    {
+      "name": "admin",
+      "description": "어드민 관련 API"
+    },
+    {
+      "name": "partner",
+      "description": "상담사 관련 API"
+    },
+    {
+      "name": "keyword",
+      "description": "키워드 관련 API"
+    },
+    {
+      "name": "point",
+      "description": "포인트 관련 API"
+    },
+    {
+      "name": "schedule",
+      "description": "스케쥴링 관련 API"
+    },
+    {
+      "name": "token",
+      "description": "JWT 토큰 관련 API"
+    }
+  ],
+  "security": [
+    {
+      "X_API_KEY": []
+    }
+  ],
+  "paths": {
+    "/user/signup": {
+      "post": {
+        "tags": ["user"],
+        "summary": "피상담자 회원가입 API",
+        "description": "피상담자가 회원가입 시 사용하는 API 입니다.",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/signin": {
+      "post": {
+        "tags": ["user"],
+        "summary": "피상담자 / 상담사 로그인 API",
+        "description": "피상담자 / 상담사 로그인 시 사용하는 API 입니다.",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/signIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "token": {
+                              "$ref": "#/components/schemas/token"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/signout": {
+      "delete": {
+        "tags": ["user"],
+        "summary": "피상담자 / 상담사 로그아웃 API",
+        "description": "피상담자 / 상담사 로그아웃 시 사용하는 API 입니다. (해당 API 사용 여부는 불분명)",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_REFRESH_TOKEN": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          }
+        }
+      }
+    },
+    "/user/detail": {
+      "get": {
+        "tags": ["user"],
+        "summary": "피상담자 상세정보 API",
+        "description": "피상담자 (본인) 상세정보를 볼 때 사용됩니다. <br> 파라미터 정보가 필요 없는건 x-access-token에서 확인이 가능해서 따로 파라미터를 받지 않습니다.",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "user": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/user"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/user/email/validate": {
+      "get": {
+        "tags": ["user"],
+        "summary": "피상담자 / 상담사 이메일 중복 확인 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/emailQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/ResourceConflict"
+          }
+        }
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "어드민에서 피상담자 정보 리스트업 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/sizeQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "users": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/user"
+                              }
+                            },
+                            "totalCount": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/Empty"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/partners": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "어드민에서 상담사 정보 리스트업 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/sizeQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/evaluateQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "partners": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/partnerDetail"
+                              }
+                            },
+                            "totalCount": {
+                              "type": "integer",
+                              "example": 10
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/Empty"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/admin/partner/{partnerId}": {
+      "put": {
+        "tags": ["admin"],
+        "summary": "어드민에서 상담사 정보 업데이트 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/partnerIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/partnerDetail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Updated"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/partner": {
+      "get": {
+        "tags": ["partner"],
+        "summary": "상담사 정보 리스트업 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/sizeQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/genderQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/levelQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/certificateQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/keywordQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "partners": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/partnerDetail"
+                              }
+                            },
+                            "totalCount": {
+                              "type": "integer",
+                              "example": 10
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/Empty"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/partner/signup": {
+      "post": {
+        "tags": ["partner"],
+        "summary": "상담사 회원 가입 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/partner"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/partner/detail/{partnerId}": {
+      "get": {
+        "tags": ["partner"],
+        "summary": "상담사의 상세정보 API",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/partnerIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "partner": {
+                              "$ref": "#/components/schemas/partnerDetail"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/Empty"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/keyword": {
+      "get": {
+        "tags": ["keyword"],
+        "summary": "키워드 정보 리스트 업 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/keyword"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/Empty"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/point/charge": {
+      "put": {
+        "tags": ["point"],
+        "summary": "결제 후 포인트 충전 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pointCharge"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Updated"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/point/purchase": {
+      "put": {
+        "tags": ["point"],
+        "summary": "피상담자가 상담사의 상담권 구매시 사용 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pointPurchase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/Updated"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/schedule/partner": {
+      "post": {
+        "tags": ["schedule"],
+        "summary": "상담사가 본인의 상담 스케쥴 등록 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/partnerSchedule"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/schedule/{partnerId}": {
+      "get": {
+        "tags": ["schedule"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/partnerIdPathParam"
+          }
+        ],
+        "summary": "상담사의 스케쥴 정보 리스트업 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "schedules": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/schedule"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/token/refresh": {
+      "put": {
+        "tags": ["token"],
+        "summary": "토큰 리프레쉬",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_REFRESH_TOKEN": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/token"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Success": {
+        "description": "Success / 요청이 성공하였습니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Created": {
+        "description": "Created Success / 요청이 성공하였으며, 새로운 리소스가 생성되었습니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Created Success"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Updated": {
+        "description": "Updated Success / 요청이 성공하였으며, 리소스의 수정이 반영되었습니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Updated Success"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Empty": {
+        "description": "Success / 요청이 성공하였지만 해당 데이터가 존재하지 않습니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Empty Object"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request / 잘못된 요청입니다. 요청 파라미터를 확인 하시기 바랍니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized / 인증(Token) 에 문제가 있는 경우 입니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden / 권한 (API KEY) 에 문제가 있는 경우 입니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Forbidden"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResourceConflict": {
+        "description": "ResourceConflict / 리소스가 이미 존재하여 해당 리소스를 사용하지 못합니다. (예를들어 /user/email/validate -> 409 = 이메일이 이미 등록 되어있는 경우)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "ResourceConflict - 이미 존재하는 데이터 입닙다."
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Success": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Success"
+          },
+          "result": {
+            "type": "object"
+          }
+        }
+      },
+      "signIn": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "Passw@rd"
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "Passw@rd",
+            "writeOnly": true
+          },
+          "name": {
+            "type": "string",
+            "example": "김모씨"
+          },
+          "gender": {
+            "type": "integer",
+            "example": 1
+          },
+          "age": {
+            "type": "integer",
+            "example": 27
+          }
+        },
+        "required": ["email", "password", "name", "gender", "age"]
+      },
+      "userDetail": {
+        "type": "object"
+      },
+      "partner": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "Passw@rd",
+            "writeOnly": true
+          },
+          "name": {
+            "type": "string",
+            "example": "김모씨"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": 1.012345678e9
+          },
+          "gender": {
+            "type": "integer",
+            "example": 1
+          },
+          "age": {
+            "type": "integer",
+            "example": 27
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "name",
+          "phoneNumber",
+          "gender",
+          "age"
+        ]
+      },
+      "partnerDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1,
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "Passw@rd",
+            "writeOnly": true
+          },
+          "name": {
+            "type": "string",
+            "example": "김모씨"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": 1.012345678e9
+          },
+          "gender": {
+            "type": "integer",
+            "example": 1
+          },
+          "age": {
+            "type": "integer",
+            "example": 27
+          },
+          "url": {
+            "type": "string",
+            "description": "youtube url"
+          },
+          "shortInfo": {
+            "type": "string",
+            "description": "짧은 소개 글",
+            "example": "당신의 지치고 힘든 마음을 치료해드려용"
+          },
+          "career": {
+            "type": "string",
+            "example": "마 내가 어디서 뭐했고 어디서 뭐했어"
+          },
+          "info": {
+            "type": "string",
+            "description": "긴 소개 글",
+            "example": "내 소개가 말이야 이러쿵 저러쿵 요로콤 저러콤"
+          },
+          "chatCost": {
+            "type": "integer",
+            "description": "채팅 시 가격",
+            "example": 30000
+          },
+          "keyword": {
+            "type": "string",
+            "example": "불안"
+          },
+          "level": {
+            "type": "integer",
+            "description": "상담사의 레벨 (1: Master, 2: Export, 3: Normal)",
+            "example": 1
+          },
+          "certificate": {
+            "type": "integer",
+            "description": "상담사 자격증 (1: 1급, 2: 2급, 3: 무급)",
+            "example": 1
+          },
+          "image": {
+            "type": "string"
+          },
+          "evaluate": {
+            "type": "string",
+            "description": "상담사 검증 여부 검색 (True: 검증된 사람, False: 검증 안된사람)",
+            "example": true,
+            "writeOnly": true
+          }
+        }
+      },
+      "schedule": {
+        "type": "object",
+        "properties": {
+          "scheduleId": {
+            "type": "integer",
+            "example": 1
+          },
+          "reservation": {
+            "type": "boolean",
+            "example": true
+          },
+          "startedAt": {
+            "type": "string",
+            "example": "2020-07-25 12:00:00"
+          }
+        }
+      },
+      "userSchedule": {
+        "type": "object",
+        "properties": {
+          "partnerId": {
+            "type": "integer",
+            "example": 1
+          },
+          "scheduleId": {
+            "type": "integer",
+            "example": 12
+          }
+        }
+      },
+      "partnerSchedule": {
+        "properties": {
+          "partnerId": {
+            "type": "integer",
+            "example": 1
+          },
+          "schedules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "2020-07-25 12:00:00",
+              "2020-07-25 12:30:00",
+              "2020-07-25 13:00:00"
+            ]
+          }
+        }
+      },
+      "keyword": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["우울", "저울", "행복", "연복"]
+          }
+        }
+      },
+      "pointCharge": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "point": {
+            "type": "integer",
+            "example": 30000
+          }
+        }
+      },
+      "pointPurchase": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "point": {
+            "type": "integer",
+            "example": 30000
+          },
+          "partnerId": {
+            "type": "integer",
+            "example": 1
+          },
+          "scheduleId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "token": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "refreshToken": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "partnerIdPathParam": {
+        "in": "path",
+        "name": "partnerId",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "example": 10
+        }
+      },
+      "pageQueryParam": {
+        "in": "query",
+        "name": "page",
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "sizeQueryParam": {
+        "in": "query",
+        "name": "size",
+        "schema": {
+          "type": "integer",
+          "example": 15
+        }
+      },
+      "emailQueryParam": {
+        "in": "query",
+        "name": "email",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "example@email.com"
+        }
+      },
+      "evaluateQueryParam": {
+        "in": "query",
+        "name": "evaluate",
+        "description": "상담사 검증 여부 검색 (True: 검증된 사람, False: 검증 안된사람)",
+        "schema": {
+          "type": "boolean",
+          "example": true
+        }
+      },
+      "genderQueryParam": {
+        "in": "query",
+        "name": "gender",
+        "description": "성별 (1: 남자 2: 여자)",
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "levelQueryParam": {
+        "in": "query",
+        "name": "level",
+        "description": "상담사의 레벨 (1: Master, 2: Export, 3: Normal)",
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "certificateQueryParam": {
+        "in": "query",
+        "name": "certificate",
+        "description": "상담사 자격증 (1: 1급, 2: 2급, 3: 무급)",
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "keywordQueryParam": {
+        "in": "query",
+        "name": "keyword",
+        "description": "키워드",
+        "schema": {
+          "type": "string",
+          "example": "불안"
+        }
+      }
+    },
+    "securitySchemes": {
+      "X_API_KEY": {
+        "in": "header",
+        "type": "apiKey",
+        "name": "x-api-key"
+      },
+      "X_ACCESS_TOKEN": {
+        "in": "header",
+        "type": "apiKey",
+        "name": "x-access-token"
+      },
+      "X_REFRESH_TOKEN": {
+        "in": "header",
+        "type": "apiKey",
+        "name": "x-refresh-token"
+      }
+    }
+  }
+}
