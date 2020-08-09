@@ -1,3 +1,6 @@
+// COMMON
+exports.badRequset = () => ({ message: "Bad Request", result: {} });
+
 exports.detail = () => {
   return {
     message: "user detail",
@@ -18,13 +21,9 @@ exports.emailNotAvailable = () => ({
   result: {},
 });
 
-exports.signup = () => {
-  // 유저 회원가입
-  return {
-    message: "user signup",
-    result: {},
-  };
-};
+// user signup
+exports.createUser = () => ({ message: "Created Success", result: {} });
+exports.createFail = () => ({ message: "Created Fail", result: {} });
 
 exports.signin = () => {
   // 유저 로그인

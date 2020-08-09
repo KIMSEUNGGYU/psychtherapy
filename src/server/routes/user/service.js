@@ -19,11 +19,10 @@ exports.userSignup = async user => {
     transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
     return true;
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     transaction.rollback();
     return false;
   }
-  // await
 };
 
 exports.signin = async user => {
