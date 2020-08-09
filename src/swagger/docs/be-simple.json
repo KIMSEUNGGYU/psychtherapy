@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "BE-SIMPLE-ORG",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "BE SIMPLE ORG Project API"
   },
   "servers": [
@@ -15,11 +15,11 @@
         },
         "domain": {
           "enum": [
-            "15.164.52.189",
+            "127.0.0.1:3000",
             "api.staging-domain.co.kr",
             "api.production-domain.co.kr"
           ],
-          "default": "15.164.52.189"
+          "default": "127.0.0.1:3000"
         },
         "version": {
           "enum": ["v1", "v2"],
@@ -129,12 +129,7 @@
                       "type": "object",
                       "properties": {
                         "result": {
-                          "type": "object",
-                          "properties": {
-                            "token": {
-                              "$ref": "#/components/schemas/token"
-                            }
-                          }
+                          "$ref": "#/components/schemas/token"
                         }
                       }
                     }
@@ -832,7 +827,6 @@
                       "type": "object",
                       "properties": {
                         "result": {
-                          "type": "object",
                           "$ref": "#/components/schemas/token"
                         }
                       }
@@ -1088,7 +1082,7 @@
           },
           "phoneNumber": {
             "type": "string",
-            "example": 1.012345678e9
+            "example": "01012345678"
           },
           "gender": {
             "type": "integer",
@@ -1131,7 +1125,7 @@
           },
           "phoneNumber": {
             "type": "string",
-            "example": 1.012345678e9
+            "example": "01012345678"
           },
           "gender": {
             "type": "integer",
