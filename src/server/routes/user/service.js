@@ -1,5 +1,6 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
+const jwt = require("../../library/jwt");
 
 exports.userSignup = async user => {
   user.type = 0;
@@ -25,9 +26,18 @@ exports.userSignup = async user => {
   }
 };
 
-exports.signin = async user => {
-  const { email, password } = user;
-  return await models.users.signin(email, password);
-};
+exports.signin = async (email, password) =>
+  await models.users.signin(email, password);
 
 exports.emailCheck = async email => await models.users.getUser(email);
+
+// ############## JWT
+// jwt 토큰 생성 및 db 에 저장
+exports.generateTokens = async payload => {
+  const { userId } = payload;
+
+  const { accessToken, refreshToken } = await jwt.generateTokens(payload); // 토큰 생성
+  await models.tokens.generateTokens(userId, accessToken, refreshToken); // db 에 토큰 저장
+
+  return { accessToken, refreshToken };
+};
