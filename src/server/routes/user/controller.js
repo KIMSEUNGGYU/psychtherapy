@@ -3,13 +3,16 @@ const service = require("./service");
 
 exports.signup = async (req, res, next) => {
   const user = req.body;
-  const result = await service.userSignup(user);
-  result
-    ? res.status(201).json({ message: "Created Success", result: {} })
-    : res.status(400).json({ message: "Created Fail", result: {} });
+  const { email, password, name, gender, age } = user;
 
-  // 400, 401 에러
-  // 401 은 middleware api key error
+  if (!(email && password && name && gender && age))
+    return res.status(400).json(view.badRequset());
+
+  const create = await service.userSignup(user);
+
+  return create
+    ? res.status(201).json(view.createUser())
+    : res.status(400).json(view.createUserFail());
 };
 
 exports.signin = async (req, res, next) => {
