@@ -13,7 +13,10 @@ exports.detail = () => {
 
 // email validation view
 exports.emailAvailable = () => ({ message: "success", result: {} });
-exports.emailNotAvailable = () => ({ message: "fail", result: {} });
+exports.emailNotAvailable = () => ({
+  message: "ResourceConflict - 이미 존재하는 데이터 입니다",
+  result: {},
+});
 
 exports.signup = () => {
   // 유저 회원가입
