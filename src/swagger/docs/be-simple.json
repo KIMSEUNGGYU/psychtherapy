@@ -20,7 +20,7 @@
             "api.staging-domain.co.kr",
             "api.production-domain.co.kr"
           ],
-          "default": "15.164.52.189"
+          "default": "127.0.0.1:3000"
         },
         "version": {
           "enum": ["v1", "v2"],
@@ -170,60 +170,6 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/user/detail": {
-      "get": {
-        "tags": ["user"],
-        "summary": "피상담자 상세정보 API",
-        "description": "피상담자 (본인) 상세정보를 볼 때 사용됩니다. <br> 파라미터 정보가 필요 없는건 x-access-token에서 확인이 가능해서 따로 파라미터를 받지 않습니다.",
-        "security": [
-          {
-            "X_API_KEY": []
-          },
-          {
-            "X_ACCESS_TOKEN": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Success"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "result": {
-                          "type": "object",
-                          "properties": {
-                            "user": {
-                              "type": "object",
-                              "$ref": "#/components/schemas/user"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
           }
         }
       }
@@ -916,23 +862,7 @@
         }
       },
       "Empty": {
-        "description": "Success / 요청이 성공하였지만 해당 데이터가 존재하지 않습니다.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Empty Object"
-                },
-                "result": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
+        "description": "Success / 요청이 성공하였지만 해당 데이터가 존재하지 않습니다."
       },
       "BadRequest": {
         "description": "Bad Request / 잘못된 요청입니다. 요청 파라미터를 확인 하시기 바랍니다.",
