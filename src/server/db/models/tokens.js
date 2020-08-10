@@ -23,5 +23,8 @@ module.exports = (sequelize, DataTypes) => {
   tokens.deleteRefreshToken = async refreshToken =>
     await tokens.destroy({ where: { refreshToken } });
 
+  tokens.updateAccessToken = async (refreshToken, accessToken) =>
+    await tokens.update({ accessToken }, { where: { refreshToken } });
+
   return tokens;
 };
