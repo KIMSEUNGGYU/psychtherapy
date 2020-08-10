@@ -16,10 +16,11 @@
         "domain": {
           "enum": [
             "127.0.0.1:3000",
+            "15.164.52.189",
             "api.staging-domain.co.kr",
             "api.production-domain.co.kr"
           ],
-          "default": "127.0.0.1:3000"
+          "default": "15.164.52.189"
         },
         "version": {
           "enum": ["v1", "v2"],
