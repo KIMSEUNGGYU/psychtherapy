@@ -32,9 +32,6 @@ exports.signin = (accessToken, refreshToken) => ({
 });
 exports.signinFail = () => ({ message: "Unauthorized", result: {} });
 
-exports.signout = () => {
-  return {
-    message: "user signout",
-    result: {},
-  };
-};
+// user signout
+exports.deleteRefreshToken = () => ({ message: "Sucess", result: {} });
+exports.deleteRefreshTokenFail = () => ({ message: "No content", result: {} });

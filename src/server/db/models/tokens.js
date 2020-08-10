@@ -20,5 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   tokens.generateTokens = async (userId, accessToken, refreshToken) =>
     await tokens.create({ userId, accessToken, refreshToken });
 
+  tokens.deleteRefreshToken = async refreshToken =>
+    await tokens.destroy({ where: { refreshToken } });
+
   return tokens;
 };

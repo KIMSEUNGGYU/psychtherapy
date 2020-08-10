@@ -36,7 +36,15 @@ exports.signin = async (req, res, next) => {
 };
 
 exports.signout = async (req, res, next) => {
-  res.status(200).json(view.signout());
+  const refreshToken = req.headers["x-refresh-token"];
+
+  if (!refreshToken) return res.status(400).json(view.badRequset());
+
+  const success = await service.deleteRefreshToken(refreshToken);
+
+  success
+    ? res.status(200).json(view.deleteRefreshToken())
+    : res.status(404).json(view.deleteRefreshTokenFail());
 };
 
 // /user/detail/{userId}

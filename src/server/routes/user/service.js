@@ -41,3 +41,7 @@ exports.generateTokens = async payload => {
 
   return { accessToken, refreshToken };
 };
+
+// jwt 토큰 삭제 (refresh 기준)
+exports.deleteRefreshToken = async refreshToken =>
+  await models.tokens.deleteRefreshToken(refreshToken);
