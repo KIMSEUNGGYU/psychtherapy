@@ -57,6 +57,9 @@
                     input[type="text"] {
                         width: 75%;
                     }
+                    input[type="password"] {
+                        width: 75%;
+                    }
                     input[type="radio"] {
                         width: 0.75rem;
                         height: 0.75rem;
@@ -65,6 +68,11 @@
                     label {
                         margin-right: 1rem;
                     }
+                }
+                .error_message {
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    color: $red;
                 }
                 .guide_msg_box {
                     font-size: 0.75rem;
@@ -86,6 +94,10 @@
                     background: $primary;
                     color: #fff;
                     height: 2.5rem;
+                }
+                :disabled {
+                    background: $d_font;
+                    color: #fff;
                 }
             }
         }
@@ -111,6 +123,10 @@
                 background: $primary;
                 color: #fff;
                 margin-top: 2rem;
+            }
+            :disabled {
+                color: #fff;
+                background: $d_font;
             }
         }
     }
