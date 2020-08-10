@@ -84,6 +84,7 @@ const JoinPopup = () => {
             if (handleValidation() === false) {
                 return;
             }
+            console.log("피상담자는 번호 X", delete joinData.phoneNumber);
             console.log("피상담자", joinData);
         }
         if (activeTab === 1) {
