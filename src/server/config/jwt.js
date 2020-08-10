@@ -1,4 +1,4 @@
 exports.jwt = {
-  refreshToken: { expiresIn: "1 m" },
-  accessToken: { expiresIn: "20 s" },
+  refreshToken: { expiresIn: "30 m" },
+  accessToken: { expiresIn: "2 m" },
 };

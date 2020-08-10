@@ -8,6 +8,7 @@ const admin = require("./admin");
 const keyword = require("./keyword");
 const point = require("./point");
 const schedule = require("./schedule");
+const token = require("./token");
 const { BASEURL } = require("../library/constant");
 
 // middleware
@@ -21,6 +22,7 @@ router.use(`${BASEURL}/admin`, admin);
 router.use(`${BASEURL}/keyword`, keyword);
 router.use(`${BASEURL}/point`, point);
 router.use(`${BASEURL}/schedule`, schedule);
+router.use(`${BASEURL}/token`, token);
 
 // error handling
 router.use(`${BASEURL}/`, middleware.errorHandling);
