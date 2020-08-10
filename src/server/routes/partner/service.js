@@ -1,14 +1,35 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
-exports.getPartners = async query => {
-  const { gender, level, certificate, keyword } = query; // condition
-  const condition = {
-    gender,
-  };
+exports.getPartnerList = async query => {
+  try {
+    let condition = {};
+    for (const [key, value] of Object.entries(query)) {
+      if (value) {
+        condition[key] = value;
+      }
+    }
+    delete condition["page"];
+    delete condition["size"];
 
-  const partners = await models.partnerDetails.getPartners(condition, models);
-  return partners;
+    let page = query.page;
+    let size = query.size;
+    if ((query.size && query.size > 100) || !query.size) size = 15;
+    if (query.page == null) page = 1;
+
+    let limit = +size;
+    let offset = (page - 1) * size;
+
+    const partners = await models.partnerDetails.getPartners(
+      condition,
+      models,
+      limit,
+      offset,
+    );
+    return partners;
+  } catch (err) {
+    return false;
+  }
 };
 
 exports.generatePartner = async user => {
@@ -53,15 +74,12 @@ exports.generatePartner = async user => {
 };
 
 exports.getPartner = async partnerId => {
-  const condition = { partnerId };
-  const result = await models.partnerDetails.getPartner(condition, models);
-  return result;
-  // id, email 로 순서 맞추기 위해서 넣은 코드 <- 사용할까 말까 고민중
-  // const { id, email, ...detail } = result;
-  // const partner = {
-  //   id,
-  //   email,
-  //   ...detail,
-  // };
-  // return partner;
+  try {
+    const condition = { partnerId };
+    const result = await models.partnerDetails.getPartner(condition, models);
+
+    return result;
+  } catch (err) {
+    return false;
+  }
 };

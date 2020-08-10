@@ -1,19 +1,18 @@
 const service = require("./service");
+const view = require("./view");
 
 exports.partners = async (req, res, next) => {
   const query = req.query;
 
-  const partners = await service.getPartners(query);
+  const partners = await service.getPartnerList(query);
 
-  partners.length
-    ? res.status(200).json({
-        message: "PARTNER LIST",
-        result: { partners, totalCount: partners.length },
-      })
-    : res.status(200).json({
-        message: "PARTNER LIST - IT DOSEN'T EXIST",
-        result: {},
-      });
+  if (!partners) {
+    return res.status(400).json(view.badRequest());
+  }
+
+  return partners.length
+    ? res.status(200).json(view.partnerList(partners))
+    : res.status(204).json(view.empty());
 };
 
 exports.signup = async (req, res, next) => {
@@ -21,9 +20,9 @@ exports.signup = async (req, res, next) => {
 
   const success = await service.generatePartner(user);
 
-  success
-    ? res.status(201).json({ message: "PARTNER CREATE SUCCESS", result: {} })
-    : res.status(200).json({ message: "PARTNER CREATE FAIL", result: {} });
+  return success
+    ? res.status(201).json(view.partnerSignupSuccess())
+    : res.status(200).json(view.partnerSignupError());
 };
 
 exports.detail = async (req, res, next) => {
@@ -31,12 +30,11 @@ exports.detail = async (req, res, next) => {
 
   const partner = await service.getPartner(partnerId);
 
-  partner
-    ? res
-        .status(200)
-        .json({ message: "GET PARTNER INFO ", result: { partner } })
-    : res.status(200).json({
-        message: "GET PARTNER INFO - IT DOSEN'T EXIST",
-        result: {},
-      });
+  if (partner === false) {
+    return res.status(400).json(view.badRequest());
+  }
+
+  return partner
+    ? res.status(200).json(view.partnerDetail(partner))
+    : res.status(204).json(view.empty());
 };
