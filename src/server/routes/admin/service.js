@@ -9,11 +9,17 @@ exports.getUsers = async (page, size) => {
 };
 
 exports.getPartners = async (page, size, evaluate) => {
-  const condition = {
-    evaluate,
-  };
+  const limit = size;
+  const offset = (page - 1) * size;
 
-  const partners = await models.partnerDetails.getPartners(condition, models);
+  const condition = { evaluate };
+
+  const partners = await models.partnerDetails.getPartners(
+    models,
+    condition,
+    limit,
+    offset,
+  );
   return partners;
 };
 

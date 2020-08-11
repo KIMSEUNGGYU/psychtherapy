@@ -7,3 +7,9 @@ exports.getUsers = users => ({
   message: "Success",
   result: { users, totalCount: users.length },
 });
+
+// /ADMIN/PARTNERS
+exports.getPartners = partners => ({
+  message: "Success",
+  result: { partners, totalCount: partners.length },
+});

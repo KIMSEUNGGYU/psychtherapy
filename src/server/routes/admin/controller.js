@@ -22,17 +22,25 @@ exports.users = async (req, res, next) => {
 };
 
 exports.partners = async (req, res, next) => {
-  const { page, size, evaluate } = req.query;
-  const partners = await service.getPartners(page, size, evaluate);
+  let { page, size, evaluate } = req.query;
+  page = parseInt(page);
+  size = parseInt(size);
 
-  partners.length
-    ? res.status(200).json({
-        mesage: "PARTNER LIST",
-        result: { partners, totalCount: partners.length },
-      })
-    : res
-        .status(400)
-        .json({ mesage: "PARTNER LIST - IT DOSEN'T EXIST", result: {} });
+  if (!page || !size || !(evaluate === "true" || evaluate === "false"))
+    return res.status(400).json(view.badRequset());
+
+  evaluate = evaluate === "true" ? 1 : 0;
+
+  try {
+    const partners = await service.getPartners(page, size, evaluate);
+
+    partners.length
+      ? res.status(200).json(view.getPartners(partners))
+      : res.status(204).json(view.empty());
+  } catch (err) {
+    // console.error("/admin/partners error", err);
+    next(new Error("DB ERROR"));
+  }
 };
 
 exports.partnerDetail = async (req, res, next) => {
