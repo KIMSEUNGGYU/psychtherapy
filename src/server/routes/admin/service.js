@@ -2,8 +2,10 @@ const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
 exports.getUsers = async (page, size) => {
-  const users = await models.userDetails.getUsers(models);
-  return users;
+  const limit = size;
+  const offset = (page - 1) * size;
+
+  return await models.userDetails.getUsers(models, limit, offset);
 };
 
 exports.getPartners = async (page, size, evaluate) => {

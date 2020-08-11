@@ -1,18 +1,24 @@
 const service = require("./service");
+const view = require("./view");
 
 exports.users = async (req, res, next) => {
-  const { page, size } = req.query;
-  const users = await service.getUsers(page, size);
+  let { page, size } = req.query;
+  page = parseInt(page);
+  size = parseInt(size);
 
-  users.length
-    ? res.status(200).json({
-        mesage: "USER LIST",
-        result: { users, totalCount: users.length },
-      })
-    : res.status(200).json({ mesage: "USER LIST FAIL", result: {} });
+  if (!page || !size) return res.status(400).json(view.badRequset());
+  if ((size && size > 100) || size < 0) size = 15;
+  if (page === null || page <= 0) page = 1;
 
-  // 있어도 없어도 200
-  // 400(api), 401, 403(토큰)
+  try {
+    const users = await service.getUsers(page, size);
+    users.length
+      ? res.status(200).json(view.getUsers(users))
+      : res.status(204).json(view.empty());
+  } catch (err) {
+    // console.error("/admin/users error", err);
+    next(new Error("DB ERROR"));
+  }
 };
 
 exports.partners = async (req, res, next) => {
