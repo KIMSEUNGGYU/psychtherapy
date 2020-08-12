@@ -32,9 +32,9 @@ exports.getPartnerList = async query => {
   }
 };
 
-exports.generatePartner = async user => {
-  user.type = 1; // partner
-  user.evaluate = 0; // 파트너 초반 가입은 평가를 받아야함
+exports.generatePartner = async body => {
+  body.type = 1; // partner
+  body.evaluate = 0; // 파트너 초반 가입은 평가를 받아야함
   const {
     email,
     password,
@@ -44,7 +44,7 @@ exports.generatePartner = async user => {
     age,
     type,
     evaluate,
-  } = user;
+  } = body;
 
   let transaction;
   try {
@@ -64,6 +64,7 @@ exports.generatePartner = async user => {
       evaluate,
       transaction,
     ); // usersDetails 테이블에 데이터를 삽입
+    await models.points.signup(id, transaction); // points 테이블에 데이터 삽입
     transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
     return true;
   } catch (err) {
