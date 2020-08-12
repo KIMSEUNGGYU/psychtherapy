@@ -376,6 +376,9 @@
           "201": {
             "$ref": "#/components/responses/Updated"
           },
+          "202": {
+            "$ref": "#/components/responses/UpdateFail"
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
           },
@@ -852,6 +855,25 @@
                 "message": {
                   "type": "string",
                   "example": "Updated Success"
+                },
+                "result": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateFail": {
+        "description": "Updated Fail / 요청이 성공하였지만, 리소스의 수정이 반영되지 않았습니다.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Updated Fail"
                 },
                 "result": {
                   "type": "object"
