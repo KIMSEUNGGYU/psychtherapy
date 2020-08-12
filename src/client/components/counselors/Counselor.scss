@@ -1,0 +1,107 @@
+@import "../../styles/variables";
+
+.counselor {
+    .breadcrumb {
+        margin-bottom: 1rem;
+        span {
+            margin: 0 0.5rem;
+        }
+    }
+    .top_box {
+        width: 100%;
+        position: relative;
+        .img_box {
+            border: 1px solid #e0e0e0;
+            position: relative;
+            width: 30%;
+            height: 30rem;
+            overflow: hidden;
+            padding-top: 2rem;
+            img {
+                position: absolute;
+                width: 100%;
+            }
+        }
+        .txt_box {
+            border: 1px solid #e0e0e0;
+
+            width: calc(45% - 2rem);
+            height: 100%;
+            padding: 2.5rem;
+            .level {
+                color: $primary;
+                font-weight: 600;
+            }
+            .name {
+                margin: 0.5rem 0 2rem;
+                font-weight: 500;
+                font-size: 1.75rem;
+                line-height: 2rem;
+                .point {
+                    margin-left: 0.5rem;
+                    font-size: 0.875rem;
+                    svg {
+                        color: $yellow;
+                        margin-right: 0.25rem;
+                    }
+                }
+            }
+            .career_box {
+                line-height: 1.75rem;
+                margin-bottom: 2rem;
+                font-weight: 500;
+            }
+            .long_info {
+                color: #666;
+                line-height: 1.75rem;
+            }
+            .youtube_btn {
+                margin-top: 2rem;
+                width: 10rem;
+                text-align: left;
+                font-size: 1rem;
+                line-height: 2rem;
+                svg {
+                    color: $primary;
+                    width: 2rem;
+                    height: 2rem;
+                    margin-right: 0.5rem;
+                }
+                // font-weight: 700;
+            }
+        }
+    }
+    .put_box {
+        width: 25%;
+        height: 20rem;
+        border: 1px solid #e0e0e0;
+        padding: 2.5rem;
+        line-height: 1.5rem;
+        .notice_title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .notice_txt {
+            color: #666;
+        }
+        .point_box {
+            width: 100%;
+            margin: 1rem 0 1.25rem;
+            padding: 0.5rem 0;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+
+            .value {
+                color: $primary;
+                font-weight: 700;
+            }
+        }
+        .put_btn {
+            width: 100%;
+            font-size: 0.875rem;
+            background: $primary;
+            height: 2.5rem;
+            color: #fff;
+        }
+    }
+}
