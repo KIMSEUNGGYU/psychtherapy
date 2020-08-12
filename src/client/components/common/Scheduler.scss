@@ -1,0 +1,79 @@
+@import "../../styles/variables";
+
+.scheduler_box {
+    .top_box {
+        .today {
+            // text-align: center;
+            font-size: 1.125rem;
+            margin-left: 0.5rem;
+            line-height: 2rem;
+        }
+        button {
+            width: 6rem;
+            height: 2rem;
+            &.cancel_btn {
+                border: 1px solid $primary;
+                color: $primary;
+                margin-right: 0.5rem;
+            }
+            &.save_btn {
+                background: $primary;
+                color: #fff;
+            }
+        }
+    }
+
+    .select_times_box {
+        margin-top: 2rem;
+        .legend_box {
+            padding-left: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            span {
+                line-height: 1rem;
+                margin-right: 1rem;
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    width: 0.6rem;
+                    height: 0.6rem;
+                    margin-right: 0.25rem;
+                }
+                &.non_selected {
+                    &::before {
+                        border: 1px solid #b0b0b0;
+                    }
+                }
+                &.selected {
+                    &::before {
+                        border: 1px solid $primary;
+                    }
+                }
+                &.reserved {
+                    &::before {
+                        border: 1px solid $primary;
+                        background: $primary;
+                    }
+                }
+            }
+        }
+        button {
+            margin: 0 0.5rem;
+            cursor: pointer;
+            text-align: center;
+            width: calc(100% / 6 - 1rem);
+            margin-bottom: 1rem;
+            border: 1px solid #b0b0b0;
+            color: #b0b0b0;
+            line-height: 3.5rem;
+            &.selected {
+                border: 1px solid $primary;
+                color: $primary;
+            }
+            &.reserved {
+                background: $primary;
+                color: #fff;
+            }
+        }
+    }
+}

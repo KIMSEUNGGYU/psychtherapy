@@ -7,11 +7,7 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={(props) => {
-                return getToken() ? (
-                    <Redirect to="/" />
-                ) : (
-                    <Component {...props} />
-                );
+                return false ? <Redirect to="/" /> : <Component {...props} />;
             }}
         />
     );
@@ -22,11 +18,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={(props) => {
-                return getToken() ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to="/" />
-                );
+                return true ? <Component {...props} /> : <Redirect to="/" />;
             }}
         />
     );
