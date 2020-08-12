@@ -161,9 +161,23 @@ module.exports = {
         updatedAt,
       },
       {
+        email: "doctor23@gmail.com",
+        password: "1234",
+        type: 1,
+        createdAt,
+        updatedAt,
+      },
+      {
         email: "admin@gmail.com",
         password: "admin",
         type: 99,
+        createdAt,
+        updatedAt,
+      },
+      {
+        email: "doctor25@gmail.com",
+        password: "1234",
+        type: 1,
         createdAt,
         updatedAt,
       },

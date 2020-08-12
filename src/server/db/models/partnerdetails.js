@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  partnerDetails.getPartners = async (condition, models, limit, offset) => {
+  partnerDetails.getPartners = async (models, condition, limit, offset) => {
     const result = await partnerDetails.findAll({
       raw: true,
       attributes: {
@@ -80,6 +80,7 @@ module.exports = (sequelize, DataTypes) => {
       limit: limit,
       offset: offset,
     });
+
     return result;
   };
 

@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     );
   };
 
-  userDetails.getUsers = async models => {
+  userDetails.getUsers = async (models, limit, offset) => {
     return await userDetails.findAll({
       raw: true,
       attributes: {
@@ -51,10 +51,13 @@ module.exports = (sequelize, DataTypes) => {
         ],
         exclude: ["id", "userId", "createdAt", "updatedAt"],
       },
+      limit,
+      offset,
       include: [
         {
           model: models.users,
           attributes: [],
+          where: { type: 0 },
         },
       ],
     });
