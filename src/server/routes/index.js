@@ -18,11 +18,13 @@ router.use(`${BASEURL}/`, middleware.apiKeyAuth);
 // api
 router.use(`${BASEURL}/user`, user);
 router.use(`${BASEURL}/partner`, partner);
-router.use(`${BASEURL}/admin`, admin);
 router.use(`${BASEURL}/keyword`, keyword);
 router.use(`${BASEURL}/point`, point);
 router.use(`${BASEURL}/schedule`, schedule);
 router.use(`${BASEURL}/token`, token);
+
+router.use(`${BASEURL}/admin`, middleware.jwtAuth);
+router.use(`${BASEURL}/admin`, admin);
 
 // error handling
 router.use(`${BASEURL}/`, middleware.errorHandling);
