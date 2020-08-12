@@ -47,12 +47,19 @@ exports.partnerDetail = async (req, res, next) => {
   const partnerId = req.params["partnerId"];
   const partner = req.body;
 
+  // 유효성 검증
+  let validate = true;
+  for (key of Object.keys(partner)) {
+    if (key === "evaluate") continue;
+    if (!partner[key]) {
+      validate = false;
+      break;
+    }
+  }
+  if (!partnerId || !validate) return res.status(401).json(view.badRequset());
+
   const success = await service.updatePartnerDetail(partnerId, partner); // 1 이면 수정 성공, 0 이면 수정 실패
   success
-    ? res.status(201).json({ message: "UPDATE SUCCESS", result: {} }) // 정상 수행 (업데이트 성공)
-    : res.status(202).json({ message: "UPDATE FAIL", result: {} }); // 요청은 됐지만 수정은 안됨
-
-  // 201 은 정상적으로 변경이 될 경우
-  // 202 는 서버가 수신은 했지만 처리되지 않음.
-  // 204 는 내용이 같아 수정이 이루어지지 않을때
+    ? res.status(201).json(view.update()) // 정상 수행 (업데이트 성공)
+    : res.status(202).json(view.updateFail()); // 요청은 됐지만 수정은 안됨
 };

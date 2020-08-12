@@ -11,7 +11,7 @@ module.exports = {
         {
           userId: 2,
           name: "farfdswz",
-          gender: 0,
+          gender: 1,
           age: 26,
           createdAt,
           updatedAt,
@@ -19,7 +19,7 @@ module.exports = {
         {
           userId: 4,
           name: "azkhzbzh",
-          gender: 0,
+          gender: 2,
           age: 26,
           createdAt,
           updatedAt,
@@ -75,7 +75,7 @@ module.exports = {
         {
           userId: 18,
           name: "rvyvqwkk",
-          gender: 0,
+          gender: 2,
           age: 26,
           createdAt,
           updatedAt,
@@ -83,7 +83,7 @@ module.exports = {
         {
           userId: 20,
           name: "kdivnwsl",
-          gender: 0,
+          gender: 2,
           age: 26,
           createdAt,
           updatedAt,
@@ -91,7 +91,7 @@ module.exports = {
         {
           userId: 22,
           name: "dkdivwkk",
-          gender: 0,
+          gender: 2,
           age: 26,
           createdAt,
           updatedAt,
@@ -99,7 +99,7 @@ module.exports = {
         {
           userId: 23,
           name: "admin",
-          gender: 0,
+          gender: 1,
           age: 26,
           createdAt,
           updatedAt,
@@ -107,7 +107,7 @@ module.exports = {
         {
           userId: 24,
           name: "root",
-          gender: 0,
+          gender: 1,
           age: 26,
           createdAt,
           updatedAt,
