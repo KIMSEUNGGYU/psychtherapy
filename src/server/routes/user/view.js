@@ -1,3 +1,6 @@
+// COMMON
+exports.badRequset = () => ({ message: "Bad Request", result: {} });
+
 exports.detail = () => {
   return {
     message: "user detail",
@@ -11,32 +14,24 @@ exports.detail = () => {
   };
 };
 
-exports.check = () => {
-  return {
-    message: "user check",
-    result: {},
-  };
-};
+// email validation view
+exports.emailAvailable = () => ({ message: "success", result: {} });
+exports.emailNotAvailable = () => ({
+  message: "ResourceConflict - 이미 존재하는 데이터 입니다",
+  result: {},
+});
 
-exports.signup = () => {
-  // 유저 회원가입
-  return {
-    message: "user signup",
-    result: {},
-  };
-};
+// user signup
+exports.createUser = () => ({ message: "Created Success", result: {} });
+exports.createUserFail = () => ({ message: "Created Fail", result: {} });
 
-exports.signin = () => {
-  // 유저 로그인
-  return {
-    message: "user signin",
-    result: {},
-  };
-};
+// user signin
+exports.signin = (accessToken, refreshToken) => ({
+  message: "Success",
+  result: { accessToken, refreshToken },
+});
+exports.signinFail = () => ({ message: "Unauthorized", result: {} });
 
-exports.signout = () => {
-  return {
-    message: "user signout",
-    result: {},
-  };
-};
+// user signout
+exports.deleteRefreshToken = () => ({ message: "Sucess", result: {} });
+exports.deleteRefreshTokenFail = () => ({ message: "No content", result: {} });

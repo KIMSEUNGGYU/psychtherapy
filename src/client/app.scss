@@ -275,6 +275,10 @@ input[type="password"] {
     &:focus {
         border-bottom: 1px solid $primary;
     }
+    &.error {
+        background: $input_error;
+        border-bottom: 1px solid $red;
+    }
 }
 input[type="textarea"] {
     padding: 0.25rem;

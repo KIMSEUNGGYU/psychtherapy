@@ -3,32 +3,48 @@ const service = require("./service");
 
 exports.signup = async (req, res, next) => {
   const user = req.body;
-  const result = await service.userSignup(user);
-  result
-    ? res.status(201).json({ message: "Created Success", result: {} })
-    : res.status(400).json({ message: "Created Fail", result: {} });
+  const { email, password, name, gender, age } = user;
 
-  // 400, 401 에러
-  // 401 은 middleware api key error
+  if (!(email && password && name && gender && age))
+    return res.status(400).json(view.badRequset());
+
+  const create = await service.userSignup(user);
+
+  return create
+    ? res.status(201).json(view.createUser())
+    : res.status(400).json(view.createUserFail());
 };
 
 exports.signin = async (req, res, next) => {
-  const user = req.body;
-  const result = await service.signin(user);
+  const { email, password } = req.body;
 
-  result
-    ? res.status(200).json({
-        message: "Signin Success",
-        result: { accessToken: "accessToken", refreshToken: "refreshToken" },
-      })
-    : res.status(400).json({ message: "Signin Fail", result: {} });
+  // 요청 파라미터 검증
+  if (!(email && password)) return res.status(400).json(view.badRequset());
 
-  // 400 : 비밀번호 틀림, 이메일 존재 하지 않음. (비지니스 로직에 문제 있는 경우)
-  // 401 : api key 에 해당하는 문제가 있는 경우
+  const user = await service.signin(email, password);
+  // 로그인 실패
+  if (!user) return res.status(401).json(view.signinFail()); // email, 비밀번호 틀림
+
+  // token 발행
+  const payload = {
+    userId: user.id,
+    type: user.type,
+  };
+  const { accessToken, refreshToken } = await service.generateTokens(payload);
+
+  return res.status(200).json(view.signin(accessToken, refreshToken));
 };
 
 exports.signout = async (req, res, next) => {
-  res.status(200).json(view.signout());
+  const refreshToken = req.headers["x-refresh-token"];
+
+  if (!refreshToken) return res.status(400).json(view.badRequset());
+
+  const success = await service.deleteRefreshToken(refreshToken);
+
+  success
+    ? res.status(200).json(view.deleteRefreshToken())
+    : res.status(404).json(view.deleteRefreshTokenFail());
 };
 
 // /user/detail/{userId}
@@ -38,15 +54,11 @@ exports.detail = async (req, res, next) => {
 
 exports.check = async (req, res, next) => {
   const email = req.query["email"];
-  // console.log("email", email);
-  const result = await service.emailCheck(email);
 
-  console.log("result", result);
-  // 데이터가 있으면 result 값이 있음.
-  // 나중에 service.emailCheck [Op.ne] 사용
-  result
-    ? res
-        .status(409)
-        .json({ message: "resource Conflict -  Email duplicates", result: {} }) // 리소스 충돌 409
-    : res.status(200).json(view.check());
+  // email check 했는데 유저가 있으면 이메일 중복이므로 409
+  const user = await service.emailCheck(email);
+
+  return user
+    ? res.status(409).json(view.emailNotAvailable()) // 리소스 충돌 409
+    : res.status(200).json(view.emailAvailable());
 };

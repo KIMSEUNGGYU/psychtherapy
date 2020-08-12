@@ -1,0 +1,56 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+
+name: Node Github CI/CD
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - closed
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        if: github.event.pull_request.merged == true
+      - name: Cache node modules # node modules 캐싱
+        if: github.event.pull_request.merged == true
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+      - name: Install Dependencies # 의존 파일 설치
+        if: github.event.pull_request.merged == true
+        run: npm install
+      - name: test and server start # React Build
+        if: github.event.pull_request.merged == true
+        run: |
+          # npm run test # test code 없음
+          npm run build
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: github.event.pull_request.merged == true
+      - name: deploy
+        if: github.event.pull_request.merged == true
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/psych_therapy
+            git checkout develop
+            git pull origin develop
+            npm install
+            npm run build
+            pm2 restart server
