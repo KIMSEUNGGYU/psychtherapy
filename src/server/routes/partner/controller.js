@@ -6,9 +6,7 @@ exports.partners = async (req, res, next) => {
 
   const partners = await service.getPartnerList(query);
 
-  if (!partners) {
-    return res.status(400).json(view.badRequest());
-  }
+  if (!partners) return res.status(400).json(view.badRequest());
 
   return partners.length
     ? res.status(200).json(view.partnerList(partners))
@@ -16,13 +14,15 @@ exports.partners = async (req, res, next) => {
 };
 
 exports.signup = async (req, res, next) => {
-  const user = req.body;
+  const body = req.body;
+  // const user = req.body;
 
-  const success = await service.generatePartner(user);
-
-  return success
+  const partner = await service.generatePartner(body);
+  // const success = await service.generatePartner(user);
+  if (!partner) return res.status(400).json(view.badRequest());
+  return partner
     ? res.status(201).json(view.partnerSignupSuccess())
-    : res.status(200).json(view.partnerSignupError());
+    : res.status(400).json(view.partnerSignupError());
 };
 
 exports.detail = async (req, res, next) => {
@@ -30,9 +30,7 @@ exports.detail = async (req, res, next) => {
 
   const partner = await service.getPartner(partnerId);
 
-  if (partner === false) {
-    return res.status(400).json(view.badRequest());
-  }
+  if (partner === false) return res.status(400).json(view.badRequest());
 
   return partner
     ? res.status(200).json(view.partnerDetail(partner))
