@@ -14,7 +14,6 @@
             border: 1px solid #e0e0e0;
             position: relative;
             width: 30%;
-            height: 30rem;
             overflow: hidden;
             padding-top: 2rem;
             img {
@@ -25,8 +24,7 @@
         .txt_box {
             border: 1px solid #e0e0e0;
 
-            width: calc(45% - 2rem);
-            height: 100%;
+            width: calc(70% - 2rem);
             padding: 2.5rem;
             .level {
                 color: $primary;
@@ -71,37 +69,64 @@
             }
         }
     }
-    .put_box {
-        width: 25%;
-        height: 20rem;
-        border: 1px solid #e0e0e0;
-        padding: 2.5rem;
-        line-height: 1.5rem;
-        .notice_title {
+    .scheduler_box {
+        .sub_title {
+            font-size: 1rem;
             font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        .notice_txt {
-            color: #666;
-        }
-        .point_box {
-            width: 100%;
-            margin: 1rem 0 1.25rem;
-            padding: 0.5rem 0;
-            border-top: 1px solid #e0e0e0;
-            border-bottom: 1px solid #e0e0e0;
-
-            .value {
-                color: $primary;
-                font-weight: 700;
-            }
-        }
-        .put_btn {
-            width: 100%;
-            font-size: 0.875rem;
-            background: $primary;
-            height: 2.5rem;
-            color: #fff;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #d0d0d0;
+            margin-top: 3rem;
         }
     }
+    .payment_box {
+        margin: 2rem 0;
+        border-top: 1px solid #d0d0d0;
+
+        padding: 1rem 0;
+        line-height: 2.25rem;
+        .point {
+            font-weight: 700;
+        }
+        .pay_btn {
+            margin-left: 1rem;
+            width: 7.5rem;
+            font-size: 0.875rem;
+            background: $primary;
+            color: #fff;
+            height: 2.25rem;
+        }
+    }
+    // .put_box {
+    //     width: 25%;
+    //     height: 20rem;
+    //     border: 1px solid #e0e0e0;
+    //     padding: 2.5rem;
+    //     line-height: 1.5rem;
+    //     .notice_title {
+    //         font-weight: 500;
+    //         margin-bottom: 0.5rem;
+    //     }
+    //     .notice_txt {
+    //         color: #666;
+    //     }
+    //     .point_box {
+    //         width: 100%;
+    //         margin: 1rem 0 1.25rem;
+    //         padding: 0.5rem 0;
+    //         border-top: 1px solid #e0e0e0;
+    //         border-bottom: 1px solid #e0e0e0;
+
+    //         .value {
+    //             color: $primary;
+    //             font-weight: 700;
+    //         }
+    //     }
+    //     .put_btn {
+    //         width: 100%;
+    //         font-size: 0.875rem;
+    //         background: $primary;
+    //         height: 2.5rem;
+    //         color: #fff;
+    //     }
+    // }
 }
