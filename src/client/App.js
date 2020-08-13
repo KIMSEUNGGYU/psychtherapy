@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "client/app.scss";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
