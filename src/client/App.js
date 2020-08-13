@@ -15,8 +15,15 @@ import {
     PagePricing
 } from "client/pages";
 import { Header, Footer } from "client/components";
+import service from "client/api-manager";
 
 const App = (props) => {
+    useEffect(() => {
+        const getKeyword = async () => {
+            return await service.get("/keyword");
+        };
+        console.log(getKeyword());
+    }, []);
     return (
         <Provider store={store}>
             <Router history={history}>

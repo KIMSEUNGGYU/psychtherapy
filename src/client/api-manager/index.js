@@ -14,14 +14,17 @@ class ResourceService extends Ajax {
                 accept: "application/json",
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache:",
-                Pragma: "no-cache"
+                Pragma: "no-cache",
+                "Access-Control-Allow-Origin": "*",
+                "x-api-key":
+                    "dd29771d9da1133deb625006590bd83373df0355fb4f791bdebbe9f93537f78f"
             },
             baseURL: host
         });
     }
 }
 
-const link = "http://127.0.0.1:3000/";
+const link = "http://15.164.52.189/";
 const host = `${link}api/v1`;
 
 const api_manager = new ResourceService(host);
