@@ -9,13 +9,14 @@ import {
     PageHome,
     PageCounselors,
     PageCounselor,
+    PageCounselingPayment,
     PageAdmin,
-    PageScheduleManagement
+    PageScheduleManagement,
+    PagePricing
 } from "client/pages";
 import { Header, Footer } from "client/components";
 
 const App = (props) => {
-    console.log(PageCounselor, "coun");
     return (
         <Provider store={store}>
             <Router history={history}>
@@ -26,7 +27,17 @@ const App = (props) => {
                     path="/counselors"
                     component={PageCounselors}
                 />
-                <PublicRoute path="/counselors/:id" component={PageCounselor} />
+                <PublicRoute
+                    exact
+                    path="/counselors/:id"
+                    component={PageCounselor}
+                />
+                <PublicRoute
+                    exact
+                    path="/counselors/:id/counseling_payment"
+                    component={PageCounselingPayment}
+                />
+                <PublicRoute exact path="/pricing" component={PagePricing} />
                 <PrivateRoute
                     path="/schedule_management"
                     component={PageScheduleManagement}

@@ -1,7 +1,8 @@
 import React from "react";
 import "./Scheduler.scss";
 
-const Scheduler = () => {
+const Scheduler = (props) => {
+    console.log(props, "props");
     const times = [
         "00:00AM - 00:30AM",
         "00:30AM - 01:00AM",
@@ -50,13 +51,15 @@ const Scheduler = () => {
     ];
     return (
         <div className="scheduler_box">
-            <div className="top_box flex_box between">
-                <p className="today">2020년 8월 12일 수요일</p>
-                <div className="btn_box">
-                    <button className="cancel_btn">취소하기</button>
-                    <button className="save_btn">저장하기</button>
+            {props.location.pathname === "schedule_management" && (
+                <div className="top_box flex_box between">
+                    <p className="today">2020년 8월 12일 수요일</p>
+                    <div className="btn_box">
+                        <button className="cancel_btn">취소하기</button>
+                        <button className="save_btn">저장하기</button>
+                    </div>
                 </div>
-            </div>
+            )}
             <div className="select_times_box">
                 <div className="legend_box">
                     <span className="non_selected">상담 불가</span>

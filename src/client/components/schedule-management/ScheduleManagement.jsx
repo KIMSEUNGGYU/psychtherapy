@@ -2,11 +2,11 @@ import React from "react";
 import "./ScheduleManagement.scss";
 import { Scheduler } from "client/components";
 
-const ScheduleManagement = () => {
+const ScheduleManagement = (props) => {
     return (
         <div className="container schedule_management">
             <div className="layout">
-                <Scheduler />
+                <Scheduler {...props} />
             </div>
         </div>
     );

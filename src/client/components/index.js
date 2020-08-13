@@ -15,8 +15,11 @@ import Counselors from "client/components/counselors/Counselors";
 import Filter from "client/components/counselors/Filter";
 
 import Counselor from "client/components/counselors/Counselor";
+import CounselingPayment from "client/components/counselors/CounselingPayment";
 
 import ScheduleManagement from "client/components/schedule-management/ScheduleManagement";
+
+import Pricing from "client/components/pricing/Pricing";
 
 export {
     Header,
@@ -30,8 +33,10 @@ export {
     Counselors,
     Filter,
     Counselor,
+    CounselingPayment,
     Scheduler,
     ScheduleManagement,
+    Pricing,
     Pagination,
     Table
 };

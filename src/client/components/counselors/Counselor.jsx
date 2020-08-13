@@ -1,10 +1,11 @@
 import React from "react";
 import "./Counselor.scss";
-import { FaBitcoin } from "react-icons/fa";
 import { AiOutlineYoutube } from "react-icons/ai";
 import doc1 from "client/images/doc1.jpg";
+import { Scheduler } from "client/components";
 
 const Counselor = (props) => {
+    console.log(props, "props");
     return (
         <div className="container counselor">
             <div className="layout">
@@ -51,11 +52,10 @@ const Counselor = (props) => {
                         </button>
                         {/* <button className="put_btn">상담 신청하기</button> */}
                     </div>
-                    <div className="put_box">
+                    {/* <div className="put_box">
                         <div className="notice">
                             <p className="notice_title">결제 안내</p>
                             <p className="notice_txt">
-                                {" "}
                                 대한민국의 영토는 한반도와 그 부속도서로 한다.
                                 국회는 상호원조 또는 안전보장에 관한 조약 중요한
                                 국제조직에 관한 조약, 국회는 상호원조
@@ -63,14 +63,31 @@ const Counselor = (props) => {
                         </div>
                         <div className="point_box flex_box between">
                             <p className="label">상담 가격</p>
-                            <p className="value">3,000Point</p>
+                            <p className="value">5Point</p>
                         </div>
-                        <button className="put_btn">상담 신청하기</button>
+                        <button
+                            className="put_btn"
+                            onClick={() =>
+                                props.history.push(
+                                    "/counselors/1/counseling_payment"
+                                )
+                            }
+                        >
+                            상담 신청하기
+                        </button>
+                    </div> */}
+                </div>
+                <div className="scheduler_box">
+                    <p className="sub_title">상담 가능 시간</p>
+                    <Scheduler {...props} />
+                </div>
+                <div className="payment_box flex_box between">
+                    <p className="total">TOTAL :</p>
+                    <div className="right_box">
+                        <span className="point">5 POINT</span>
+                        <button className="pay_btn">상담 신청하기</button>
                     </div>
                 </div>
-                {/* <div className="info_box">
-                    <p className="sub_title">상담사 정보</p>
-                </div> */}
             </div>
         </div>
     );

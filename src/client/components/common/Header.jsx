@@ -73,9 +73,6 @@ const Header = (props) => {
                                     <li>
                                         <button>상담사 리스트</button>
                                     </li>
-                                    {/* <li>
-                                        <button>정산</button>
-                                    </li> */}
                                 </ul>
                             ) : (
                                 <ul>
@@ -86,7 +83,13 @@ const Header = (props) => {
                                         <button>이용 가이드</button>
                                     </li>
                                     <li>
-                                        <button>요금 안내</button>
+                                        <button
+                                            onClick={() =>
+                                                history.push("/pricing")
+                                            }
+                                        >
+                                            요금 안내
+                                        </button>
                                     </li>
                                     <li>
                                         <button
