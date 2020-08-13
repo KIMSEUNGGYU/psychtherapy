@@ -611,6 +611,9 @@
           "201": {
             "$ref": "#/components/responses/Updated"
           },
+          "202": {
+            "$ref": "#/components/responses/UpdateFail"
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
           },
@@ -647,6 +650,9 @@
         "responses": {
           "201": {
             "$ref": "#/components/responses/Updated"
+          },
+          "202": {
+            "$ref": "#/components/responses/UpdateFail"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
