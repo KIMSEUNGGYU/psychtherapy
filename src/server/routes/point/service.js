@@ -1,9 +1,14 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
-exports.pointCharge = async (userId, point) => {
-  return await models.points.charge(userId, point);
-};
+exports.pointCharge = async (userId, point) =>
+  await models.points.charge(userId, point);
+
+exports.getUserIdBySchedule = async scheduleId =>
+  await models.schedules.getUserIdBySchedule(scheduleId);
+
+exports.scheduleIdCotainPartnerId = async (scheduleId, partnerId) =>
+  await models.schedules.scheduleIdCotainPartnerId(scheduleId, partnerId);
 
 exports.pointPurchase = async (userId, point, partnerId, scheduleId) => {
   let transaction;

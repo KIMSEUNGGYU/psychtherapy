@@ -54,5 +54,18 @@ module.exports = (sequelize, DataTypes) => {
     );
   };
 
+  schedules.getUserIdBySchedule = async scheduleId =>
+    await schedules.findOne({
+      raw: true,
+      attributes: ["userId"],
+      where: { id: scheduleId },
+    });
+
+  schedules.scheduleIdCotainPartnerId = async (scheduleId, partnerId) =>
+    await schedules.findOne({
+      raw: true,
+      where: { id: scheduleId, partnerId },
+    });
+
   return schedules;
 };
