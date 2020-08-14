@@ -1,10 +1,11 @@
 // tslint:disable-next-line
 import { combineReducers } from "redux";
-// import { connectRouter } from "connected-react-router";
+import { reducer as auth } from "client/modules/auth";
+
 import history from "./history";
 const createRootReducer = (_history) =>
     combineReducers({
-        // router: connectRouter(_history),
+        auth
     });
 
 const rootReducer = createRootReducer(history);

@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
 import { LayerPopup } from "client/libs/popup";
 import { Popup } from "client/components";
+import { actions as authActions } from "client/modules/auth";
 
 const LoginPopup = (props) => {
     const onClickJoin = () => {
@@ -22,18 +24,18 @@ const LoginPopup = (props) => {
     };
 
     const onSubmit = () => {
-        // const callbackFunc = () => {
-        //     setLoginData({
-        //         ...loginData,
-        //         password: ""
-        //     });
-        // };
-        // const payload = {
-        //     loginData,
-        //     callbackFunc
-        // };
-        // props.login(payload);
-        console.log(loginData, "Login Post");
+        const callbackFunc = () => {
+            setLoginData({
+                ...loginData,
+                password: ""
+            });
+            LayerPopup.hide(props.layerKey);
+        };
+        const payload = {
+            loginData,
+            callbackFunc
+        };
+        props.login(payload);
     };
 
     const onKeyPress = (e) => {
@@ -71,14 +73,26 @@ const LoginPopup = (props) => {
             >
                 로그인
             </button>
-            <div className="join_msg">
-                계정이 없으신가요?{" "}
-                <button className="join_btn" onClick={onClickJoin}>
-                    가입하기
-                </button>
-            </div>
+            {props.location.pathname !== "/admin" && (
+                <div className="join_msg">
+                    계정이 없으신가요?{" "}
+                    <button className="join_btn" onClick={onClickJoin}>
+                        가입하기
+                    </button>
+                </div>
+            )}
         </Fragment>
     );
 };
 
-export default LoginPopup;
+const mapStateToProps = (state) => {
+    return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: (payload) => dispatch(authActions.login(payload))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPopup);

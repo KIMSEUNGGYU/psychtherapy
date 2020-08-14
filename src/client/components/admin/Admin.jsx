@@ -3,11 +3,6 @@ import "./Admin.scss";
 import { Table, Popup } from "client/components";
 
 const Admin = () => {
-    useEffect(() => {
-        Popup.profilePopup({
-            className: "profile"
-        });
-    }, []);
     const tableProps = {
         ths: {
             e_mail: "이메일",
@@ -144,7 +139,7 @@ const Admin = () => {
         <div className="admin container">
             <div className="layout">
                 {/* <p className="title">대기자 리스트</p> */}
-                <Table {...tableProps} />
+                {/* <Table {...tableProps} /> */}
             </div>
         </div>
     );

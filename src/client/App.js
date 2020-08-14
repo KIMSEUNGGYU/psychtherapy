@@ -4,7 +4,11 @@ import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { store, history } from "client/store";
 import { LayerPopupContainer } from "client/libs/popup";
-import { PublicRoute, PrivateRoute } from "client/others/routes";
+import {
+    PublicRoute,
+    PrivateRoute,
+    AdminPrivateRoute
+} from "client/others/routes";
 import {
     PageHome,
     PageCounselors,
@@ -15,15 +19,8 @@ import {
     PagePricing
 } from "client/pages";
 import { Header, Footer } from "client/components";
-import service from "client/api-manager";
 
 const App = (props) => {
-    useEffect(() => {
-        const getKeyword = async () => {
-            return await service.get("/keyword");
-        };
-        console.log(getKeyword());
-    }, []);
     return (
         <Provider store={store}>
             <Router history={history}>
@@ -49,7 +46,7 @@ const App = (props) => {
                     path="/schedule_management"
                     component={PageScheduleManagement}
                 />
-                <PublicRoute exact path="/admin" component={PageAdmin} />
+                <AdminPrivateRoute exact path="/admin" component={PageAdmin} />
                 <Footer />
                 <LayerPopupContainer {...props} />
             </Router>
