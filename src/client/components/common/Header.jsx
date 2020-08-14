@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
 import { GoSignOut } from "react-icons/go";
 import { history } from "client/store";
 import { Popup } from "client/components";
+import { getToken, getUserType } from "client/others/token";
 
 const Header = (props) => {
     // [TO DO] token값으로 변경
-    const { pathname } = history.location;
-    const is_admin = pathname.includes("admin");
+    const is_admin = props.token && props.type === 99;
+
     const onClickLogin = () => {
         Popup.loginPopup({ className: "login" });
     };
@@ -110,7 +111,10 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        token: state.auth.token,
+        type: state.auth.type
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
