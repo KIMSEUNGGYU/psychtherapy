@@ -273,6 +273,45 @@
         }
       }
     },
+    "/user/detail": {
+      "get": {
+        "tags": ["user"],
+        "summary": "특정 유저 상세정보",
+        "description": "1. 유저 마이페이지에서 사용 하고 본인만 보는 것으로 userId는 JWT안에 있는 값으로 만 판별해서 내려줌",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "$ref": "#/components/schemas/userDetail"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/partners": {
       "get": {
         "tags": ["admin"],
@@ -703,12 +742,15 @@
         }
       }
     },
-    "/schedule/{partnerId}": {
+    "/schedule/{partnerId}/{date}": {
       "get": {
         "tags": ["schedule"],
         "parameters": [
           {
             "$ref": "#/components/parameters/partnerIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/dateParam"
           }
         ],
         "summary": "상담사의 스케쥴 정보 리스트업 API",
@@ -1046,7 +1088,45 @@
         "required": ["email", "password", "name", "gender", "age"]
       },
       "userDetail": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "Passw@rd",
+            "writeOnly": true
+          },
+          "name": {
+            "type": "string",
+            "example": "김모씨"
+          },
+          "gender": {
+            "type": "integer",
+            "example": 1
+          },
+          "age": {
+            "type": "integer",
+            "example": 27
+          },
+          "point": {
+            "type": "integer",
+            "example": 3000
+          },
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/schedule"
+            }
+          }
+        },
+        "required": ["email", "password", "name", "gender", "age", "point"]
       },
       "partner": {
         "type": "object",
@@ -1283,6 +1363,24 @@
       }
     },
     "parameters": {
+      "dateParam": {
+        "in": "path",
+        "name": "date",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "2020-08-05"
+        }
+      },
+      "userIdParam": {
+        "in": "path",
+        "name": "userId",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "example": 10
+        }
+      },
       "partnerIdPathParam": {
         "in": "path",
         "name": "partnerId",
