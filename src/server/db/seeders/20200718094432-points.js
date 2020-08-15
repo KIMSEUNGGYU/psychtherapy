@@ -28,6 +28,8 @@ module.exports = {
       { userId: 20, point: 0, createdAt, updatedAt },
       { userId: 21, point: 0, createdAt, updatedAt },
       { userId: 22, point: 0, createdAt, updatedAt },
+      { userId: 23, point: 0, createdAt, updatedAt },
+      { userId: 25, point: 0, createdAt, updatedAt },
     ]);
   },
 
