@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { actions as userActions } from "client/modules/user";
 
 const JoinPopup = (props) => {
-    console.log(props.emailForbidden, "email");
     const [activeTab, setActiveTab] = useState(0);
     const [toggle, setToggle] = useState(true);
     const onClickTab = (tabId) => {
