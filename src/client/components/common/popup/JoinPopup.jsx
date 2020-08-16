@@ -5,8 +5,12 @@ import {
     PasswordValuePatternMatch,
     PhoneNumberPatternMatch
 } from "client/others/utils";
+import { LayerPopup } from "client/libs/popup";
+import { connect } from "react-redux";
+import { actions as userActions } from "client/modules/user";
 
-const JoinPopup = () => {
+const JoinPopup = (props) => {
+    console.log(props.emailForbidden, "email");
     const [activeTab, setActiveTab] = useState(0);
     const [toggle, setToggle] = useState(true);
     const onClickTab = (tabId) => {
@@ -35,7 +39,6 @@ const JoinPopup = () => {
                 gender: Number("1")
             });
         }
-        console.log(joinData, "??");
         // gender 2 = Woman
         if (genderValue === "2") {
             setJoinData({
@@ -47,6 +50,14 @@ const JoinPopup = () => {
 
     const onClickToggle = () => {
         setToggle(!toggle);
+    };
+
+    const onSubmitEmailForbbiden = () => {
+        if (EmailForbidenValidation() === false) {
+            return;
+        }
+        const payload = joinData.email;
+        props.getUserValidate(payload);
     };
 
     const [joinData, setJoinData] = useState({
@@ -67,33 +78,41 @@ const JoinPopup = () => {
     };
 
     const onSubmit = () => {
-        // const callbackFunc = () => {
-        //     setLoginData({
-        //         ...loginData,
-        //         password: ""
-        //     });
-        // };
-        // const payload = {
-        //     loginData,
-        //     callbackFunc
-        // };
-        // props.login(payload);
-
+        const callbackFunc = () => {
+            LayerPopup.hide(props.layerKey);
+        };
         if (activeTab === 0) {
             //activeTab === 0 Common User
             if (handleValidation() === false) {
                 return;
             }
-            console.log("피상담자는 번호 X", delete joinData.phoneNumber);
-            console.log("피상담자", joinData);
+            delete joinData.phoneNumber;
+
+            props.postUser({ joinData, callbackFunc });
         }
         if (activeTab === 1) {
             //activeTab === 1 Partners
             if (handleValidation() === false) {
                 return;
             }
-            console.log("상담자", joinData);
+            props.postUser({ joinData, callbackFunc });
         }
+    };
+
+    const EmailForbidenValidation = () => {
+        if (!EmailValuePatternMatch(joinData.email)) {
+            setInputError({
+                errorMessage: "E-mail 형식이 잘못되었습니다.",
+                inputStyle: "email"
+            });
+            alert("E-mail 형식이 잘못되었습니다.");
+            return false;
+        }
+        setInputError({
+            errorMessage: "",
+            inputStyle: ""
+        });
+        return true;
     };
 
     const handleValidation = () => {
@@ -171,16 +190,23 @@ const JoinPopup = () => {
                         <li>
                             <span className="label">이메일</span>
                             <input
-                                className={
+                                className={`${
                                     inputError.inputStyle === "email"
-                                        ? "error"
-                                        : ""
-                                }
+                                        ? "email error"
+                                        : "email"
+                                }`}
                                 type="text"
                                 name="email"
                                 value={joinData.email}
                                 onChange={onChange}
                             />
+                            <button
+                                className="email_validation_button"
+                                disabled={!joinData.email}
+                                onClick={onSubmitEmailForbbiden}
+                            >
+                                중복확인
+                            </button>
                         </li>
                         <li>
                             <span className="label">비밀번호</span>
@@ -298,12 +324,14 @@ const JoinPopup = () => {
                               !joinData.password ||
                               !joinData.phoneNumber ||
                               !joinData.gender ||
-                              !joinData.age
+                              !joinData.age ||
+                              props.emailForbidden
                             : !joinData.email ||
                               !joinData.password ||
                               !joinData.name ||
                               !joinData.gender ||
-                              !joinData.age
+                              !joinData.age ||
+                              props.emailForbidden
                     }
                 >
                     가입하기
@@ -313,4 +341,18 @@ const JoinPopup = () => {
     );
 };
 
-export default JoinPopup;
+const mapStateToProps = (state) => {
+    return {
+        emailForbidden: state.user.emailForbidden
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        postUser: (payload) => dispatch(userActions.postUser(payload)),
+        getUserValidate: (payload) =>
+            dispatch(userActions.getUserValidate(payload))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(JoinPopup);
