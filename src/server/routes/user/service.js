@@ -45,3 +45,11 @@ exports.generateTokens = async payload => {
 // jwt 토큰 삭제 (refresh 기준)
 exports.deleteRefreshToken = async refreshToken =>
   await models.tokens.deleteRefreshToken(refreshToken);
+
+// ############ /user/detail
+// 유저 상세 정보 및 point 가져오는 것
+exports.getUserDetailPoint = async userId =>
+  await models.userDetails.getUserPoint(models, userId);
+// 유저가 등록한 schedule 가져오는 것!
+exports.getUserSchedule = async userId =>
+  await models.schedules.getSchedule(userId);

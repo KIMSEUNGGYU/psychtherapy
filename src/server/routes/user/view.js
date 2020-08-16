@@ -1,18 +1,6 @@
 // COMMON
 exports.badRequset = () => ({ message: "Bad Request", result: {} });
-
-exports.detail = () => {
-  return {
-    message: "user detail",
-    result: {
-      email: "user@example.com",
-      name: "gyu",
-      birth: "2020-07-13",
-      phone: "010-1234-5678",
-      gender: 0,
-    },
-  };
-};
+exports.empty = () => ({ message: "Empty Object", result: {} });
 
 // email validation view
 exports.emailAvailable = () => ({ message: "success", result: {} });
@@ -35,3 +23,9 @@ exports.signinFail = () => ({ message: "Unauthorized", result: {} });
 // user signout
 exports.deleteRefreshToken = () => ({ message: "Sucess", result: {} });
 exports.deleteRefreshTokenFail = () => ({ message: "No content", result: {} });
+
+// user Detail
+exports.userDetail = (user, schedules) => ({
+  message: "Success",
+  result: { ...user, schedules },
+});
