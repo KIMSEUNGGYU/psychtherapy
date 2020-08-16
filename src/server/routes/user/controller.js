@@ -60,15 +60,16 @@ exports.check = async (req, res, next) => {
 
 exports.detail = async (req, res, next) => {
   let userId = null;
-  if (res.locals.userId && res.locals.userId) userId = res.locals.userId;
+  if (res.locals.userId) userId = res.locals.userId;
   if (userId === null) return res.status(400).json(view.badRequset()); // 이 부분은 필요 없을 수도..
 
+  // user 정보를 가져옴
   const user = await service.getUserDetailPoint(userId);
   // 유저를 받았는데 관련된 유저가 없다면 잘못된 요청 (근데 거의 그럴 일이 없음)
   if (!user) return res.status(200).json(view.badRequset());
 
+  // 해당 유저가 등록한 스케쥴 정보들을 보여줌
   const schedules = await service.getUserSchedule(userId);
 
-  console.log(user, schedules);
   return res.status(200).json(view.userDetail(user, schedules));
 };
