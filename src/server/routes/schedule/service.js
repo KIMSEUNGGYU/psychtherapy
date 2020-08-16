@@ -1,16 +1,26 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
-exports.getSchedules = async partnerId => {
-  return await models.schedules.getScheduleByPartnerId(partnerId);
+exports.getSchedulesByPartnerIdDate = async (partnerId, date) => {
+  try {
+    return await models.schedules.getSchedulesByPartnerIdDate(partnerId, date);
+  } catch (err) {
+    return false;
+  }
 };
 
 exports.createSchedules = async (partnerId, schedules) => {
-  schedules = schedules.map(schedule => {
-    return {
-      partnerId,
-      startedAt: schedule,
-    };
-  });
-  return await models.schedules.createSchedules(schedules);
+  try {
+    schedules = schedules.map(schedule => {
+      return {
+        partnerId,
+        startedAt: schedule,
+      };
+    });
+
+    return await models.schedules.createSchedules(schedules);
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };

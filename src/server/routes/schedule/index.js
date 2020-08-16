@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 const controller = require("./controller");
 
-router.get("/:partnerId", controller.get);
-router.post("/partner", controller.partner);
+router.get("/:partnerId/:date", controller.getPartnerSchedules);
+router.post("/partner", controller.setPartnerSchedules);
 
 module.exports = router;
