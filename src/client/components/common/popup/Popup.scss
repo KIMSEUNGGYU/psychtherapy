@@ -54,6 +54,35 @@
                         font-size: 0.75rem;
                         font-weight: 500;
                     }
+                    .email {
+                        width: 50% !important;
+                    }
+                    &:focus {
+                        border-bottom: 1px solid $primary;
+                    }
+                    &.error {
+                        width: 50% !important;
+                        background: $input_error;
+                        border-bottom: 1px solid $red;
+                    }
+                    .email_validation_button {
+                        width: 19%;
+                        background: #fff;
+                        color: $primary;
+                        height: 1.625rem;
+                        margin-left: 1.25rem;
+                        border: 1px solid $primary;
+                        font-size: 0.75rem;
+                    }
+                    :disabled {
+                        width: 19%;
+                        background: #fff;
+                        height: 1.625rem;
+                        margin-left: 1.25rem;
+                        border: 1px solid $d_font;
+                        font-size: 0.75rem;
+                        color: $d_font;
+                    }
                     input[type="text"] {
                         width: 75%;
                     }
