@@ -39,9 +39,9 @@ export function reducer(
         case LOGIN_SUCCESS:
             const { token, type } = action.payload;
             return {
+                ...state,
                 token,
-                type,
-                ...state
+                type
             };
         default:
             return state;
@@ -68,7 +68,7 @@ function* loginFunc(action) {
             localStorage.setItem("refreshToken", refreshToken);
             callbackFunc();
             if (type === 99) {
-                history.push("/admin");
+                history.push("/admin_users?page=1&size=25");
             }
         }
     } catch (e) {}

@@ -14,7 +14,9 @@ import {
     PageCounselors,
     PageCounselor,
     PageCounselingPayment,
-    PageAdmin,
+    PageAdminUsers,
+    PageAdminPartners,
+    PageAdminWaiters,
     PageScheduleManagement,
     PagePricing
 } from "client/pages";
@@ -46,7 +48,21 @@ const App = (props) => {
                     path="/schedule_management"
                     component={PageScheduleManagement}
                 />
-                <AdminPrivateRoute exact path="/admin" component={PageAdmin} />
+                <AdminPrivateRoute
+                    exact
+                    path="/admin_users"
+                    component={PageAdminUsers}
+                />
+                <AdminPrivateRoute
+                    exact
+                    path="/admin_waiters"
+                    component={PageAdminWaiters}
+                />
+                <AdminPrivateRoute
+                    exact
+                    path="/admin_partners"
+                    component={PageAdminPartners}
+                />
                 <Footer />
                 <LayerPopupContainer {...props} />
             </Router>

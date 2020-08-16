@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./Admin.scss";
 import queryString from "query-string";
 import { Table } from "client/components";
-import { MdPersonAdd } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 
-const AdminWaiters = (props) => {
+const AdminPartners = (props) => {
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
 
     useEffect(() => {
         setQueryData(queryString.parse(props.location.search));
-        props.getPartners({ ...queryData, evaluate: false });
+        props.getPartners({ ...queryData, evaluate: true });
     }, [props.location.search]);
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const AdminWaiters = (props) => {
         ) {
             return;
         }
-        props.history.push(`/admin_waiters?${query}`);
+        props.history.push(`/admin_partners?${query}`);
     }, [queryData]);
 
     const tableProps = {
@@ -34,7 +34,12 @@ const AdminWaiters = (props) => {
             email: "이메일",
             name: "이름",
             gender: "성별",
-            age: "나이"
+            age: "나이",
+            url: "동영상 링크",
+            chatCost: "상담가",
+            keyword: "키워드",
+            level: "레벨",
+            certificate: "자격증"
         },
         tds: props.partners,
         paginationProps: {
@@ -44,10 +49,10 @@ const AdminWaiters = (props) => {
         },
         actions: [
             {
-                ic: <MdPersonAdd />,
-                className: "enter_btn",
+                ic: <MdEdit />,
+                className: "edit_btn",
                 callbackFunc: () => {
-                    console.log("enter info");
+                    console.log("edit info");
                 }
             }
         ]
@@ -62,5 +67,5 @@ const AdminWaiters = (props) => {
     );
 };
 
-export default AdminWaiters;
+export default AdminPartners;
 ``;
