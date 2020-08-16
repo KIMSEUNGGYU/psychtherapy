@@ -38,5 +38,8 @@ module.exports = (sequelize, DataTypes) => {
 
   users.getUser = async email => await users.findOne({ where: { email } });
 
+  users.isUserPartner = async userId =>
+    await users.findOne({ where: { id: userId, type: 1 } });
+
   return users;
 };

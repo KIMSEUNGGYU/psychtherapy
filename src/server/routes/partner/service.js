@@ -1,6 +1,19 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
+exports.isPartnerUser = async partnerId => {
+  try {
+    const partner = await models.users.isUserPartner(partnerId);
+    if (!partner) {
+      throw new TypeError("Partner Type의 유저가 아닙니다.");
+    }
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
+
 exports.getPartnerList = async query => {
   try {
     let condition = {};
@@ -78,7 +91,6 @@ exports.getPartner = async partnerId => {
   try {
     const condition = { partnerId };
     const result = await models.partnerDetails.getPartner(condition, models);
-
     return result;
   } catch (err) {
     return false;
