@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
 import { GoSignOut } from "react-icons/go";
 import { history } from "client/store";
 import { Popup } from "client/components";
-import { getToken, getUserType } from "client/others/token";
+import useReactRouter from "use-react-router";
 
 const Header = (props) => {
+    const {
+        location: { pathname }
+    } = useReactRouter();
+
     // [TO DO] token값으로 변경
     const is_admin = props.token && props.type === 99;
 
@@ -68,11 +72,55 @@ const Header = (props) => {
                         <ul>
                             {is_admin ? (
                                 <ul>
-                                    <li className="active">
-                                        <button>대기자 리스트</button>
+                                    <li
+                                        className={`${
+                                            pathname.includes("admin_users") &&
+                                            "active"
+                                        }`}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                history.push(
+                                                    "admin_users?page=1&size=25"
+                                                )
+                                            }
+                                        >
+                                            피상담자 리스트
+                                        </button>
                                     </li>
-                                    <li>
-                                        <button>상담사 리스트</button>
+                                    <li
+                                        className={`${
+                                            pathname.includes(
+                                                "admin_waiters"
+                                            ) && "active"
+                                        }`}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                history.push(
+                                                    "admin_waiters?page=1&size=25"
+                                                )
+                                            }
+                                        >
+                                            대기자 리스트
+                                        </button>
+                                    </li>
+                                    <li
+                                        className={`${
+                                            pathname.includes(
+                                                "admin_partners"
+                                            ) && "active"
+                                        }`}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                history.push(
+                                                    "admin_partners?page=1&size=25"
+                                                )
+                                            }
+                                        >
+                                            상담사 리스트
+                                        </button>
                                     </li>
                                 </ul>
                             ) : (

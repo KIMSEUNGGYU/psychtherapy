@@ -33,7 +33,6 @@ export function reducer(
         case LOGIN:
             return {
                 ...state,
-
                 loading: true
             };
         case LOGIN_SUCCESS:

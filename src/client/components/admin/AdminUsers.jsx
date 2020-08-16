@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./Admin.scss";
 import queryString from "query-string";
-import { Table } from "client/components";
-import { MdPersonAdd } from "react-icons/md";
+import { Table, Popup } from "client/components";
 
-const AdminWaiters = (props) => {
+const AdminUsers = (props) => {
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
 
     useEffect(() => {
         setQueryData(queryString.parse(props.location.search));
-        props.getPartners({ ...queryData, evaluate: false });
+        props.getUsers(queryData);
     }, [props.location.search]);
 
     useEffect(() => {
@@ -26,31 +25,22 @@ const AdminWaiters = (props) => {
         ) {
             return;
         }
-        props.history.push(`/admin_waiters?${query}`);
+        props.history.push(`/admin_users?${query}`);
     }, [queryData]);
 
     const tableProps = {
         ths: {
-            email: "이메일",
             name: "이름",
             gender: "성별",
-            age: "나이"
+            age: "나이",
+            email: "이메일"
         },
-        tds: props.partners,
+        tds: props.users,
         paginationProps: {
             setQueryData,
             queryData,
             total: props.total
-        },
-        actions: [
-            {
-                ic: <MdPersonAdd />,
-                className: "enter_btn",
-                callbackFunc: () => {
-                    console.log("enter info");
-                }
-            }
-        ]
+        }
     };
     return (
         <div className="admin container">
@@ -62,5 +52,4 @@ const AdminWaiters = (props) => {
     );
 };
 
-export default AdminWaiters;
-``;
+export default AdminUsers;

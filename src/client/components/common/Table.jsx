@@ -4,9 +4,7 @@ import { MdModeEdit, MdDelete, MdEdit } from "react-icons/md";
 import { Pagination } from "client/components";
 
 const Table = (props) => {
-    const {
-        ths, tds, paginationProps
-    } = props;
+    const { ths, tds, actions, paginationProps } = props;
     return (
         <div className="table_box">
             <table>
@@ -15,26 +13,43 @@ const Table = (props) => {
                         {Object.keys(ths).map((el, key) => {
                             return <th key={key}>{ths[el]}</th>;
                         })}
-                        <th></th>
+                        {actions && <th className="actions"></th>}
                     </tr>
                 </thead>
                 <tbody>
                     {tds.map((el, key) => {
                         return (
                             <tr key={key}>
-                                {
-                                    Object.keys(ths).map((ele, i) => {
-                                        return <td>{el[ele]}</td>;
-                                    })
-                                }
-                                <td>
-                                    <button className="edit_btn"><MdEdit /></button>
-                                    <button className="delete_btn"><MdDelete /></button>
-                                </td>
+                                {Object.keys(ths).map((ele, i) => {
+                                    if (ele === "gender") {
+                                        return (
+                                            <td key={i}>
+                                                {el[ele] === 1
+                                                    ? "남자"
+                                                    : "여자"}
+                                            </td>
+                                        );
+                                    }
+                                    return <td key={i}>{el[ele]}</td>;
+                                })}
+                                {actions &&
+                                    actions.map((action, actionKey) => {
+                                        return (
+                                            <td
+                                                className="actions"
+                                                key={actionKey}
+                                            >
+                                                <button
+                                                    className={action.className}
+                                                >
+                                                    {action.ic}
+                                                </button>
+                                            </td>
+                                        );
+                                    })}
                             </tr>
                         );
                     })}
-
                 </tbody>
             </table>
             <Pagination {...paginationProps} />
