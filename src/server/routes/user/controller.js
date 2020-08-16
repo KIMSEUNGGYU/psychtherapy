@@ -47,11 +47,6 @@ exports.signout = async (req, res, next) => {
     : res.status(404).json(view.deleteRefreshTokenFail());
 };
 
-// /user/detail/{userId}
-exports.detail = async (req, res, next) => {
-  res.status(200).json(view.detail());
-};
-
 exports.check = async (req, res, next) => {
   const email = req.query["email"];
 
@@ -61,4 +56,20 @@ exports.check = async (req, res, next) => {
   return user
     ? res.status(409).json(view.emailNotAvailable()) // 리소스 충돌 409
     : res.status(200).json(view.emailAvailable());
+};
+
+exports.detail = async (req, res, next) => {
+  let userId = null;
+  if (res.locals.userId) userId = res.locals.userId;
+  if (userId === null) return res.status(400).json(view.badRequset()); // 이 부분은 필요 없을 수도..
+
+  // user 정보를 가져옴
+  const user = await service.getUserDetailPoint(userId);
+  // 유저를 받았는데 관련된 유저가 없다면 잘못된 요청 (근데 거의 그럴 일이 없음)
+  if (!user) return res.status(200).json(view.badRequset());
+
+  // 해당 유저가 등록한 스케쥴 정보들을 보여줌
+  const schedules = await service.getUserSchedule(userId);
+
+  return res.status(200).json(view.userDetail(user, schedules));
 };

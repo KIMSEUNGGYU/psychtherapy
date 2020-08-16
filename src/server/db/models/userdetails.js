@@ -63,5 +63,30 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  userDetails.getUserPoint = async (models, userId) => {
+    return userDetails.findOne({
+      raw: true,
+      attributes: {
+        include: [
+          [sequelize.col("user.id"), "id"],
+          [sequelize.col("user.email"), "email"],
+          [sequelize.col("point.point"), "point"],
+        ],
+        exclude: ["id", "userId", "createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: models.users,
+          attributes: [],
+        },
+        {
+          model: models.points,
+          attributes: [],
+        },
+      ],
+      where: { userId },
+    });
+  };
+
   return userDetails;
 };
