@@ -5,7 +5,10 @@ import Pagination from "client/components/common/Pagination";
 import Table from "client/components/common/Table";
 import Scheduler from "client/components/common/Scheduler";
 
-import Admin from "client/components/admin/Admin";
+import AdminUsers from "client/components/admin/AdminUsers";
+import AdminWaiters from "client/components/admin/AdminWaiters";
+import AdminPartners from "client/components/admin/AdminPartners";
+
 import Home from "client/components/home/Home";
 import Main from "client/components/home/Main";
 import Services from "client/components/home/Services";
@@ -25,7 +28,9 @@ export {
     Header,
     Footer,
     Popup,
-    Admin,
+    AdminUsers,
+    AdminWaiters,
+    AdminPartners,
     Home,
     Main,
     Services,

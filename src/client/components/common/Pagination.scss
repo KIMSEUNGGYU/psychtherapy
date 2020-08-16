@@ -10,6 +10,8 @@
 }
 .dropdown-box {
     position: relative;
+    display: inline-block;
+    margin-left: 0.5rem;
     cursor: pointer;
 
     svg {

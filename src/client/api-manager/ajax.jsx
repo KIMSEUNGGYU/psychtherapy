@@ -32,7 +32,7 @@ export default class Ajax {
                 typeof options.headerAuthorization === "string"
                     ? options.headerAuthorization
                     : options.headerAuthorization();
-            const keyAuthorization = "Authorization";
+            const keyAuthorization = "x-access-token";
             config.headers.common[keyAuthorization] = authorization;
         }
         if (options.headers) {

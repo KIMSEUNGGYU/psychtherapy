@@ -1,13 +1,13 @@
 import Ajax from "./ajax";
-// import { getToken } from "client/others/token";
+import { getToken } from "client/others/token";
 
 class ResourceService extends Ajax {
     constructor(host) {
         super({
             headerAuthorization: () => {
-                // if (getToken()) {
-                //   return `Bearer ${getToken()}`;
-                // }
+                if (getToken()) {
+                    return getToken();
+                }
                 return "";
             },
             headers: {
