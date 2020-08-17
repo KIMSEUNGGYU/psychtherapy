@@ -1,5 +1,7 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Sequelize } = require("sequelize");
+const Op = Sequelize.Op;
+const moment = require("moment");
 
 module.exports = (sequelize, DataTypes) => {
   class schedules extends Model {
@@ -26,19 +28,40 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  schedules.getScheduleByPartnerId = async partnerId => {
+  schedules.getSchedulesByPartnerIdDate = async (partnerId, date) => {
+    let startDate = date;
+    let endDate = moment(date, "YYYY-MM-DD").format("YYYY-MM-DD 23:59:59");
+
     return await schedules.findAll({
       attributes: [
         ["id", "scheduleId"],
         [sequelize.literal("IF (userId IS NULL, false, true)"), "reservation"],
         "startedAt",
       ],
-      where: { partnerId },
+      where: {
+        partnerId,
+        startedAt: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
     });
   };
 
   schedules.createSchedules = async _schedules => {
-    return await schedules.bulkCreate(_schedules);
+    try {
+      return await schedules.bulkCreate(_schedules);
+    } catch (err) {
+      return false;
+    }
+  };
+
+  schedules.deleteSchedules = async (partnerId, scheduleId) => {
+    await schedules.destroy({
+      where: {
+        partnerId: partnerId,
+        id: scheduleId,
+      },
+    });
   };
 
   schedules.reserveConfirm = async (
