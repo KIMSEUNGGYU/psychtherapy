@@ -309,6 +309,9 @@
               }
             }
           },
+          "204": {
+            "$ref": "#/components/responses/Empty"
+          },
           "400": {
             "$ref": "#/components/responses/BadRequest"
           },
@@ -735,6 +738,40 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["schedule"],
+        "summary": "상담사 스케쥴 삭제 API",
+        "security": [
+          {
+            "X_API_KEY": []
+          },
+          {
+            "X_ACCESS_TOKEN": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/partnerIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/scheduleIdParam"
+          }
+        ],
         "responses": {
           "200": {
             "$ref": "#/components/responses/Success"
@@ -1372,6 +1409,15 @@
       }
     },
     "parameters": {
+      "scheduleIdParam": {
+        "in": "query",
+        "name": "scheduleId",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
       "dateParam": {
         "in": "path",
         "name": "date",
@@ -1384,6 +1430,15 @@
       "userIdParam": {
         "in": "path",
         "name": "userId",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "example": 10
+        }
+      },
+      "partnerIdQueryParam": {
+        "in": "query",
+        "name": "partnerId",
         "required": true,
         "schema": {
           "type": "integer",
