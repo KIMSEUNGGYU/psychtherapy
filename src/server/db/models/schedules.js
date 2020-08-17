@@ -44,7 +44,6 @@ module.exports = (sequelize, DataTypes) => {
           [Op.between]: [startDate, endDate],
         },
       },
-      logging: console.log,
     });
   };
 
@@ -54,6 +53,15 @@ module.exports = (sequelize, DataTypes) => {
     } catch (err) {
       return false;
     }
+  };
+
+  schedules.deleteSchedules = async (partnerId, scheduleId) => {
+    await schedules.destroy({
+      where: {
+        partnerId: partnerId,
+        id: scheduleId,
+      },
+    });
   };
 
   schedules.reserveConfirm = async (

@@ -9,6 +9,15 @@ exports.getSchedulesByPartnerIdDate = async (partnerId, date) => {
   }
 };
 
+exports.deleteSchedules = async (partnerId, scheduleId) => {
+  try {
+    models.schedules.deleteSchedules(partnerId, scheduleId);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
 exports.createSchedules = async (partnerId, schedules) => {
   try {
     schedules = schedules.map(schedule => {

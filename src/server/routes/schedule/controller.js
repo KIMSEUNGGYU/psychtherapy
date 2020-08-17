@@ -8,10 +8,9 @@ exports.getPartnerSchedules = async (req, res, next) => {
   if (!partnerId) return res.status(400).json(view.badRequest());
 
   const success = await service.getSchedulesByPartnerIdDate(partnerId, date);
-  console.log(`success : ${success}`);
   if (!success) return res.status(400).json(view.badRequest());
 
-  success.length
+  return success.length
     ? res.status(200).json(view.scheduleList(success))
     : res.status(204).json(view.empty());
 };
@@ -26,7 +25,19 @@ exports.setPartnerSchedules = async (req, res, next) => {
   const success = await service.createSchedules(partnerId, schedules);
   if (!success) return res.status(400).json(view.badRequest());
 
-  success
-    ? res.status(200).json({ message: "Success", result: {} })
-    : res.status(400).json({ message: "Bad Request", result: {} });
+  return success
+    ? res.status(200).json(view.success())
+    : res.status(400).json(view.badRequest());
+};
+
+exports.deletePartnerSchedules = async (req, res, next) => {
+  const partnerId = req.query["partnerId"];
+  const scheduleId = req.query["scheduleId"];
+
+  const success = await service.deleteSchedules(partnerId, scheduleId);
+  if (!success) return res.status(400).json(view.badRequest());
+
+  return success
+    ? res.status(200).json(view.success())
+    : res.status(400).json(view.badRequest());
 };

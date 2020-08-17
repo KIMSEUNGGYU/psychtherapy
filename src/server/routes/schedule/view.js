@@ -1,3 +1,4 @@
+exports.success = () => ({ message: "Success", result: {} });
 exports.scheduleList = schedules => ({
   message: "Success",
   result: { schedules },
