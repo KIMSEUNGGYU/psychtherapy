@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./Admin.scss";
 import queryString from "query-string";
-import { Table } from "client/components";
+import { Table, Popup } from "client/components";
 import { MdEdit } from "react-icons/md";
 
 const AdminPartners = (props) => {
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
+    useEffect(() => {
+        console.log("??????");
+        Popup.partnerProfilePopup({
+            className: "partner_profile",
+            type: "enter"
+        });
+    }, []);
 
     useEffect(() => {
         setQueryData(queryString.parse(props.location.search));

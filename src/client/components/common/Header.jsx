@@ -2,18 +2,24 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
+import { getToken, getUserType } from "client/others/token";
 import { GoSignOut } from "react-icons/go";
 import { history } from "client/store";
 import { Popup } from "client/components";
 import useReactRouter from "use-react-router";
 
 const Header = (props) => {
+    const [is_admin, setIsAdmin] = useState(props.token && props.type === 99);
     const {
         location: { pathname }
     } = useReactRouter();
 
     // [TO DO] token값으로 변경
-    const is_admin = props.token && props.type === 99;
+    useEffect(() => {
+        console.log(props.token, props.type);
+        const _is_admin = getToken() && getUserType() === 99;
+        setIsAdmin(_is_admin);
+    }, [props.token, props.type]);
 
     const onClickLogin = () => {
         Popup.loginPopup({ className: "login" });

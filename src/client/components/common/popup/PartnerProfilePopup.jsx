@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import {
     MdRadioButtonChecked,
     MdRadioButtonUnchecked,
@@ -7,8 +7,10 @@ import {
     MdFileUpload
 } from "react-icons/md";
 import doc1 from "client/images/doc1.jpg";
+// import { keywords } from "client/others/const";
 
-const ProfilePopup = () => {
+const PartnerProfilePopup = (props) => {
+    const [partnerData, setPartnerData] = useState({});
     return (
         <Fragment>
             <p className="title">파트너 정보 입력</p>
@@ -66,11 +68,18 @@ const ProfilePopup = () => {
                                 <span className="label">한줄 소개</span>
                                 <input type="text" />
                             </li>{" "}
-                            <li className="career_box">
+                            <li>
                                 <span className="label">경력</span>
                                 <span>
                                     <input type="text" />
-                                    <button>+</button>
+                                    {/* <button>+</button> */}
+                                </span>
+                            </li>{" "}
+                            <li>
+                                <span className="label">동영상 링크</span>
+                                <span>
+                                    <input type="text" />
+                                    {/* <button>+</button> */}
                                 </span>
                             </li>{" "}
                             <li>
@@ -110,68 +119,20 @@ const ProfilePopup = () => {
                             <li className="keyword_box">
                                 <span className="label">키워드</span>
                                 <div className="checkbox_box">
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        우울
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        불안
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        강박
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        무기력
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        자살
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        친구
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        자해
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        공황
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        부부
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        연인
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        취업
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        진로
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        성소수자
-                                    </button>
-                                    <button>
-                                        <MdCheckBoxOutlineBlank />
-                                        공황장애
-                                    </button>
+                                    {/* {keywords.map((el, key) => {
+                                        return (
+                                            <button key={key}>
+                                                <MdRadioButtonUnchecked />
+                                                {el}
+                                            </button>
+                                        );
+                                    })} */}
                                 </div>
                             </li>
                             <li>
                                 <span className="label">상세 정보</span>
                                 <input type="textarea" />
-                            </li>{" "}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -181,4 +142,4 @@ const ProfilePopup = () => {
     );
 };
 
-export default ProfilePopup;
+export default PartnerProfilePopup;

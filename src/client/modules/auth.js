@@ -2,7 +2,6 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import api_manager from "client/api-manager";
 import { parsingToken } from "client/others/token";
 import { history } from "client/store";
-import { getToken, getUserType } from "../others/token";
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILURE = "LOGIN_FAILURE";
@@ -24,8 +23,8 @@ export const actions = {
 
 export function reducer(
     state = {
-        token: getToken(),
-        type: getUserType()
+        token: "",
+        type: ""
     },
     action
 ) {
@@ -38,9 +37,9 @@ export function reducer(
         case LOGIN_SUCCESS:
             const { token, type } = action.payload;
             return {
+                ...state,
                 token,
-                type,
-                ...state
+                type
             };
         default:
             return state;
@@ -67,7 +66,7 @@ function* loginFunc(action) {
             localStorage.setItem("refreshToken", refreshToken);
             callbackFunc();
             if (type === 99) {
-                history.push("/admin");
+                history.push("/admin_users?page=1&size=25");
             }
         }
     } catch (e) {}

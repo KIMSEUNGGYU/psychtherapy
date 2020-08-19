@@ -9,6 +9,10 @@ const GET_PARTNERS = "GET_PARTNERS";
 const GET_PARTNERS_SUCCESS = "GET_PARTNERS_SUCCESS";
 const GET_PARTNERS_FAILURE = "GET_PARTNERS_FAILURE";
 
+const PUT_PARTNER = "PUT_PARTNER";
+const PUT_PARTNER_SUCCESS = "PUT_PARTNER_SUCCESS";
+const PUT_PARTNER_FAILURE = "PUT_PARTNER_FAILURE";
+
 export const actions = {
     getUsers: (payload) => ({
         type: GET_USERS,
@@ -34,6 +38,18 @@ export const actions = {
     getPartnersFailure: (payload) => ({
         type: GET_PARTNERS_FAILURE,
         payload
+    }),
+
+    putPartners: (payload) => ({
+        type: PUT_PARTNER,
+        payload
+    }),
+    putPartnersSuccess: () => ({
+        type: PUT_PARTNER_SUCCESS
+    }),
+    putPartnersFailure: (payload) => ({
+        type: PUT_PARTNER_FAILURE,
+        payload
     })
 };
 
@@ -42,7 +58,24 @@ export function reducer(
         users: [],
         usersTotal: 0,
         partners: [],
-        partnersTotal: 0
+        partnersTotal: 0,
+        //[TO DO] module partners로 이동
+        partner: {
+            email: "",
+            name: "",
+            phoneNumber: "",
+            gender: 0,
+            age: 0,
+            url: "",
+            shortInfo: "",
+            career: "",
+            info: "",
+            chatCost: 0,
+            level: 0,
+            certificate: 0,
+            image: "",
+            evaluate: false
+        }
     },
     action
 ) {
@@ -84,6 +117,10 @@ export const api = {
         return await api_manager.get(
             `/admin/partners?page=${page}&size=${size}&evaluate=${evaluate}`
         );
+    },
+    putPartner: async (payload) => {
+        const { id, partnerData } = payload;
+        return await api_manager.put(`/partner/detail/${id}`, partnerData);
     }
 };
 
@@ -123,7 +160,22 @@ function* getPartnersFunc(action) {
     }
 }
 
+function* putPartnerFunc(action) {
+    try {
+        const { payload } = action;
+        const res = yield call(api.putPartner, payload);
+        if (res) {
+            yield put({
+                type: PUT_PARTNER_SUCCESS
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export function* saga() {
     yield takeEvery(GET_USERS, getUsersFunc);
     yield takeEvery(GET_PARTNERS, getPartnersFunc);
+    yield takeEvery(PUT_PARTNER, putPartnerFunc);
 }
