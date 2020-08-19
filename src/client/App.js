@@ -30,17 +30,17 @@ const App = (props) => {
                 <PublicRoute exact path="/" component={PageHome} />
                 <PublicRoute
                     exact
-                    path="/counselors"
+                    path="/partners"
                     component={PageCounselors}
                 />
                 <PublicRoute
                     exact
-                    path="/counselors/:id"
+                    path="/partners/:id"
                     component={PageCounselor}
                 />
                 <PublicRoute
                     exact
-                    path="/counselors/:id/counseling_payment"
+                    path="/partners/:id/counseling_payment"
                     component={PageCounselingPayment}
                 />
                 <PublicRoute exact path="/pricing" component={PagePricing} />

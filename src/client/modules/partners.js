@@ -1,69 +1,65 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import api_manager from "client/api-manager";
 
-const GET_USERS = "GET_USERS";
-const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
-const GET_USERS_FAILURE = "GET_USERS_FAILURE";
+const GET_PARTNER = "GET_PARTNER";
+const GET_PARTNER_SUCCESS = "GET_PARTNER_SUCCESS";
+const GET_PARTNER_FAILURE = "GET_PARTNER_FAILURE";
 
-const GET_ADMIN_PARTNERS = "GET_ADMIN_PARTNERS";
-const GET_ADMIN_PARTNERS_SUCCESS = "GET_ADMIN_PARTNERS_SUCCESS";
-const GET_ADMIN_PARTNERS_FAILURE = "GET_ADMIN_PARTNERS_FAILURE";
+const GET_PARTNERS = "GET_PARTNERS";
+const GET_PARTNERS_SUCCESS = "GET_PARTNERS_SUCCESS";
+const GET_PARTNERS_FAILURE = "GET_PARTNERS_FAILURE";
 
 export const actions = {
-    getUsers: (payload) => ({
-        type: GET_USERS,
+    getPartner: (payload) => ({
+        type: GET_PARTNER,
         payload
     }),
-    getUsersSuccess: (payload) => ({
-        type: GET_USERS_SUCCESS,
+    getPartnerSuccess: (payload) => ({
+        type: GET_PARTNER_SUCCESS,
         payload
     }),
-    getUsersFailure: (payload) => ({
-        type: GET_USERS_FAILURE,
+    getPartnerFailure: (payload) => ({
+        type: GET_PARTNER_FAILURE,
         payload
     }),
 
     getPartners: (payload) => ({
-        type: GET_ADMIN_PARTNERS,
+        type: GET_PARTNERS,
         payload
     }),
     getPartnersSuccess: (payload) => ({
-        type: GET_ADMIN_PARTNERS_SUCCESS,
+        type: GET_PARTNERS_SUCCESS,
         payload
     }),
     getPartnersFailure: (payload) => ({
-        type: GET_ADMIN_PARTNERS_FAILURE,
+        type: GET_PARTNERS_FAILURE,
         payload
     })
 };
 
 export function reducer(
     state = {
-        users: [],
-        usersTotal: 0,
+        partner: {},
         partners: [],
         partnersTotal: 0
     },
     action
 ) {
     switch (action.type) {
-        case GET_USERS:
+        case GET_PARTNER:
             return {
                 ...state,
                 loading: true
             };
-        case GET_USERS_SUCCESS:
-            const { users, usersTotal } = action.payload;
-            console.log(users, "users");
+        case GET_PARTNER_SUCCESS:
+            const { partner } = action.payload;
             return {
                 ...state,
-                users,
-                usersTotal,
+                partner,
                 loading: false
             };
-        case GET_ADMIN_PARTNERS_SUCCESS:
+        case GET_PARTNERS_SUCCESS:
             const { partners, partnersTotal } = action.payload;
-            console.log(partners, "partners");
             return {
                 ...state,
                 partners,
@@ -75,28 +71,29 @@ export function reducer(
     }
 }
 export const api = {
-    getUsers: async (payload) => {
+    getPartner: async (payload) => {
         const { page, size } = payload;
-        return await api_manager.get(`/admin/users?page=${page}&size=${size}`);
+        // return await api_manager.get(
+        //     `/partner?page=${page}&size=${size}`
+        // );
     },
     getPartners: async (payload) => {
-        const { page, size, evaluate } = payload;
+        const { page, size, gender, level, certificate, keyword } = payload;
         return await api_manager.get(
-            `/admin/partners?page=${page}&size=${size}&evaluate=${evaluate}`
+            `/partner?page=1&size=15&gender=${gender}&level=${level}&certificate=${certificate}&keyword=${keyword}`
         );
     }
 };
 
-function* getUsersFunc(action) {
+function* getPartnerFunc(action) {
     try {
         const { payload } = action;
-        const res = yield call(api.getUsers, payload);
+        const res = yield call(api.getPartner, payload);
         if (res) {
             yield put({
-                type: GET_USERS_SUCCESS,
+                type: GET_PARTNER_SUCCESS,
                 payload: {
-                    users: res.result.users,
-                    usersTotal: res.result.totalCount
+                    partner: res.result.partner
                 }
             });
         }
@@ -111,7 +108,7 @@ function* getPartnersFunc(action) {
         const res = yield call(api.getPartners, payload);
         if (res) {
             yield put({
-                type: GET_ADMIN_PARTNERS_SUCCESS,
+                type: GET_PARTNERS_SUCCESS,
                 payload: {
                     partners: res.result.partners,
                     partnersTotal: res.result.totalCount
@@ -124,6 +121,6 @@ function* getPartnersFunc(action) {
 }
 
 export function* saga() {
-    yield takeEvery(GET_USERS, getUsersFunc);
-    yield takeEvery(GET_ADMIN_PARTNERS, getPartnersFunc);
+    yield takeEvery(GET_PARTNER, getPartnerFunc);
+    yield takeEvery(GET_PARTNERS, getPartnersFunc);
 }

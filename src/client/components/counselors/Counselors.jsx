@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Counselors.scss";
+import queryString from "query-string";
 import { history } from "client/store";
 import { MdZoomIn } from "react-icons/md";
 import { FaBitcoin } from "react-icons/fa";
@@ -8,14 +9,36 @@ import doc1 from "client/images/doc1.jpg";
 import doc2 from "client/images/doc2.jpg";
 import doc3 from "client/images/doc3.jpg";
 
-const Counselors = () => {
+const Counselors = (props) => {
+    const [queryData, setQueryData] = useState(
+        queryString.parse(props.location.search)
+    );
+    console.log(queryData);
+
+    useEffect(() => {
+        setQueryData(queryString.parse(props.location.search));
+        props.getPartners({ ...queryData, evaluate: true });
+    }, [props.location.search]);
+
+    useEffect(() => {
+        const query = queryString.stringify(queryData, {
+            arrayFormat: "comma",
+            skipEmptyString: true,
+            skipNull: true
+        });
+        if (
+            queryString.stringify(queryString.parse(props.location.search)) ===
+            query
+        ) {
+            return;
+        }
+        props.history.push(`/partners?${query}`);
+    }, [queryData]);
+    const filterProps = {};
     const paginationProps = {
-        total: 80,
-        queryData: {
-            limit: "25",
-            offset: "0"
-        },
-        setQueryData: () => {}
+        setQueryData,
+        queryData,
+        total: props.total
     };
 
     return (
@@ -23,12 +46,9 @@ const Counselors = () => {
             <div className="layout  flex_box between">
                 <Filter />
                 <div className="counselors_box">
-                    <p className="count">검색결과 (6건)</p>
+                    <p className="count">검색결과 ({props.total}건)</p>
                     <ul className="flex_box between">
                         <li className="counselor">
-                            <div className="point_box">
-                                <FaBitcoin /> 5point
-                            </div>
                             <img src={doc1} alt="" />
                             <div className="txt_box">
                                 <p className="level">마스터</p>
@@ -51,9 +71,6 @@ const Counselors = () => {
                             </div>
                         </li>
                         <li className="counselor">
-                            <div className="point_box">
-                                <FaBitcoin /> 5point
-                            </div>
                             <img src={doc2} alt="" />
                             <div className="txt_box">
                                 <p className="level">마스터</p>
@@ -71,9 +88,6 @@ const Counselors = () => {
                             </div>
                         </li>
                         <li className="counselor">
-                            <div className="point_box">
-                                <FaBitcoin /> 5point
-                            </div>
                             <img src={doc3} alt="" />
                             <div className="txt_box">
                                 <p className="level">마스터</p>
@@ -91,9 +105,6 @@ const Counselors = () => {
                             </div>
                         </li>
                         <li className="counselor">
-                            <div className="point_box">
-                                <FaBitcoin /> 5point
-                            </div>
                             <img src={doc2} alt="" />
                             <div className="txt_box">
                                 <p className="level">마스터</p>
@@ -111,9 +122,6 @@ const Counselors = () => {
                             </div>
                         </li>
                         <li className="counselor">
-                            <div className="point_box">
-                                <FaBitcoin /> 5point
-                            </div>
                             <img src={doc3} alt="" />
                             <div className="txt_box">
                                 <p className="level">마스터</p>
@@ -131,9 +139,6 @@ const Counselors = () => {
                             </div>
                         </li>
                         <li className="counselor">
-                            <div className="point_box">
-                                <FaBitcoin /> 5point
-                            </div>
                             <img src={doc1} alt="" />
                             <div className="txt_box">
                                 <p className="level">마스터</p>

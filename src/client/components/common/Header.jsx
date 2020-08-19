@@ -21,9 +21,7 @@ const Header = (props) => {
     const onClickJoin = () => {
         Popup.joinPopup({ className: "join" });
     };
-    const onClickCounselors = () => {
-        history.push("/counselors");
-    };
+
     return (
         <div className="header">
             <div className="header_top">
@@ -143,7 +141,11 @@ const Header = (props) => {
                                     <li>
                                         <button
                                             className="last_btn"
-                                            onClick={onClickCounselors}
+                                            onClick={() =>
+                                                history.push(
+                                                    "partners?page=1&size=25&gender=1&level=1&certificate=1&keyword=%EB%B6%88%EC%95%88"
+                                                )
+                                            }
                                         >
                                             나만의 상담사 찾기
                                         </button>
