@@ -34,7 +34,11 @@ const Counselors = (props) => {
         }
         props.history.push(`/partners?${query}`);
     }, [queryData]);
-    const filterProps = {};
+
+    const filterProps = {
+        setQueryData,
+        queryData
+    };
     const paginationProps = {
         setQueryData,
         queryData,
@@ -44,7 +48,7 @@ const Counselors = (props) => {
     return (
         <div className="container counselors">
             <div className="layout  flex_box between">
-                <Filter />
+                <Filter {...filterProps} />
                 <div className="counselors_box">
                     <p className="count">검색결과 ({props.total}건)</p>
                     <ul className="flex_box between">
