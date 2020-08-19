@@ -58,24 +58,8 @@ export function reducer(
         users: [],
         usersTotal: 0,
         partners: [],
-        partnersTotal: 0,
+        partnersTotal: 0
         //[TO DO] module partners로 이동
-        partner: {
-            email: "",
-            name: "",
-            phoneNumber: "",
-            gender: 0,
-            age: 0,
-            url: "",
-            shortInfo: "",
-            career: "",
-            info: "",
-            chatCost: 0,
-            level: 0,
-            certificate: 0,
-            image: "",
-            evaluate: false
-        }
     },
     action
 ) {

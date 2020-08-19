@@ -23,7 +23,24 @@ export const actions = {
 export function reducer(
     state = {
         partners: [],
-        total: 0
+        total: 0,
+        partner: {
+            email: "",
+            name: "",
+            phoneNumber: "",
+            gender: 1,
+            age: 0,
+            keyword: "우울",
+            url: "",
+            shortInfo: "",
+            career: "",
+            info: "",
+            chatCost: 0,
+            level: 1,
+            certificate: 1,
+            image: "",
+            evaluate: false
+        }
     },
     action
 ) {

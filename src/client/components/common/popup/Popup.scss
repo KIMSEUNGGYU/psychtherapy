@@ -177,6 +177,9 @@
                 margin-top: 2rem;
                 font-size: 1rem;
             }
+            #file-upload {
+                display: none;
+            }
             .left_box,
             .right_box {
                 width: 50%;
@@ -239,6 +242,9 @@
                     border: 1px solid $primary;
                     color: $primary;
                     font-size: 0.8rem;
+                    line-height: 2rem;
+                    text-align: center;
+                    cursor: pointer;
                 }
             }
             .input_box {
