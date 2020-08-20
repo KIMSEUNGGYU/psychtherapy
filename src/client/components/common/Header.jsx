@@ -36,8 +36,12 @@ const Header = (props) => {
                             +82 02-000-0000
                         </span>
                     </div>
+                    {/* [TO DO] logout처리 */}
                     {is_admin ? (
-                        <button className="logout-btn">
+                        <button
+                            className="logout-btn"
+                            onClick={() => localStorage.removeItem("token")}
+                        >
                             <GoSignOut />
                             로그아웃
                         </button>
@@ -79,7 +83,7 @@ const Header = (props) => {
                                         <button
                                             onClick={() =>
                                                 history.push(
-                                                    "admin_users?page=1&size=25"
+                                                    "/admin_users?page=1&size=25"
                                                 )
                                             }
                                         >
@@ -96,7 +100,7 @@ const Header = (props) => {
                                         <button
                                             onClick={() =>
                                                 history.push(
-                                                    "admin_waiters?page=1&size=25"
+                                                    "/admin_waiters?page=1&size=25"
                                                 )
                                             }
                                         >
@@ -113,7 +117,7 @@ const Header = (props) => {
                                         <button
                                             onClick={() =>
                                                 history.push(
-                                                    "admin_partners?page=1&size=25"
+                                                    "/admin_partners?page=1&size=25"
                                                 )
                                             }
                                         >
@@ -143,7 +147,7 @@ const Header = (props) => {
                                             className="last_btn"
                                             onClick={() =>
                                                 history.push(
-                                                    "partners?page=1&size=25&gender=1&level=1&certificate=1&keyword=%EB%B6%88%EC%95%88"
+                                                    "/partners?page=1&size=25&gender=1&level=1&certificate=1&keyword=%EB%B6%88%EC%95%88"
                                                 )
                                             }
                                         >

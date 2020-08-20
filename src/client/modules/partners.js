@@ -72,15 +72,13 @@ export function reducer(
 }
 export const api = {
     getPartner: async (payload) => {
-        const { page, size } = payload;
-        // return await api_manager.get(
-        //     `/partner?page=${page}&size=${size}`
-        // );
+        const { id } = payload;
+        return await api_manager.get(`/partner/detail/${id}`);
     },
     getPartners: async (payload) => {
         const { page, size, gender, level, certificate, keyword } = payload;
         return await api_manager.get(
-            `/partner?page=1&size=15&gender=${gender}&level=${level}&certificate=${certificate}&keyword=${keyword}`
+            `/partner?page=${page}&size=${size}&gender=${gender}&level=${level}&certificate=${certificate}&keyword=${keyword}`
         );
     }
 };
@@ -106,6 +104,7 @@ function* getPartnersFunc(action) {
     try {
         const { payload } = action;
         const res = yield call(api.getPartners, payload);
+        //[TO DO]
         if (res) {
             yield put({
                 type: GET_PARTNERS_SUCCESS,
@@ -114,9 +113,18 @@ function* getPartnersFunc(action) {
                     partnersTotal: res.result.totalCount
                 }
             });
+        } else {
+            yield put({
+                type: GET_PARTNERS_SUCCESS,
+                payload: {
+                    partners: [],
+                    partnersTotal: 0
+                }
+            });
         }
     } catch (e) {
-        console.log(e);
+        console.log(e, "res");
+        console.log(e.response);
     }
 }
 

@@ -35,17 +35,18 @@ const App = (props) => {
                 />
                 <PublicRoute
                     exact
-                    path="/partners/:id"
+                    path="/partners/:prev_search/:id"
                     component={PageCounselor}
                 />
                 <PublicRoute
                     exact
-                    path="/partners/:id/counseling_payment"
+                    path="counseling_payment"
                     component={PageCounselingPayment}
                 />
                 <PublicRoute exact path="/pricing" component={PagePricing} />
                 <PrivateRoute
-                    path="/schedule_management"
+                    exact
+                    path="/partners/:id/schedule_management"
                     component={PageScheduleManagement}
                 />
                 <AdminPrivateRoute

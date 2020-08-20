@@ -5,14 +5,21 @@ import doc1 from "client/images/doc1.jpg";
 import { Scheduler } from "client/components";
 
 const Counselor = (props) => {
+    const { prev_search, id } = props.match.params;
     console.log(props, "props");
     return (
         <div className="container counselor">
             <div className="layout">
                 <div className="breadcrumb">
-                    <button>홈</button>
+                    <button onClick={() => props.history.push("/")}>홈</button>
                     <span> &#62; </span>
-                    <button>나만의 상담사 찾기</button>
+                    <button
+                        onClick={() =>
+                            props.history.push(`/partners?${prev_search}`)
+                        }
+                    >
+                        나만의 상담사 찾기
+                    </button>
                     <span> &#62; </span>
                     <button>상담사 상세 정보</button>
                 </div>
