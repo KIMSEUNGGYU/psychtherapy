@@ -27,9 +27,7 @@ const Header = (props) => {
     const onClickJoin = () => {
         Popup.joinPopup({ className: "join" });
     };
-    const onClickCounselors = () => {
-        history.push("/counselors");
-    };
+
     return (
         <div className="header">
             <div className="header_top">
@@ -44,8 +42,12 @@ const Header = (props) => {
                             +82 02-000-0000
                         </span>
                     </div>
+                    {/* [TO DO] logout처리 */}
                     {is_admin ? (
-                        <button className="logout-btn">
+                        <button
+                            className="logout-btn"
+                            onClick={() => localStorage.removeItem("token")}
+                        >
                             <GoSignOut />
                             로그아웃
                         </button>
@@ -87,7 +89,7 @@ const Header = (props) => {
                                         <button
                                             onClick={() =>
                                                 history.push(
-                                                    "admin_users?page=1&size=25"
+                                                    "/admin_users?page=1&size=25"
                                                 )
                                             }
                                         >
@@ -104,7 +106,7 @@ const Header = (props) => {
                                         <button
                                             onClick={() =>
                                                 history.push(
-                                                    "admin_waiters?page=1&size=25"
+                                                    "/admin_waiters?page=1&size=25"
                                                 )
                                             }
                                         >
@@ -121,7 +123,7 @@ const Header = (props) => {
                                         <button
                                             onClick={() =>
                                                 history.push(
-                                                    "admin_partners?page=1&size=25"
+                                                    "/admin_partners?page=1&size=25"
                                                 )
                                             }
                                         >
@@ -149,7 +151,11 @@ const Header = (props) => {
                                     <li>
                                         <button
                                             className="last_btn"
-                                            onClick={onClickCounselors}
+                                            onClick={() =>
+                                                history.push(
+                                                    "/partners?page=1&size=25&gender=1&level=1&certificate=1&keyword=우울"
+                                                )
+                                            }
                                         >
                                             나만의 상담사 찾기
                                         </button>

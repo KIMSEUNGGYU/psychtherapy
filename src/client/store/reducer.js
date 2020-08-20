@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 import { reducer as auth } from "client/modules/auth";
 import { reducer as user } from "client/modules/user";
 import { reducer as admin } from "client/modules/admin";
-import { reducer as counselors } from "client/modules/counselors";
+import { reducer as partners } from "client/modules/partners";
 
 import history from "./history";
 const createRootReducer = (_history) =>
@@ -11,7 +11,7 @@ const createRootReducer = (_history) =>
         auth,
         user,
         admin,
-        counselors
+        partners
     });
 
 const rootReducer = createRootReducer(history);
