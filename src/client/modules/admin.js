@@ -5,9 +5,9 @@ const GET_USERS = "GET_USERS";
 const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 const GET_USERS_FAILURE = "GET_USERS_FAILURE";
 
-const GET_PARTNERS = "GET_PARTNERS";
-const GET_PARTNERS_SUCCESS = "GET_PARTNERS_SUCCESS";
-const GET_PARTNERS_FAILURE = "GET_PARTNERS_FAILURE";
+const GET_ADMIN_PARTNERS = "GET_ADMIN_PARTNERS";
+const GET_ADMIN_PARTNERS_SUCCESS = "GET_ADMIN_PARTNERS_SUCCESS";
+const GET_ADMIN_PARTNERS_FAILURE = "GET_ADMIN_PARTNERS_FAILURE";
 
 export const actions = {
     getUsers: (payload) => ({
@@ -24,15 +24,15 @@ export const actions = {
     }),
 
     getPartners: (payload) => ({
-        type: GET_PARTNERS,
+        type: GET_ADMIN_PARTNERS,
         payload
     }),
     getPartnersSuccess: (payload) => ({
-        type: GET_PARTNERS_SUCCESS,
+        type: GET_ADMIN_PARTNERS_SUCCESS,
         payload
     }),
     getPartnersFailure: (payload) => ({
-        type: GET_PARTNERS_FAILURE,
+        type: GET_ADMIN_PARTNERS_FAILURE,
         payload
     })
 };
@@ -61,7 +61,7 @@ export function reducer(
                 usersTotal,
                 loading: false
             };
-        case GET_PARTNERS_SUCCESS:
+        case GET_ADMIN_PARTNERS_SUCCESS:
             const { partners, partnersTotal } = action.payload;
             console.log(partners, "partners");
             return {
@@ -111,7 +111,7 @@ function* getPartnersFunc(action) {
         const res = yield call(api.getPartners, payload);
         if (res) {
             yield put({
-                type: GET_PARTNERS_SUCCESS,
+                type: GET_ADMIN_PARTNERS_SUCCESS,
                 payload: {
                     partners: res.result.partners,
                     partnersTotal: res.result.totalCount
@@ -125,5 +125,5 @@ function* getPartnersFunc(action) {
 
 export function* saga() {
     yield takeEvery(GET_USERS, getUsersFunc);
-    yield takeEvery(GET_PARTNERS, getPartnersFunc);
+    yield takeEvery(GET_ADMIN_PARTNERS, getPartnersFunc);
 }
