@@ -34,8 +34,8 @@ exports.getPartnerList = async query => {
     let offset = (page - 1) * size;
 
     const partners = await models.partnerDetails.getPartners(
-      condition,
       models,
+      condition,
       limit,
       offset,
     );
