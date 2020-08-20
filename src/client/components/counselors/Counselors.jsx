@@ -9,13 +9,15 @@ import doc2 from "client/images/doc2.jpg";
 import doc3 from "client/images/doc3.jpg";
 
 const Counselors = (props) => {
-    console.log(props);
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
     useEffect(() => {
         setQueryData(queryString.parse(props.location.search));
-        props.getPartners({ ...queryData, evaluate: true });
+        props.getPartners({
+            ...queryString.parse(props.location.search),
+            evaluate: true
+        });
     }, [props.location.search]);
 
     useEffect(() => {

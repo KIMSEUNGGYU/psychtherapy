@@ -39,7 +39,23 @@ export const actions = {
 
 export function reducer(
     state = {
-        partner: {},
+        partner: {
+            email: "",
+            name: "",
+            phoneNumber: "",
+            gender: 1,
+            age: 0,
+            keyword: "우울",
+            url: "",
+            shortInfo: "",
+            career: "",
+            info: "",
+            chatCost: 0,
+            level: 1,
+            certificate: 1,
+            image: "",
+            evaluate: false
+        },
         partners: [],
         partnersTotal: 0
     },
@@ -103,6 +119,7 @@ function* getPartnerFunc(action) {
 function* getPartnersFunc(action) {
     try {
         const { payload } = action;
+        console.log(payload.keyword);
         const res = yield call(api.getPartners, payload);
         //[TO DO]
         if (res) {
@@ -113,6 +130,7 @@ function* getPartnersFunc(action) {
                     partnersTotal: res.result.totalCount
                 }
             });
+            console.log(res, "res");
         } else {
             yield put({
                 type: GET_PARTNERS_SUCCESS,
