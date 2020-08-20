@@ -8,13 +8,6 @@ const AdminPartners = (props) => {
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
-    useEffect(() => {
-        console.log("??????");
-        Popup.partnerProfilePopup({
-            className: "partner_profile",
-            type: "enter"
-        });
-    }, []);
 
     useEffect(() => {
         setQueryData(queryString.parse(props.location.search));
@@ -59,7 +52,10 @@ const AdminPartners = (props) => {
                 ic: <MdEdit />,
                 className: "edit_btn",
                 callbackFunc: () => {
-                    console.log("edit info");
+                    Popup.partnerProfilePopup({
+                        className: "partner_profile",
+                        type: "edit"
+                    });
                 }
             }
         ]
