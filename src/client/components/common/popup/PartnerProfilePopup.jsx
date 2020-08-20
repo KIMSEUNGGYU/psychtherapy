@@ -6,28 +6,13 @@ import {
     MdFileUpload
 } from "react-icons/md";
 import doc1 from "client/images/doc1.jpg";
-import { actions as partnersActions } from "client/modules/counselors";
+import { actions as partnersActions } from "client/modules/partners";
 import { actions as adminActions } from "client/modules/admin";
-// import { keywords } from "client/others/const";
-export const keywords = [
-    "우울",
-    "불안",
-    "강박",
-    "무기력",
-    "자살",
-    "자해",
-    "친구",
-    "공황",
-    "부부",
-    "연인",
-    "진로",
-    "취업",
-    "성소수자",
-    "감정조절"
-];
+import { keywords } from "client/others/const";
+import { LayerPopup } from "client/libs/popup";
+
 const PartnerProfilePopup = (props) => {
-    console.log(props.partner, "props");
-    useEffect(() => {}, []);
+    console.log(props, "props");
     const [partnerData, setPartnerData] = useState(props.partner);
     const {
         email,
@@ -46,6 +31,18 @@ const PartnerProfilePopup = (props) => {
         image,
         evaluate
     } = partnerData;
+    useEffect(() => {
+        console.log(props, "props");
+        if (props.type === "edit") {
+            props.getPartner({
+                id: props.id
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        setPartnerData(props.partner);
+    }, [props.partner]);
 
     const onChangePartnerData = (e) => {
         const { name, value } = e.target;
@@ -66,6 +63,13 @@ const PartnerProfilePopup = (props) => {
         formData.append("file", e.target.files[0]);
         // 서버의 upload API 호출
         // const res = await axios.post("/api/upload", formData);
+    };
+    const onClickSave = () => {
+        const callbackFunc = () => {
+            LayerPopup.hide(props.layerKey);
+            props.setQueryData();
+        };
+        props.putPartner({ partnerData, callbackFunc });
     };
     return (
         <Fragment>
@@ -170,6 +174,15 @@ const PartnerProfilePopup = (props) => {
                     <p className="sub-title">도메인 설정</p>
                     <div className="input_box">
                         <ul>
+                            <li>
+                                <span className="label">가격</span>
+                                <input
+                                    type="text"
+                                    name="chatCost"
+                                    onChange={onChangePartnerData}
+                                    value={chatCost}
+                                />
+                            </li>{" "}
                             <li>
                                 <span className="label">한줄 소개</span>
                                 <input
@@ -353,20 +366,22 @@ const PartnerProfilePopup = (props) => {
                     </div>
                 </div>
             </div>
-            <button className="save_btn">저장하기</button>
+            <button className="save_btn" onClick={onClickSave}>
+                저장하기
+            </button>
         </Fragment>
     );
 };
 
 const mapStateToProps = (state) => {
     return {
-        partner: state.counselors.partner
+        partner: state.partners.partner
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getPartner: (payload) => dispatch(adminActions.getPartners(payload)),
+        getPartner: (payload) => dispatch(partnersActions.getPartner(payload)),
         putPartner: (payload) => dispatch(adminActions.putPartner(payload))
     };
 };

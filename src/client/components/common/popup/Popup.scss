@@ -183,7 +183,7 @@
             .left_box,
             .right_box {
                 width: 50%;
-                height: 35rem;
+                height: 38rem;
                 overflow-y: scroll;
                 &::-webkit-scrollbar {
                     width: 5px;
@@ -221,6 +221,7 @@
                 .input_box {
                     input[type="textarea"] {
                         height: 5rem;
+                        line-height: 1rem;
                     }
                 }
             }

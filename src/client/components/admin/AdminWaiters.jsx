@@ -47,10 +47,15 @@ const AdminWaiters = (props) => {
             {
                 ic: <MdPersonAdd />,
                 className: "enter_btn",
-                callbackFunc: () => {
+                callbackFunc: (id) => {
                     Popup.partnerProfilePopup({
                         className: "partner_profile",
-                        type: "enter"
+                        type: "enter",
+                        id,
+                        setQueryData: () => ({
+                            ...queryData,
+                            page: 1
+                        })
                     });
                 }
             }

@@ -9,6 +9,10 @@ const GET_ADMIN_PARTNERS = "GET_ADMIN_PARTNERS";
 const GET_ADMIN_PARTNERS_SUCCESS = "GET_ADMIN_PARTNERS_SUCCESS";
 const GET_ADMIN_PARTNERS_FAILURE = "GET_ADMIN_PARTNERS_FAILURE";
 
+const PUT_PARTNER = "PUT_PARTNER";
+const PUT_PARTNER_SUCCESS = "PUT_PARTNER_SUCCESS";
+const PUT_PARTNER_FAILURE = "PUT_PARTNER_FAILURE";
+
 export const actions = {
     getUsers: (payload) => ({
         type: GET_USERS,
@@ -33,6 +37,19 @@ export const actions = {
     }),
     getPartnersFailure: (payload) => ({
         type: GET_ADMIN_PARTNERS_FAILURE,
+        payload
+    }),
+
+    putPartner: (payload) => ({
+        type: PUT_PARTNER,
+        payload
+    }),
+    putPartnerSuccess: (payload) => ({
+        type: PUT_PARTNER_SUCCESS,
+        payload
+    }),
+    putPartnerFailure: (payload) => ({
+        type: PUT_PARTNER_FAILURE,
         payload
     })
 };
@@ -83,6 +100,9 @@ export const api = {
         return await api_manager.get(
             `/admin/partners?page=${page}&size=${size}&evaluate=${evaluate}`
         );
+    },
+    putPartner: async (payload) => {
+        return await api_manager.put(`/admin/partner/${payload.id}`, payload);
     }
 };
 
@@ -122,7 +142,21 @@ function* getPartnersFunc(action) {
     }
 }
 
+function* putPartnerFunc(action) {
+    try {
+        const { callbackFunc, partnerData } = action.payload;
+        const res = yield call(api.putPartner, partnerData);
+        if (res) {
+            alert("Success");
+            callbackFunc();
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export function* saga() {
     yield takeEvery(GET_USERS, getUsersFunc);
     yield takeEvery(GET_ADMIN_PARTNERS, getPartnersFunc);
+    yield takeEvery(PUT_PARTNER, putPartnerFunc);
 }

@@ -130,7 +130,6 @@ function* getPartnersFunc(action) {
                     partnersTotal: res.result.totalCount
                 }
             });
-            console.log(res, "res");
         } else {
             yield put({
                 type: GET_PARTNERS_SUCCESS,
