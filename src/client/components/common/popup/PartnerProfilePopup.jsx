@@ -28,11 +28,9 @@ const PartnerProfilePopup = (props) => {
         chatCost,
         level,
         certificate,
-        image,
-        evaluate
+        image
     } = partnerData;
     useEffect(() => {
-        console.log(props, "props");
         if (props.type === "edit") {
             props.getPartner({
                 id: props.id
@@ -41,8 +39,8 @@ const PartnerProfilePopup = (props) => {
     }, []);
 
     useEffect(() => {
-        setPartnerData(props.partner);
-    }, [props.partner]);
+        setPartnerData({ ...props.partner, evaluate: props.type === "edit" });
+    }, [props.partner, props.type]);
 
     const onChangePartnerData = (e) => {
         const { name, value } = e.target;
