@@ -161,7 +161,7 @@
         }
     }
 
-    &.profile {
+    &.partner_profile {
         .popup {
             width: 66rem;
             .sub-title {
@@ -177,10 +177,13 @@
                 margin-top: 2rem;
                 font-size: 1rem;
             }
+            #file-upload {
+                display: none;
+            }
             .left_box,
             .right_box {
                 width: 50%;
-                height: 35rem;
+                height: 38rem;
                 overflow-y: scroll;
                 &::-webkit-scrollbar {
                     width: 5px;
@@ -217,7 +220,8 @@
                 padding-right: 1rem;
                 .input_box {
                     input[type="textarea"] {
-                        height: 8rem;
+                        height: 5rem;
+                        line-height: 1rem;
                     }
                 }
             }
@@ -239,6 +243,9 @@
                     border: 1px solid $primary;
                     color: $primary;
                     font-size: 0.8rem;
+                    line-height: 2rem;
+                    text-align: center;
+                    cursor: pointer;
                 }
             }
             .input_box {

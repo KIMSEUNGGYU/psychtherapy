@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Admin.scss";
 import queryString from "query-string";
-import { Table } from "client/components";
+import { Table, Popup } from "client/components";
 import { MdEdit } from "react-icons/md";
 
 const AdminPartners = (props) => {
+    console.log(props, "props");
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
@@ -51,8 +52,16 @@ const AdminPartners = (props) => {
             {
                 ic: <MdEdit />,
                 className: "edit_btn",
-                callbackFunc: () => {
-                    console.log("edit info");
+                callbackFunc: (id) => {
+                    Popup.partnerProfilePopup({
+                        className: "partner_profile",
+                        type: "edit",
+                        id,
+                        setQueryData: () => ({
+                            ...queryData,
+                            page: 1
+                        })
+                    });
                 }
             }
         ]

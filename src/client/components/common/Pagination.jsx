@@ -10,6 +10,7 @@ import {
 // [TODO]
 const Pagination = (props) => {
     const { total, queryData, setQueryData } = props;
+    console.log(total, "total");
     const size = Number(queryData.size);
     const page = Number(queryData.page);
     const [pageInputValue, setPageInputValue] = useState("");
@@ -26,7 +27,7 @@ const Pagination = (props) => {
     };
 
     const onClickLimit = (_size) => {
-        setQueryData({ ...queryData, size: _size, page: 0 });
+        setQueryData({ ...queryData, size: _size, page: 1 });
     };
 
     const onClickPage = (_page) => {

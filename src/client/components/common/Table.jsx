@@ -41,6 +41,11 @@ const Table = (props) => {
                                             >
                                                 <button
                                                     className={action.className}
+                                                    onClick={() =>
+                                                        action.callbackFunc(
+                                                            el["id"]
+                                                        )
+                                                    }
                                                 >
                                                     {action.ic}
                                                 </button>

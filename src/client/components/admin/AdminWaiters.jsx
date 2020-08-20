@@ -3,6 +3,7 @@ import "./Admin.scss";
 import queryString from "query-string";
 import { Table } from "client/components";
 import { MdPersonAdd } from "react-icons/md";
+import { Popup } from "client/components";
 
 const AdminWaiters = (props) => {
     const [queryData, setQueryData] = useState(
@@ -46,8 +47,16 @@ const AdminWaiters = (props) => {
             {
                 ic: <MdPersonAdd />,
                 className: "enter_btn",
-                callbackFunc: () => {
-                    console.log("enter info");
+                callbackFunc: (id) => {
+                    Popup.partnerProfilePopup({
+                        className: "partner_profile",
+                        type: "enter",
+                        id,
+                        setQueryData: () => ({
+                            ...queryData,
+                            page: 1
+                        })
+                    });
                 }
             }
         ]
