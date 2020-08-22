@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 const AWS = require("aws-sdk");
@@ -24,12 +26,21 @@ exports.getPartners = async (page, size, evaluate) => {
   return partners;
 };
 
-exports.uploadImageFile = (partnerId, image) => {
-  let buf = new Buffer(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
-  let bucketName = "be-simple";
-  let phase = "dev";
-  let fileName = "test.jpg";
-  param = {
+exports.uploadImageFile = async (partnerId, image) => {
+  const s3 = new AWS.S3({
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: process.env.S3_REGION,
+  });
+
+  const buf = new Buffer(
+    image.replace(/^data:image\/\w+;base64,/, ""),
+    "base64",
+  );
+  const bucketName = "be-simple";
+  const phase = "dev";
+  const fileName = `${partnerId}.jpg`;
+  const param = {
     Bucket: bucketName,
     Key: `${phase}/${fileName}`,
     ContentEncoding: "base64",
@@ -37,20 +48,27 @@ exports.uploadImageFile = (partnerId, image) => {
     ACL: "public-read",
     ContentType: "image/jpeg",
   };
-  s3.upload(param, (err, data) => {
-    if (err) console.log(err);
-    return data.Location;
-  });
+
+  try {
+    const url = await new Promise((resolve, reject) => {
+      s3.upload(param, (err, data) =>
+        err == null ? resolve(data.Location) : reject(err),
+      );
+    });
+    return url;
+  } catch (err) {
+    console.error("S3 ERROR", err);
+    throw new Error("S3 ERROR");
+  }
 };
 
 exports.updatePartnerDetail = async (partnerId, partner) => {
-  console.log("partner.image: ", partner.image);
-  if (partner.image) {
-    let image_url = await this.uploadImageFile(paratnerId, partner.image);
-    console.log("image_url: ", image_url);
-    partner.image = image_url;
-  }
-  console.log("partner.image: ", partner.image);
+  partner["evaluate"] = 1; // 수정되면 1로 변환
   const result = await models.partnerDetails.updatePartner(partnerId, partner);
   return result[0]; // query 결과가 배열로 반환됨.
+};
+
+exports.validationUrl = image => {
+  const urlPattern = /(http(s)?:\/\/)/gi; // 간단하게 http(s):// 인지 확인해서 url 인지 base64 인지 구분
+  return urlPattern.test(image);
 };
