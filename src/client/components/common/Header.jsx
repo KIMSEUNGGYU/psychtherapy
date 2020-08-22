@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
-import { getToken, getUserType } from "client/others/token";
+import { getToken, getUserType, parsingToken } from "client/others/token";
 import { GoSignOut } from "react-icons/go";
 import { history } from "client/store";
 import { Popup } from "client/components";
@@ -13,12 +13,13 @@ const Header = (props) => {
     const {
         location: { pathname }
     } = useReactRouter();
+    const [loginFlag, setLoginFlag] = useState(false);
 
     // [TO DO] token값으로 변경
     useEffect(() => {
-        console.log(props.token, props.type);
         const _is_admin = getToken() && getUserType() === 99;
         setIsAdmin(_is_admin);
+        console.log(getToken(), "???");
     }, [props.token, props.type]);
 
     const onClickLogin = () => {
@@ -27,6 +28,17 @@ const Header = (props) => {
     const onClickJoin = () => {
         Popup.joinPopup({ className: "join" });
     };
+    const onClickLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        setIsAdmin("");
+        return history.push("/");
+    };
+
+    useEffect(() => {
+        const Type = parsingToken(props.token);
+        console.log(Type, "???");
+    }, [props.token]);
 
     return (
         <div className="header">
@@ -44,10 +56,7 @@ const Header = (props) => {
                     </div>
                     {/* [TO DO] logout처리 */}
                     {is_admin ? (
-                        <button
-                            className="logout-btn"
-                            onClick={() => localStorage.removeItem("token")}
-                        >
+                        <button className="logout-btn" onClick={onClickLogout}>
                             <GoSignOut />
                             로그아웃
                         </button>

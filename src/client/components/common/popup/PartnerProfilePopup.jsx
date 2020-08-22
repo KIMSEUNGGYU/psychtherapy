@@ -31,11 +31,9 @@ const PartnerProfilePopup = (props) => {
         image
     } = partnerData;
     useEffect(() => {
-        if (props.type === "edit") {
-            props.getPartner({
-                id: props.id
-            });
-        }
+        props.getPartner({
+            id: props.id
+        });
     }, []);
 
     useEffect(() => {
@@ -339,6 +337,13 @@ const PartnerProfilePopup = (props) => {
                                                 className={`${
                                                     keyword === el && "active"
                                                 }`}
+                                                onClick={(e) =>
+                                                    onClickPartnerData(
+                                                        e,
+                                                        "keyword",
+                                                        el
+                                                    )
+                                                }
                                             >
                                                 {keyword === el ? (
                                                     <MdRadioButtonChecked />

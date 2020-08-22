@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { actions as userActions } from "client/modules/user";
 
 const JoinPopup = (props) => {
-    console.log(props.emailForbidden, "email");
     const [activeTab, setActiveTab] = useState(0);
     const [toggle, setToggle] = useState(true);
     const onClickTab = (tabId) => {
@@ -95,7 +94,7 @@ const JoinPopup = (props) => {
             if (handleValidation() === false) {
                 return;
             }
-            props.postUser({ joinData, callbackFunc });
+            props.postWaiterUser({ joinData, callbackFunc });
         }
     };
 
@@ -350,6 +349,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         postUser: (payload) => dispatch(userActions.postUser(payload)),
+        postWaiterUser: (payload) =>
+            dispatch(userActions.postWaiterUser(payload)),
         getUserValidate: (payload) =>
             dispatch(userActions.getUserValidate(payload))
     };

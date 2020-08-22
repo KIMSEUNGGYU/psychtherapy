@@ -6,6 +6,10 @@ const POST_USER = "POST_USER";
 const POST_USER_SUCCESS = "POST_USER_SUCCESS";
 const POST_USER_FAILURE = "POST_USER_FAILURE";
 
+const POST_WAITER_USER = "POST_WAITER_USER";
+const POST_WAITER_USER_SUCCESS = "POST_WAITER_USER_SUCCESS";
+const POST_WAITER_USER_FAILURE = "POST_WAITER_USER_FAILURE";
+
 const GET_USER_EMAIL_VALIDATE = "GET_USER_EMAIL_VALIDATE";
 const GET_USER_EMAIL_VALIDATE_SUCCESS = "GET_USER_EMAIL_VALIDATE_SUCCESS";
 const GET_USER_EMAIL_VALIDATE_FAILURE = "GET_USER_EMAIL_VALIDATE_FAILURE";
@@ -21,6 +25,18 @@ export const actions = {
     }),
     postFailure: (payload) => ({
         type: POST_USER_FAILURE,
+        payload
+    }),
+    postWaiterUser: (payload) => ({
+        type: POST_WAITER_USER,
+        payload
+    }),
+    postWaiterUserSuccess: (payload) => ({
+        type: POST_WAITER_USER_SUCCESS,
+        payload
+    }),
+    postWaiterUserFailure: (payload) => ({
+        type: POST_WAITER_USER_FAILURE,
         payload
     }),
     getUserValidate: (payload) => ({
@@ -67,6 +83,9 @@ export const api = {
     postUser: async (payload) => {
         return await api_manager.post("/user/signup", payload);
     },
+    postWaiterUser: async (payload) => {
+        return await api_manager.post("/partner/signup", payload);
+    },
     getUserValidate: async (payload) => {
         return await api_manager.get(
             `/user/email/validate?email=${payload}`,
@@ -81,6 +100,20 @@ function* postUserFunc(action) {
         const res = yield call(api.postUser, joinData);
         if (res) {
             yield put({ type: POST_USER_SUCCESS, message: res.message });
+            callbackFunc();
+            alert("회원가입에 성공 하였습니다.");
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* postWaiterUserFunc(action) {
+    try {
+        const { joinData, callbackFunc } = action.payload;
+        const res = yield call(api.postWaiterUser, joinData);
+        if (res) {
+            yield put({ type: POST_WAITER_USER_SUCCESS, message: res.message });
             callbackFunc();
             alert("회원가입에 성공 하였습니다.");
         }
@@ -113,5 +146,6 @@ function* getUserValidateFunc(action) {
 
 export function* saga() {
     yield takeLatest(POST_USER, postUserFunc);
+    yield takeLatest(POST_WAITER_USER, postWaiterUserFunc);
     yield takeLatest(GET_USER_EMAIL_VALIDATE, getUserValidateFunc);
 }
