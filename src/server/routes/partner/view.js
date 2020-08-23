@@ -1,6 +1,6 @@
-exports.partnerList = partners => ({
+exports.partnerList = (partners, totalCount) => ({
   message: "message",
-  result: { partners, totalCount: partners.length },
+  result: { partners, totalCount },
 });
 exports.partnerSignupSuccess = () => ({ message: "Success", result: {} });
 exports.partnerSignupError = () => ({ message: "Fail", result: {} });

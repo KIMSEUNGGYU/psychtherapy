@@ -3,15 +3,15 @@ exports.badRequset = () => ({ message: "Bad Request", result: {} });
 exports.empty = () => ({ message: "Empty Object", result: {} });
 
 // /ADMIN/USERS
-exports.getUsers = users => ({
+exports.getUsers = (users, totalCount) => ({
   message: "Success",
-  result: { users, totalCount: users.length },
+  result: { users, totalCount },
 });
 
 // /ADMIN/PARTNERS
-exports.getPartners = partners => ({
+exports.getPartners = (partners, totalCount) => ({
   message: "Success",
-  result: { partners, totalCount: partners.length },
+  result: { partners, totalCount },
 });
 
 // /PUT

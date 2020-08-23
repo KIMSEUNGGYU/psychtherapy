@@ -88,5 +88,11 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  userDetails.userTotalCount = async () =>
+    userDetails.findAll({
+      raw: true,
+      attributes: [[sequelize.fn("count", "*"), "totalCount"]],
+    });
+
   return userDetails;
 };

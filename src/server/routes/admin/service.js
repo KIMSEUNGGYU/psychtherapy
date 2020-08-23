@@ -72,3 +72,13 @@ exports.validationUrl = image => {
   const urlPattern = /(http(s)?:\/\/)/gi; // 간단하게 http(s):// 인지 확인해서 url 인지 base64 인지 구분
   return urlPattern.test(image);
 };
+
+exports.userTotalCount = async () => {
+  const totalCount = await models.userDetails.userTotalCount();
+  return totalCount[0];
+};
+
+exports.partnerTotalCount = async () => {
+  const totalCount = await models.partnerDetails.partnerTotalCount();
+  return totalCount[0];
+};
