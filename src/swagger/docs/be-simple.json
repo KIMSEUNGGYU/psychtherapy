@@ -418,7 +418,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/partnerDetail"
+                "$ref": "#/components/schemas/putPartnerDetail"
               }
             }
           }
@@ -1290,6 +1290,76 @@
             "description": "상담사 검증 여부 검색 (True: 검증된 사람, False: 검증 안된사람)",
             "example": true,
             "writeOnly": true
+          }
+        }
+      },
+      "putPartnerDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1,
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "example": "김모씨"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "01012345678"
+          },
+          "gender": {
+            "type": "integer",
+            "example": 1
+          },
+          "age": {
+            "type": "integer",
+            "example": 27
+          },
+          "url": {
+            "type": "string",
+            "description": "youtube url"
+          },
+          "shortInfo": {
+            "type": "string",
+            "description": "짧은 소개 글",
+            "example": "당신의 지치고 힘든 마음을 치료해드려용"
+          },
+          "career": {
+            "type": "string",
+            "example": "마 내가 어디서 뭐했고 어디서 뭐했어"
+          },
+          "info": {
+            "type": "string",
+            "description": "긴 소개 글",
+            "example": "내 소개가 말이야 이러쿵 저러쿵 요로콤 저러콤"
+          },
+          "chatCost": {
+            "type": "integer",
+            "description": "채팅 시 가격",
+            "example": 30000
+          },
+          "keyword": {
+            "type": "string",
+            "example": "불안"
+          },
+          "level": {
+            "type": "integer",
+            "description": "상담사의 레벨 (1: Master, 2: Export, 3: Normal)",
+            "example": 1
+          },
+          "certificate": {
+            "type": "integer",
+            "description": "상담사 자격증 (1: 1급, 2: 2급, 3: 무급)",
+            "example": 1
+          },
+          "image": {
+            "type": "string"
           }
         }
       },
