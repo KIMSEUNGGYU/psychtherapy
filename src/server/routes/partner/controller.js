@@ -5,7 +5,16 @@ exports.partners = async (req, res, next) => {
   const query = req.query;
 
   try {
-    const { totalCount } = await service.partnerTotalCount();
+    const condition = {};
+    for (const [key, value] of Object.entries(query)) {
+      if (value) {
+        condition[key] = value;
+      }
+    }
+    delete condition["page"];
+    delete condition["size"];
+
+    const { totalCount } = await service.partnerTotalCount(condition);
     const partners = await service.getPartnerList(query);
 
     if (!partners) return res.status(400).json(view.badRequest());

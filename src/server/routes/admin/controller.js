@@ -33,7 +33,8 @@ exports.partners = async (req, res, next) => {
   evaluate = evaluate === "true" ? 1 : 0;
 
   try {
-    const { totalCount } = await service.partnerTotalCount();
+    const condition = { evaluate };
+    const { totalCount } = await service.partnerTotalCount(condition);
     const partners = await service.getPartners(page, size, evaluate);
 
     partners.length

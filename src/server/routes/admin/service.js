@@ -78,7 +78,7 @@ exports.userTotalCount = async () => {
   return totalCount[0];
 };
 
-exports.partnerTotalCount = async () => {
-  const totalCount = await models.partnerDetails.partnerTotalCount();
+exports.partnerTotalCount = async condition => {
+  const totalCount = await models.partnerDetails.partnerTotalCount(condition);
   return totalCount[0];
 };
