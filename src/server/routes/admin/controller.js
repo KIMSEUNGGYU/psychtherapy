@@ -11,9 +11,10 @@ exports.users = async (req, res, next) => {
   if (page === null || page <= 0) page = 1;
 
   try {
+    const { totalCount } = await service.userTotalCount();
     const users = await service.getUsers(page, size);
     users.length
-      ? res.status(200).json(view.getUsers(users))
+      ? res.status(200).json(view.getUsers(users, totalCount))
       : res.status(204).json(view.empty());
   } catch (err) {
     // console.error("/admin/users error", err);
@@ -32,10 +33,12 @@ exports.partners = async (req, res, next) => {
   evaluate = evaluate === "true" ? 1 : 0;
 
   try {
+    const condition = { evaluate };
+    const { totalCount } = await service.partnerTotalCount(condition);
     const partners = await service.getPartners(page, size, evaluate);
 
     partners.length
-      ? res.status(200).json(view.getPartners(partners))
+      ? res.status(200).json(view.getPartners(partners, totalCount))
       : res.status(204).json(view.empty());
   } catch (err) {
     // console.error("/admin/partners error", err);

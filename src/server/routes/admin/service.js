@@ -33,7 +33,7 @@ exports.uploadImageFile = async (partnerId, image) => {
     region: process.env.S3_REGION,
   });
 
-  const buf = new Buffer(
+  const buf = Buffer.from(
     image.replace(/^data:image\/\w+;base64,/, ""),
     "base64",
   );
@@ -71,4 +71,14 @@ exports.updatePartnerDetail = async (partnerId, partner) => {
 exports.validationUrl = image => {
   const urlPattern = /(http(s)?:\/\/)/gi; // 간단하게 http(s):// 인지 확인해서 url 인지 base64 인지 구분
   return urlPattern.test(image);
+};
+
+exports.userTotalCount = async () => {
+  const totalCount = await models.userDetails.userTotalCount();
+  return totalCount[0];
+};
+
+exports.partnerTotalCount = async condition => {
+  const totalCount = await models.partnerDetails.partnerTotalCount(condition);
+  return totalCount[0];
 };
