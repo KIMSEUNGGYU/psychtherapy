@@ -50,16 +50,31 @@ exports.partnerDetail = async (req, res, next) => {
   // 유효성 검증
   let validate = true;
   for (key of Object.keys(partner)) {
-    if (key === "evaluate") continue;
+    if (key === "evaluate" || key === "password") continue;
     if (!partner[key]) {
       validate = false;
       break;
     }
   }
-  if (!partnerId || !validate) return res.status(401).json(view.badRequset());
+  if (!partnerId || !validate) return res.status(400).json(view.badRequset());
 
+  // imaeg url 이 아니면 (base64 이면) 이미지 업로드
+  if (!service.validationUrl(partner["image"])) {
+    try {
+      const imageUrl = await service.uploadImageFile(
+        partnerId,
+        partner["image"],
+      );
+      // 만약 url 에서 에러가 안난다면 image 를 url 로 변경
+      partner["image"] = imageUrl;
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // 파트너 정보 업데이트
   const success = await service.updatePartnerDetail(partnerId, partner); // 1 이면 수정 성공, 0 이면 수정 실패
-  success
+  return success
     ? res.status(201).json(view.update()) // 정상 수행 (업데이트 성공)
     : res.status(202).json(view.updateFail()); // 요청은 됐지만 수정은 안됨
 };
