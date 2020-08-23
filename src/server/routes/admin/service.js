@@ -33,7 +33,7 @@ exports.uploadImageFile = async (partnerId, image) => {
     region: process.env.S3_REGION,
   });
 
-  const buf = new Buffer(
+  const buf = Buffer.from(
     image.replace(/^data:image\/\w+;base64,/, ""),
     "base64",
   );
