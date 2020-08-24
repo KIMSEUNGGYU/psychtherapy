@@ -71,7 +71,6 @@ export const sockets = {
             socket.once("room", (room) => {
                 resolve(room);
                 socket.on("room", (messages) => {
-                    console.log(messages, "messages");
                     store.dispatch(actions.updateRoom(messages));
                 });
             });
