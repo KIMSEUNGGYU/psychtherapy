@@ -1,6 +1,7 @@
 import React from "react";
 import "./Scheduler.scss";
 
+
 const Scheduler = (props) => {
     console.log(props, "props");
     const times = [
@@ -51,7 +52,7 @@ const Scheduler = (props) => {
     ];
     return (
         <div className="scheduler_box">
-            {props.location.pathname === "schedule_management" && (
+            {props.location.pathname.includes("schedule_management") && (
                 <div className="top_box flex_box between">
                     <p className="today">2020년 8월 12일 수요일</p>
                     <div className="btn_box">
@@ -70,11 +71,9 @@ const Scheduler = (props) => {
                     return (
                         <button
                             key={key}
-                            className={`${10 < key && 32 > key && "selected"} ${
-                                16 === key && "reserved"
-                            }`}
-                        >
+                            className={`${10 < key && 32 > key && "selected"} ${16 === key && "reserved"}`}>
                             {el}
+                            {console.log(el, key,"times")}
                         </button>
                     );
                 })}

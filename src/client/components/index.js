@@ -24,6 +24,8 @@ import ScheduleManagement from "client/components/schedule-management/ScheduleMa
 
 import Pricing from "client/components/pricing/Pricing";
 
+import Detail from "client/components/detail/Detail";
+
 export {
     Header,
     Footer,
@@ -43,5 +45,6 @@ export {
     ScheduleManagement,
     Pricing,
     Pagination,
-    Table
+    Table,
+    Detail
 };

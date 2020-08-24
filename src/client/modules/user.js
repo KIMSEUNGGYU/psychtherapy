@@ -14,6 +14,10 @@ const GET_USER_EMAIL_VALIDATE = "GET_USER_EMAIL_VALIDATE";
 const GET_USER_EMAIL_VALIDATE_SUCCESS = "GET_USER_EMAIL_VALIDATE_SUCCESS";
 const GET_USER_EMAIL_VALIDATE_FAILURE = "GET_USER_EMAIL_VALIDATE_FAILURE";
 
+const GET_USER = "GET_USER"
+const GET_USER_SUCCESS = "GET_USER_SUCCESS"
+const GET_USER_FAILURE = "GET_USER_FAILURE"
+
 export const actions = {
     postUser: (payload) => ({
         type: POST_USER,
@@ -50,16 +54,51 @@ export const actions = {
     getUserValidateFailure: (payload) => ({
         type: GET_USER_EMAIL_VALIDATE_FAILURE,
         payload
-    })
+    }),
+    getUser: (payload) => ({
+        type: GET_USER,
+        payload
+    }),
+    getUserSuccess: (payload) => ({
+        type: GET_USER_SUCCESS,
+        payload
+    }),
+    getUserFailure: (payload) => ({
+        type: GET_USER_FAILURE,
+        payload
+    }),
 };
 
 export function reducer(
     state = {
-        emailForbidden: false
+        emailForbidden: false,
+        user:{
+            name:"",
+            gender:"",
+            age:"",
+            id:"",
+            email:"",
+            point:"",
+            schedules:[]
+        }
     },
     action
 ) {
     switch (action.type) {
+        case GET_USER:
+            return {
+                ...state,
+            };
+        case GET_USER_SUCCESS:
+            const { user } = action.payload;
+            return {
+                ...state,
+                user
+            };
+        case GET_USER_FAILURE:
+            return {
+                ...state,      
+            };
         case GET_USER_EMAIL_VALIDATE:
             return {
                 ...state
@@ -91,6 +130,9 @@ export const api = {
             `/user/email/validate?email=${payload}`,
             payload
         );
+    },
+    getUser: async (payload) => {
+        return await api_manager.get("/user/detail",payload);
     }
 };
 
@@ -144,8 +186,23 @@ function* getUserValidateFunc(action) {
     }
 }
 
+function* getUserFunc(action) {
+    try {
+        const payload = action.payload;
+        const res = yield call(api.getUser,payload);
+        if (res) {
+            yield put({
+                type: GET_USER_SUCCESS,
+                payload: { user : res.result }
+            });
+        }
+    } catch (e) {
+    }
+}
+
 export function* saga() {
     yield takeLatest(POST_USER, postUserFunc);
     yield takeLatest(POST_WAITER_USER, postWaiterUserFunc);
     yield takeLatest(GET_USER_EMAIL_VALIDATE, getUserValidateFunc);
+    yield takeLatest(GET_USER, getUserFunc);
 }

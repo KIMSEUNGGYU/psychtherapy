@@ -7,6 +7,7 @@ import PageAdminUsers from "client/pages/PageAdminUsers";
 import PageAdminWaiters from "client/pages/PageAdminWaiters";
 import PageAdminPartners from "client/pages/PageAdminPartners";
 import PagePricing from "client/pages/PagePricing";
+import PageDetail from "client/pages/PageDetail";
 
 export {
     PageHome,
@@ -17,5 +18,6 @@ export {
     PageAdminWaiters,
     PageAdminPartners,
     PageScheduleManagement,
-    PagePricing
+    PagePricing,
+    PageDetail
 };
