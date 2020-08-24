@@ -96,3 +96,8 @@ exports.getPartner = async partnerId => {
     return false;
   }
 };
+
+exports.partnerTotalCount = async condition => {
+  const totalCount = await models.partnerDetails.partnerTotalCount(condition);
+  return totalCount[0];
+};

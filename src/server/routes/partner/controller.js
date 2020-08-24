@@ -4,13 +4,28 @@ const view = require("./view");
 exports.partners = async (req, res, next) => {
   const query = req.query;
 
-  const partners = await service.getPartnerList(query);
+  try {
+    const condition = {};
+    for (const [key, value] of Object.entries(query)) {
+      if (value) {
+        condition[key] = value;
+      }
+    }
+    delete condition["page"];
+    delete condition["size"];
 
-  if (!partners) return res.status(400).json(view.badRequest());
+    const { totalCount } = await service.partnerTotalCount(condition);
+    const partners = await service.getPartnerList(query);
 
-  return partners.length
-    ? res.status(200).json(view.partnerList(partners))
-    : res.status(204).json(view.empty());
+    if (!partners) return res.status(400).json(view.badRequest());
+
+    return partners.length
+      ? res.status(200).json(view.partnerList(partners, totalCount))
+      : res.status(204).json(view.empty());
+  } catch (err) {
+    // console.error("/partner error", err);
+    next(new Error("DB ERROR"));
+  }
 };
 
 exports.signup = async (req, res, next) => {
