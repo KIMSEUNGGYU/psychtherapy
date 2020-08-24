@@ -23,6 +23,7 @@ import CounselingPayment from "client/components/counselors/CounselingPayment";
 import ScheduleManagement from "client/components/schedule-management/ScheduleManagement";
 
 import Pricing from "client/components/pricing/Pricing";
+import ChatTest from "client/components/chat/ChatTest";
 
 export {
     Header,
@@ -43,5 +44,6 @@ export {
     ScheduleManagement,
     Pricing,
     Pagination,
-    Table
+    Table,
+    ChatTest
 };
