@@ -1,27 +1,28 @@
-require("dotenv").config();
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const Room = require("./Room");
 
-const router = require("./routes/index");
-const app = express();
-app.io = require("socket.io")();
+const socketHandler = (socket) => {
+    const { id, user } = socket.handshake.query;
 
-app.use(logger("dev"));
-app.use(express.json({ limit: "100mb" }));
-app.use(express.urlencoded({ limit: "100mb", extended: false }));
-app.use(cookieParser());
+    socket.on("enterRoom", () => {
+        const room = Room.enter({ id, user });
+        if (room) {
+            socket.join(room.id, () => {
+                socket.emit("room", room);
+                socket.to(room.id).emit("room", room);
+            });
+        }
+    });
 
-app.use("/", router);
+    socket.on("message", ({ id, content }) => {
+        const messages = Room.message({ id, user, content });
+        if (messages) {
+            socket.emit("room", messages);
+            socket.to(id).emit("room", messages);
+        }
+    });
+};
 
-/* chat socket */
-
-const Room = require("./chat/Room");
-const socketHandler = require("./chat/socket");
-app.io.on("connection", (socket) => {
-    socketHandler(socket);
-});
-
+module.exports = socketHandler;
 // const createSocketHandler = (io) => {
 //     if (global.clearEmptyRoomsInterval)
 //         clearInterval(global.clearEmptyRoomsInterval);
@@ -31,6 +32,7 @@ app.io.on("connection", (socket) => {
 //     }, 1000);
 
 //     return function socketHandler(socket) {
+//         console.log(socket.id, "id");
 //         // 1: login (connected) -> emit logined with userData
 //         const { nickname, avatarUrl } = socket.handshake.query;
 //         const user = { id: socket.id, nickname, avatarUrl };
@@ -64,7 +66,7 @@ app.io.on("connection", (socket) => {
 //             const room = Room.enter({ id, user });
 //             if (room) {
 //                 socket.join(room.id, () => {
-//                     socket.emit("room", room); // to self
+//                     socket.emit("room", room);
 //                     socket.to(room.id).emit("room", room); // to other members
 //                     socket.to(LOBBY_ROOM_ID).emit("rooms", Room.instances); // to lobby
 //                 });
@@ -92,19 +94,11 @@ app.io.on("connection", (socket) => {
 //             const message = Room.message({ id, user, content });
 //             if (message) {
 //                 const roomData = { message };
-//                 socket.emit("room", roomData); // to self
+//                 socket.emit("room", roomData);
 //                 socket.to(id).emit("room", roomData); // to other members
 //             }
 //         });
 //     };
 // };
 
-// if (process.env.NODE_ENV != "production") {
-//     app.io.on("connection", (...args) => {
-//         return require(createSocketHandler).default(app.io).apply(null, args);
-//     });
-// } else {
-//     app.io.on("connection", require(createSocketHandler).default(app.io));
-// }
-
-module.exports = app;
+// module.exports = createSocketHandler;
