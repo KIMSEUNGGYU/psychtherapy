@@ -63,7 +63,7 @@ export function reducer(
 let socket;
 export const sockets = {
     enterRoom: (payload) => {
-        socket = io("http://15.164.52.189/", {
+        socket = io("http://localhost:8080/", {
             query: payload
         });
         return new Promise((resolve, reject) => {
