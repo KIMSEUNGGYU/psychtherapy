@@ -46,6 +46,10 @@ class Room {
                 at: moment().format("YYYY-MM-DD hh:mm A")
             };
             room.messages = room.messages.slice(-9).concat(message);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 95b2dc599da224373dd2321c70704606149d72da
             return room.messages;
         }
         return null;
