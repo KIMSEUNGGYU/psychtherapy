@@ -1290,6 +1290,12 @@
             "description": "상담사 검증 여부 검색 (True: 검증된 사람, False: 검증 안된사람)",
             "example": true,
             "writeOnly": true
+          },
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/schedule"
+            }
           }
         }
       },
@@ -1373,6 +1379,10 @@
           "reservation": {
             "type": "boolean",
             "example": true
+          },
+          "roomId": {
+            "type": "string",
+            "example": "39de47d4a5"
           },
           "startedAt": {
             "type": "string",
