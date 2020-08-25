@@ -8,12 +8,6 @@ const Chat = (props) => {
     const [content, setContent] = useState("");
 
     const onClickEnter = () => {
-        console.log(
-            props.enterRoom({
-                id: "room1",
-                user
-            })
-        );
         props.enterRoom({
             id: "room1",
             user
@@ -35,7 +29,11 @@ const Chat = (props) => {
             onSubmit();
         }
     };
-    console.log(props.room);
+
+    const onClickLeave = () => {
+        props.leaveRoom();
+    };
+
     return (
         <div className="chat_box">
             {!props.room.id ? (
@@ -84,6 +82,7 @@ const Chat = (props) => {
                         onChange={(e) => setContent(e.target.value)}
                     />
                     <button onClick={onSubmit}>전송</button>
+                    <button onClick={onClickLeave}>나가기</button>
                 </div>
             ) : (
                 ""
@@ -101,6 +100,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         enterRoom: (payload) => dispatch(chatActions.enterRoom(payload)),
+        leaveRoom: () => dispatch(chatActions.leaveRoom()),
         sendMessage: (payload) => dispatch(chatActions.sendMessage(payload))
     };
 };

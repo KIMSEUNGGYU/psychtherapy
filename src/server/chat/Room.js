@@ -9,7 +9,6 @@ class Room {
     static enter({ id, user }) {
         const room = Room.instances.find((room) => room.id === id);
         if (room) {
-            console.log(room);
             if (!room.users.find((u) => u.id === user)) {
                 room.users.push(user);
             }
@@ -17,6 +16,13 @@ class Room {
         } else {
             const newRoom = Room.create({ id, user });
             return newRoom;
+        }
+    }
+
+    static get({ id }) {
+        const room = Room.instances.find((room) => room.id === id);
+        if (room) {
+            return room;
         }
     }
 

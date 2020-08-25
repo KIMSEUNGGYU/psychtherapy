@@ -20,6 +20,20 @@ const socketHandler = (socket) => {
             socket.to(id).emit("room", messages);
         }
     });
+
+    const leaveRoomHandler = () => {
+        // 상담 내역 저장:Room.get({ id })로 user가 disconnection 되기 전의 room에 대한 정보를 가져온 뒤 저장
+
+        const room = Room.leave({ user });
+        if (room) {
+            socket.leave(room.id, () => {
+                socket.to(room.id).emit("room", room);
+            });
+        }
+    };
+
+    socket.on("leaveRoom", leaveRoomHandler);
+    socket.on("disconnect", leaveRoomHandler);
 };
 
 module.exports = socketHandler;

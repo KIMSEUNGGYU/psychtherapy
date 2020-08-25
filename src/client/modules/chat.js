@@ -5,14 +5,15 @@ import { store } from "client/store";
 
 const ENTER_ROOM = "ENTER_ROOM";
 const ENTER_ROOM_SUCCESS = "ENTER_ROOM_SUCCESS";
-const ENTER_ROOM_FAILURE = "ENTER_ROOM_FAILURE";
 
 const UPDATE_ROOM = "UPDATE_ROOM";
 const UPDATE_ROOM_SUCCESS = "UPDATE_ROOM_SUCCESS";
 
+const LEAVE_ROOM = "LEAVE_ROOM";
+const LEAVE_ROOM_SUCCESS = "LEAVE_ROOM_SUCCESS";
+
 const SEND_MESSAGE = "SEND_MESSAGE";
 const SEND_MESSAGE_SUCCESS = "SEND_MESSAGE_SUCCESS";
-const SEND_MESSAGE_FAILURE = "SEND_MESSAGE_FAILURE";
 
 export const actions = {
     enterRoom: (payload) => ({
@@ -26,6 +27,9 @@ export const actions = {
     sendMessage: (payload) => ({
         type: SEND_MESSAGE,
         payload
+    }),
+    leaveRoom: () => ({
+        type: LEAVE_ROOM
     })
 };
 
@@ -66,11 +70,13 @@ export const sockets = {
         socket = io("http://localhost:8080/", {
             query: payload
         });
+        console.log("enter room");
         return new Promise((resolve, reject) => {
             socket.emit("enterRoom", payload);
             socket.once("room", (room) => {
                 resolve(room);
                 socket.on("room", (messages) => {
+                    console.log(messages, "msg");
                     store.dispatch(actions.updateRoom(messages));
                 });
             });
@@ -82,6 +88,13 @@ export const sockets = {
             socket.once("room", (message) => {
                 resolve(message);
             });
+        });
+    },
+    leaveRoom: () => {
+        return new Promise((resolve, reject) => {
+            socket.emit("leaveRoom");
+            socket.off("room");
+            resolve();
         });
     }
 };
@@ -136,8 +149,22 @@ function* sendMessageFunc(action) {
     }
 }
 
+function* leaveRoomFunc(action) {
+    try {
+        const res = yield call(sockets.leaveRoom);
+        if (res) {
+            yield put({
+                type: LEAVE_ROOM_SUCCESS
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export function* saga() {
     yield takeEvery(ENTER_ROOM, enterRoomFunc);
     yield takeEvery(UPDATE_ROOM, updateRoomFunc);
+    yield takeEvery(LEAVE_ROOM, leaveRoomFunc);
     yield takeEvery(SEND_MESSAGE, sendMessageFunc);
 }
