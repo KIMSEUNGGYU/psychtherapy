@@ -23,3 +23,4 @@ jobs:
             cd ./src/swagger
             npm i
             pm2 restart swagger
+            git checkout develop
