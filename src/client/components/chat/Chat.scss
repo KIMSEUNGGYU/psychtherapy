@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+
+.chat_box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    background: #fff;
+    padding: 3rem;
+    li {
+        margin-bottom: 1rem;
+        &:last-child {
+            margin-bottom: 3rem;
+        }
+    }
+}
