@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
-import { getToken, getUserType, parsingToken } from "client/others/token";
+import { getToken, getUserType,} from "client/others/token";
 import { GoSignOut } from "react-icons/go";
 import { Popup } from "client/components";
 import { actions as userActions } from "client/modules/user";

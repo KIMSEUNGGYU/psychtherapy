@@ -23,7 +23,6 @@ import CounselingPayment from "client/components/counselors/CounselingPayment";
 import ScheduleManagement from "client/components/schedule-management/ScheduleManagement";
 
 import Pricing from "client/components/pricing/Pricing";
-
 import Detail from "client/components/detail/Detail";
 
 export {
@@ -46,5 +45,5 @@ export {
     Pricing,
     Pagination,
     Table,
-    Detail
+    Detail,
 };

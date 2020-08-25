@@ -70,8 +70,10 @@ export function reducer(
                 ...state
             };
         case GET_PARTNER_SCHEDULE_LIST_SUCCESS:
+            const { schedules }  = action.payload;
             return {
                 ...state,
+                schedules
                 //loading
             };
         case GET_PARTNER_SCHEDULE_LIST_FAILURE:
@@ -87,7 +89,7 @@ export function reducer(
 export const api = {
     getPartnerScheduleList: async (payload) => {
         const { partnerId, date } = payload;
-        return await api_manager.get(`/schedule/${partnerId}/${date}`, payload);
+        return await api_manager.get(`/schedule/${partnerId}/${date}`);
     },
     postPartnerSchedule: async (payload) => {
         return await api_manager.post("/schedule/partner", payload);
@@ -103,10 +105,17 @@ function* getPartnerScheduleListFunc(action) {
         const res = yield call(api.getPartnerScheduleList, payload);
         if (res) {
             yield put({
-                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, payload
-                // payload: {
-                //     partner: res.result.partner
-                // }
+                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, 
+                payload: {
+                    schedules: res.result.schedules
+                }
+            });
+        } else {
+            yield put({
+                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, 
+                payload: {
+                    schedules: []
+                }
             });
         }
     } catch (e) {
@@ -116,12 +125,16 @@ function* getPartnerScheduleListFunc(action) {
 
 function* postPartnerScheduleFunc(action) {
     try {
-        // const { joinData, callbackFunc } = action.payload;
-        const res = yield call(api.postPartnerSchedule, joinData);
+        const { _payload } = action.payload;
+        const res = yield call(api.postPartnerSchedule, _payload);
         if (res) {
-            yield put({ type: POST_PARTNER_SCHEDULE_SUCCESS, message: res.message });
-            // callbackFunc();
-            // alert("회원가입에 성공 하였습니다.");
+            yield put({ type: POST_PARTNER_SCHEDULE_SUCCESS });
+            yield put({
+                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, 
+                payload: {
+                    schedules: res.result.schedules
+                }
+            });
         }
     } catch (e) {
         console.log(e);
@@ -133,7 +146,6 @@ function* deletePartnerScheduleFunc(action) {
         const res = yield call(api.deletePartnerSchedule, payload);
         if (res) {
             yield put({ type: DELETE_PARTNER_SCHEDULE, userData: res });
-            // yield put({ type: GET_PARTNER_SCHEDULE_LIST , payload});
         }
     } catch (e) {
         console.log(e);

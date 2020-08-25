@@ -137,7 +137,6 @@ function* getPartnerFunc(action) {
 function* getPartnersFunc(action) {
     try {
         const { payload } = action;
-        console.log(payload.keyword);
         const res = yield call(api.getPartners, payload);
         //[TO DO]
         if (res) {

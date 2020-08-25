@@ -1,33 +1,45 @@
 import React, {useState, useEffect} from "react";
 import "./Detail.scss";
 import { history } from "client/store";
-import { parsingToken } from "client/others/token";
+import { getToken, parsingToken } from "client/others/token";
 
 
 const Detail = (props) => {
-    const [is_id, setId] = useState("")
+    const [userInfo, setUserInfo] = useState({
+        userId:null,
+        type:null,
+    })
 
     useEffect(() => {
-        if(props.token) {
-            return setId(parsingToken(props.token).userId)
+        const token = getToken();
+        const parsedToken = parsingToken(token);
+        if(token) {
+            setUserInfo({ 
+                userId : parsedToken.userId, 
+                type : parsedToken.type 
+            })
         }
-        if(props.type === 0) {
-            return props.getUser()
+    },[props.token, props.type])
+
+    useEffect(() => {
+        if(userInfo.type === 0) {
+            props.getUser();
         }
-        if(props.type === 1) {
-            return props.getPartner(is_id)
+        else if(userInfo.type === 1) {
+            props.getPartner({id:userInfo.userId})
         }
-        console.log(props.user, props.partner,"???")
-    },[props.token])
+    },[userInfo])
+    
+    console.log(props.user, props.partner, "마이페이지 정보")
 
     return (
         <div className="container detail">
         <div className="layout">
             <p className="title">마이페이지</p>
-            {props.type === 1 && (
+            {userInfo.type === 1 && (
                 <button className="schedule-btn" onClick={() =>
                     history.push(
-                        `schedule_management/${is_id}`
+                        `schedule_management/${userInfo.userId}`
                     )
                 }>스케쥴 관리하기</button>
             )}
