@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
@@ -10,7 +12,13 @@ exports.getUserIdBySchedule = async scheduleId =>
 exports.scheduleIdCotainPartnerId = async (scheduleId, partnerId) =>
   await models.schedules.scheduleIdCotainPartnerId(scheduleId, partnerId);
 
-exports.pointPurchase = async (userId, point, partnerId, scheduleId) => {
+exports.pointPurchase = async (
+  userId,
+  point,
+  partnerId,
+  roomId,
+  scheduleId,
+) => {
   let transaction;
   try {
     transaction = await sequelize.transaction();
@@ -33,6 +41,7 @@ exports.pointPurchase = async (userId, point, partnerId, scheduleId) => {
     await models.schedules.reserveConfirm(
       userId,
       partnerId,
+      roomId,
       scheduleId,
       transaction,
     );
@@ -45,3 +54,13 @@ exports.pointPurchase = async (userId, point, partnerId, scheduleId) => {
     transaction.rollback();
   }
 };
+
+exports.getScheduleByScheduleId = async scheduleId =>
+  await models.schedules.getScheduleByScheduleId(scheduleId);
+
+exports.makeRoomId = (userId, partnerId, startedAt) =>
+  crypto
+    .createHash("sha512")
+    .update(`${userId}${partnerId}${startedAt}`)
+    .digest("hex")
+    .substr(0, 10);

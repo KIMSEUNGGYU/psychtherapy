@@ -34,6 +34,10 @@ exports.purchase = async (req, res, next) => {
   );
   if (!contain) return res.status(400).json(view.badRequest());
 
+  // 스케쥴 정보 가져오기
+  const { startedAt } = await service.getScheduleByScheduleId(scheduleId);
+  const roomId = service.makeRoomId(userId, partnerId, startedAt);
+
   // 스케쥴 아이디에 이미 데이터가 존재하는 경우 변동되면 안됨! <- 얘는 취소할수도 있는 거아님? <- 취소하면 가능하게 해야함
   const _userId = await service.getUserIdBySchedule(scheduleId);
   if (_userId && _userId.userId) return res.status(400).json(view.badRequest());
@@ -42,6 +46,7 @@ exports.purchase = async (req, res, next) => {
     userId,
     point,
     partnerId,
+    roomId,
     scheduleId,
   );
 
