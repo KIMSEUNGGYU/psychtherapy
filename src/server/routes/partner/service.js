@@ -101,3 +101,8 @@ exports.partnerTotalCount = async condition => {
   const totalCount = await models.partnerDetails.partnerTotalCount(condition);
   return totalCount[0];
 };
+
+exports.getPartnerSchedule = async partnerId => {
+  const condition = { partnerId };
+  return await models.schedules.getSchedule(condition);
+};

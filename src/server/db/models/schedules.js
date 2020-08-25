@@ -92,15 +92,16 @@ module.exports = (sequelize, DataTypes) => {
       where: { id: scheduleId, partnerId },
     });
 
-  schedules.getSchedule = async userId => {
+  schedules.getSchedule = async condition => {
     return await schedules.findAll({
       attributes: [
         ["id", "scheduleId"],
         [sequelize.literal("IF (userId IS NULL, false, true)"), "reservation"],
+        "roomId",
         "startedAt",
       ],
       raw: true,
-      where: { userId },
+      where: { ...condition },
     });
   };
 

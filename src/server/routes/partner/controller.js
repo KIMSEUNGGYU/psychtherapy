@@ -47,7 +47,9 @@ exports.detail = async (req, res, next) => {
 
   if (partner === false) return res.status(400).json(view.badRequest());
 
+  const schedules = await service.getPartnerSchedule(partnerId);
+
   return partner
-    ? res.status(200).json(view.partnerDetail(partner))
+    ? res.status(200).json(view.partnerDetail(partner, schedules))
     : res.status(204).json(view.empty());
 };
