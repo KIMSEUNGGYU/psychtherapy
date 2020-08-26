@@ -112,6 +112,14 @@ module.exports = {
           createdAt,
           updatedAt,
         },
+        {
+          userId: 27,
+          name: "김승규",
+          gender: 1,
+          age: 26,
+          createdAt,
+          updatedAt,
+        },
       ],
       {},
     );

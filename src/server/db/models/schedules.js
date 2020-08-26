@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       partnerId: DataTypes.INTEGER,
+      roomId: DataTypes.STRING,
       startedAt: DataTypes.DATE,
     },
     {
@@ -74,11 +75,12 @@ module.exports = (sequelize, DataTypes) => {
   schedules.reserveConfirm = async (
     userId,
     partnerId,
+    roomId,
     scheduleId,
     transaction,
   ) => {
     return await schedules.update(
-      { userId },
+      { userId, roomId },
       { where: { partnerId, id: scheduleId } },
       { transaction },
     );
@@ -97,15 +99,24 @@ module.exports = (sequelize, DataTypes) => {
       where: { id: scheduleId, partnerId },
     });
 
-  schedules.getSchedule = async userId => {
+  schedules.getSchedule = async condition => {
     return await schedules.findAll({
       attributes: [
         ["id", "scheduleId"],
         [sequelize.literal("IF (userId IS NULL, false, true)"), "reservation"],
+        "roomId",
         "startedAt",
       ],
       raw: true,
-      where: { userId },
+      where: { ...condition },
+    });
+  };
+
+  schedules.getScheduleByScheduleId = async scheduleId => {
+    return await schedules.findOne({
+      raw: true,
+      attributes: ["startedAt"],
+      where: { id: scheduleId },
     });
   };
 
