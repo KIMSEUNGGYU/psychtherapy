@@ -1,53 +1,50 @@
-import React, {useEffect, useState} from "react";
-import DatePicker, { registerLocale } from "react-datepicker";
+import React, { useEffect, useState } from "react";
 import "./Scheduler.scss";
-import moment from "moment"
-import 'moment/locale/ko'
+import moment from "moment";
+import "moment/locale/ko";
 import { actions as scheduleActions } from "client/modules/schedule";
 import { connect } from "react-redux";
 
 const Scheduler = (props) => {
-    const [scheduleDate, setScheduleDate] = useState(moment().format("YYYY-MM-DD"));
+    const [scheduleDate, setScheduleDate] = useState(
+        moment().format("YYYY-MM-DD")
+    );
     const [scheduleData, setScheduleData] = useState([]);
-    console.log(scheduleData,"schedule")
-    useEffect(() => {  
+    console.log(scheduleData, "schedule");
+    useEffect(() => {
         const { partner_id } = props.match.params;
         const payload = {
             partnerId: Number(partner_id),
             date: moment().format("YYYY-MM-DD")
-        }
-        props.getPartnerScheduleList(payload)
-    },[])
+        };
+        props.getPartnerScheduleList(payload);
+    }, []);
 
     useEffect(() => {
         const { partner_id } = props.match.params;
         const payload = {
             partnerId: Number(partner_id),
             date: scheduleDate
-        }
-        props.getPartnerScheduleList(payload)
-        setScheduleData(props.schedules)
-    },[scheduleDate])
-
+        };
+        props.getPartnerScheduleList(payload);
+        setScheduleData(props.schedules);
+    }, [scheduleDate]);
 
     const onDeleteSchedule = () => {
         const payload = {
             partnerId: Number(partner_id),
             date: scheduleDate
-        }
-        props.getPartnerScheduleList(payload)
-    }
+        };
+        props.getPartnerScheduleList(payload);
+    };
 
     const onPostschedule = () => {
         const _payload = {
             partnerId: 51,
-            schedules: [       
-                "2020-08-25 20:00:00",
-                "2020-08-25 20:30:00"
-            ]
-        }
-        props.postPartnerSchedule(_payload)
-    }
+            schedules: ["2020-08-25 20:00:00", "2020-08-25 20:30:00"]
+        };
+        props.postPartnerSchedule(_payload);
+    };
 
     const times = [
         "00:00AM - 00:30AM",
@@ -99,15 +96,25 @@ const Scheduler = (props) => {
         <div className="scheduler_box">
             {props.location.pathname.includes("schedule_management") && (
                 <div className="top_box flex_box between">
-                    <p className="today">예약 확인 날짜
-                        <input type="date" value={scheduleDate} onChange={(e)=>setScheduleDate(e.target.value)}></input>
+                    <p className="today">
+                        예약 확인 날짜
+                        <input
+                            type="date"
+                            value={scheduleDate}
+                            onChange={(e) => setScheduleDate(e.target.value)}
+                        ></input>
                     </p>
-                    <div className="date_pick_box">
-                        
-                    </div>
+                    <div className="date_pick_box"></div>
                     <div className="btn_box">
-                        <button className="cancel_btn" onClick={onDeleteSchedule}>취소하기</button>
-                        <button className="save_btn" onClick={onPostschedule}>저장하기</button>
+                        <button
+                            className="cancel_btn"
+                            onClick={onDeleteSchedule}
+                        >
+                            취소하기
+                        </button>
+                        <button className="save_btn" onClick={onPostschedule}>
+                            저장하기
+                        </button>
                     </div>
                 </div>
             )}
@@ -119,7 +126,14 @@ const Scheduler = (props) => {
                 </div>
                 {times.map((el, key) => {
                     return (
-                        <button key={key} className={`${10 < key && 32 > key && "selected"} ${17 === key && "reserved"}`}>{el}</button>
+                        <button
+                            key={key}
+                            className={`${10 < key && 32 > key && "selected"} ${
+                                17 === key && "reserved"
+                            }`}
+                        >
+                            {el}
+                        </button>
                     );
                 })}
             </div>
@@ -129,14 +143,16 @@ const Scheduler = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        schedules:state.schedule.schedules
+        schedules: state.schedule.schedules
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getPartnerScheduleList: (payload) => dispatch(scheduleActions.getPartnerScheduleList(payload)),
-        postPartnerSchedule: (payload) => dispatch(scheduleActions.postPartnerSchedule(payload)),
+        getPartnerScheduleList: (payload) =>
+            dispatch(scheduleActions.getPartnerScheduleList(payload)),
+        postPartnerSchedule: (payload) =>
+            dispatch(scheduleActions.postPartnerSchedule(payload))
     };
 };
 

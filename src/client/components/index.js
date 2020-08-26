@@ -24,6 +24,7 @@ import ScheduleManagement from "client/components/schedule-management/ScheduleMa
 
 import Pricing from "client/components/pricing/Pricing";
 import Detail from "client/components/detail/Detail";
+import Chat from "client/components/chat/Chat";
 
 export {
     Header,
@@ -46,4 +47,5 @@ export {
     Pagination,
     Table,
     Detail,
+    Chat
 };
