@@ -127,13 +127,12 @@ function* getPartnerScheduleListFunc(action) {
 }
 
 function* postPartnerScheduleFunc(action) {
-    const payload = action.payload;
+    const { partnerId, date } = action.payload;
     try {
-        const res = yield call(api.postPartnerSchedule, payload);
+        const res = yield call(api.postPartnerSchedule, action.payload);
         if (res) {
-            yield put({ type: POST_PARTNER_SCHEDULE_SUCCESS });
-            // history.push(`/schedule_management/${payload.partnerId}`);
             alert("일정이 추가 되었습니다.");
+            yield put({ type: GET_PARTNER_SCHEDULE_LIST, payload:{ partnerId, date }});
         }
     } catch (e) {
         console.log(e);

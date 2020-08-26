@@ -18,21 +18,21 @@ const Scheduler = (props) => {
         const { partner_id } = props.match.params;
         const payload = {
             partnerId: Number(partner_id),
-            date: moment().format("YYYY-MM-DD")
-        };
-        props.getPartnerScheduleList(payload);
-        setScheduleData(props.schedules);
-    }, [props.match.params]);
-
-    useEffect(() => {
-        const { partner_id } = props.match.params;
-        const payload = {
-            partnerId: Number(partner_id),
             date: scheduleDate
         };
         props.getPartnerScheduleList(payload);
         setScheduleData(props.schedules);
-    }, [scheduleDate]);
+    }, [props.match.params, scheduleDate]);
+
+    // useEffect(() => {
+    //     const { partner_id } = props.match.params;
+    //     const payload = {
+    //         partnerId: Number(partner_id),
+    //         date: scheduleDate
+    //     };
+    //     props.getPartnerScheduleList(payload);
+    //     setScheduleData(props.schedules);
+    // }, [scheduleDate]);
 
     const onDeleteSchedule = () => {
         const payload = {
@@ -44,9 +44,11 @@ const Scheduler = (props) => {
 
     const onPostschedule = () => {
         const { partner_id } = props.match.params;
+    
         const _payload = {
             partnerId: Number(partner_id),
-            schedules: calenderValues
+            schedules: calenderValues,
+            date:scheduleDate
         };
         props.postPartnerSchedule(_payload);
         setCalenderValues([]);
@@ -117,27 +119,8 @@ const Scheduler = (props) => {
         { startedAt: `${scheduleDate} 23:30:00`, btnView: "11:30PM - 00:00AM" }
     ];
 
-    // useEffect(() => {
-    //     let arr = [
-    //         { id: 1, name: "sravan ganji" },
-    //         { id: 2, name: "anu" },
-    //         { id: 4, name: "mammu" },
-    //         { id: 3, name: "sanju" },
-    //         { id: 3, name: "ram" }
-    //     ];
-    //     if (props.schedules) {
-    //         const a = Object.values(
-    //             props.schedules.reduce(
-    //                 (acc, cur) => Object.assign(acc, { [cur.id]: cur }),
-    //                 {}
-    //             )
-    //         );
-    //         console.log(a, "a??");
-    //     }
-    // }, []);
-
     console.log(calenderValues, "calenderValues");
-    // console.log(scheduleData, "scheduleData");
+    console.log(scheduleData, "scheduleData");
 
     return (
         <div className="scheduler_box">
