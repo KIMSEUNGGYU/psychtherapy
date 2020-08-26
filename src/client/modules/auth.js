@@ -54,9 +54,9 @@ export function reducer(
         case LOGOUT_SUCCESS:
             return {
                 ...state,
-                token:"",
-                type:""
-            }
+                token: "",
+                type: ""
+            };
         default:
             return state;
     }
@@ -65,7 +65,6 @@ export const api = {
     login: async (payload) => {
         return await api_manager.post("/user/signin", payload);
     }
-    
 };
 
 function* loginFunc(action) {
@@ -83,15 +82,14 @@ function* loginFunc(action) {
             localStorage.setItem("refreshToken", refreshToken);
             callbackFunc();
             if (type === 99) {
-                alert("Admin Login")
+                alert("Admin Login");
                 history.push("/admin_users?page=1&size=25");
             }
             if (type === 0) {
-                alert("Common User(Wait Parteners)Login")
+                alert("Common User Login");
             }
             if (type === 1) {
-                alert("Partners Login")
-                // history.push("/schedule_management/:partner_id")
+                alert("Partners Login");
             }
         }
     } catch (e) {}
@@ -99,13 +97,15 @@ function* loginFunc(action) {
 
 function* logoutFunc() {
     try {
-        yield put(localStorage.removeItem("refreshToken"),localStorage.removeItem("token"));
+        yield put(
+            localStorage.removeItem("refreshToken"),
+            localStorage.removeItem("token")
+        );
         if (!localStorage.getItem("token")) {
-            yield put({ type: LOGOUT_SUCCESS});
+            yield put({ type: LOGOUT_SUCCESS });
             history.push("/");
         }
-    } catch (e) {
-    }
+    } catch (e) {}
 }
 
 export function* saga() {

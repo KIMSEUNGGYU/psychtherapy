@@ -55,12 +55,12 @@ export const actions = {
 
 export function reducer(
     state = {
-        schedules:[],
-        schedule:{
-            scheduleId:0,
-            reservation:false,
-            startedAt:""
-        },
+        schedules: [],
+        schedule: {
+            scheduleId: 0,
+            reservation: false,
+            startedAt: ""
+        }
     },
     action
 ) {
@@ -70,7 +70,7 @@ export function reducer(
                 ...state
             };
         case GET_PARTNER_SCHEDULE_LIST_SUCCESS:
-            const { schedules }  = action.payload;
+            const { schedules } = action.payload;
             return {
                 ...state,
                 schedules
@@ -78,8 +78,7 @@ export function reducer(
             };
         case GET_PARTNER_SCHEDULE_LIST_FAILURE:
             return {
-                ...state,
-                //loading
+                ...state
             };
         default:
             return state;
@@ -95,7 +94,11 @@ export const api = {
         return await api_manager.post("/schedule/partner", payload);
     },
     deletePartnerSchedule: async (payload) => {
-        return await api_manager.delete(`schedule/partner?partnerId=${partnerId}&scheduleId=${scheduleId}`, payload);
+        const { partnerId, scheduleId } = payload;
+        return await api_manager.remove(
+            `schedule/partner?partnerId=${partnerId}&scheduleId=${scheduleId}`,
+            payload
+        );
     }
 };
 
@@ -105,14 +108,14 @@ function* getPartnerScheduleListFunc(action) {
         const res = yield call(api.getPartnerScheduleList, payload);
         if (res) {
             yield put({
-                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, 
+                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS,
                 payload: {
                     schedules: res.result.schedules
                 }
             });
         } else {
             yield put({
-                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, 
+                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS,
                 payload: {
                     schedules: []
                 }
@@ -124,28 +127,27 @@ function* getPartnerScheduleListFunc(action) {
 }
 
 function* postPartnerScheduleFunc(action) {
+    const payload = action.payload;
     try {
-        const { _payload } = action.payload;
-        const res = yield call(api.postPartnerSchedule, _payload);
+        const res = yield call(api.postPartnerSchedule, payload);
         if (res) {
             yield put({ type: POST_PARTNER_SCHEDULE_SUCCESS });
-            yield put({
-                type: GET_PARTNER_SCHEDULE_LIST_SUCCESS, 
-                payload: {
-                    schedules: res.result.schedules
-                }
-            });
+            // history.push(`/schedule_management/${payload.partnerId}`);
+            alert("일정이 추가 되었습니다.");
         }
     } catch (e) {
         console.log(e);
     }
 }
+
 function* deletePartnerScheduleFunc(action) {
     try {
         const payload = action.payload;
+        console.log(action.payload, "delete");
         const res = yield call(api.deletePartnerSchedule, payload);
         if (res) {
-            yield put({ type: DELETE_PARTNER_SCHEDULE, userData: res });
+            yield put({ type: DELETE_PARTNER_SCHEDULE_SUCCESS });
+            alert("일정이 취소 되었습니다.");
         }
     } catch (e) {
         console.log(e);

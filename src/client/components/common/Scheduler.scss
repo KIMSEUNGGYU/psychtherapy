@@ -44,7 +44,7 @@
                         border: 1px solid #b0b0b0;
                     }
                 }
-                &.selected {
+                &.reserve_able {
                     &::before {
                         border: 1px solid $primary;
                     }
@@ -67,6 +67,11 @@
             color: #b0b0b0;
             line-height: 3.5rem;
             &.selected {
+                border: 3px solid $primary;
+                background-color: rgba(106, 180, 165, 0.25);
+                color: $primary;
+            }
+            &.reserve_able {
                 border: 1px solid $primary;
                 color: $primary;
             }
