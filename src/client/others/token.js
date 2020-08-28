@@ -3,6 +3,11 @@ export const getToken = () => {
     return token ? token : false;
 };
 
+export const getRefreshToken = () => {
+    const token = localStorage.getItem("refreshToken");
+    return token ? token : false;
+};
+
 export const parsingToken = (token) => {
     if (!token) {
         return false;
