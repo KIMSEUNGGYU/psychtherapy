@@ -188,6 +188,13 @@ module.exports = {
         createdAt,
         updatedAt,
       },
+      {
+        email: "gyu",
+        password: "gyu",
+        type: 0,
+        createdAt,
+        updatedAt,
+      },
     ]);
   },
 

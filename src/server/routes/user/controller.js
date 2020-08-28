@@ -70,6 +70,5 @@ exports.detail = async (req, res, next) => {
 
   // 해당 유저가 등록한 스케쥴 정보들을 보여줌
   const schedules = await service.getUserSchedule(userId);
-
   return res.status(200).json(view.userDetail(user, schedules));
 };

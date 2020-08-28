@@ -14,3 +14,5 @@ export const keywords = [
     "성소수자",
     "감정조절"
 ];
+
+export const TICK_TIME = 5000;

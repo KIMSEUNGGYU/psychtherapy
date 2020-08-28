@@ -51,5 +51,7 @@ exports.deleteRefreshToken = async refreshToken =>
 exports.getUserDetailPoint = async userId =>
   await models.userDetails.getUserPoint(models, userId);
 // 유저가 등록한 schedule 가져오는 것!
-exports.getUserSchedule = async userId =>
-  await models.schedules.getSchedule(userId);
+exports.getUserSchedule = async userId => {
+  const condition = { userId };
+  return await models.schedules.getSchedule(condition);
+};

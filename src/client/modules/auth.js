@@ -9,6 +9,8 @@ const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 const LOGOUT = "LOGOUT";
 const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+const REFRESH_TOKEN = "REFRESH_TOKEN";
+const REFRESH_TOKEN_SUCCESS = "REFRESH_TOKEN_SUCCESS";
 
 export const actions = {
     login: (payload) => ({
@@ -28,6 +30,9 @@ export const actions = {
     }),
     logoutSuccess: () => ({
         type: LOGOUT_SUCCESS
+    }),
+    refreshToken: () => ({
+        type: REFRESH_TOKEN
     })
 };
 
@@ -64,6 +69,9 @@ export function reducer(
 export const api = {
     login: async (payload) => {
         return await api_manager.post("/user/signin", payload);
+    },
+    refreshToken: async () => {
+        return await api_manager.put("/token/refresh");
     }
 };
 
@@ -108,7 +116,27 @@ function* logoutFunc() {
     } catch (e) {}
 }
 
+function* refreshTokenFunc(action) {
+    try {
+        const res = yield call(api.refreshToken);
+        if (res) {
+            const { accessToken, refreshToken } = res.result;
+            console.log(accessToken, refreshToken, "res");
+            const { type } = parsingToken(accessToken);
+            yield put({
+                type: REFRESH_TOKEN_SUCCESS,
+                payload: { token: accessToken, type }
+            });
+            localStorage.setItem("token", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export function* saga() {
     yield takeEvery(LOGIN, loginFunc);
     yield takeLatest(LOGOUT, logoutFunc);
+    yield takeEvery(REFRESH_TOKEN, refreshTokenFunc);
 }

@@ -30,6 +30,7 @@ module.exports = {
       { userId: 22, point: 0, createdAt, updatedAt },
       { userId: 23, point: 0, createdAt, updatedAt },
       { userId: 25, point: 0, createdAt, updatedAt },
+      { userId: 27, point: 100000, createdAt, updatedAt },
     ]);
   },
 

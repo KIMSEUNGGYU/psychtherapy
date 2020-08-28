@@ -21,7 +21,7 @@ import {
     PagePricing,
     PageDetail
 } from "client/pages";
-import { Header, Footer, Chat } from "client/components";
+import { Header, Footer, Chat, RefreshToken } from "client/components";
 
 const App = (props) => {
     return (
@@ -71,7 +71,8 @@ const App = (props) => {
                     component={PageAdminPartners}
                 />
                 <Footer />
-                <Chat {...props} />
+                {/* <Chat {...props} /> */}
+                <RefreshToken />
                 <LayerPopupContainer {...props} />
             </Router>
         </Provider>
