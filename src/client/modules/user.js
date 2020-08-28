@@ -14,9 +14,9 @@ const GET_USER_EMAIL_VALIDATE = "GET_USER_EMAIL_VALIDATE";
 const GET_USER_EMAIL_VALIDATE_SUCCESS = "GET_USER_EMAIL_VALIDATE_SUCCESS";
 const GET_USER_EMAIL_VALIDATE_FAILURE = "GET_USER_EMAIL_VALIDATE_FAILURE";
 
-const GET_USER = "GET_USER"
-const GET_USER_SUCCESS = "GET_USER_SUCCESS"
-const GET_USER_FAILURE = "GET_USER_FAILURE"
+export const GET_USER = "GET_USER";
+const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+const GET_USER_FAILURE = "GET_USER_FAILURE";
 
 export const actions = {
     postUser: (payload) => ({
@@ -66,20 +66,20 @@ export const actions = {
     getUserFailure: (payload) => ({
         type: GET_USER_FAILURE,
         payload
-    }),
+    })
 };
 
 export function reducer(
     state = {
         emailForbidden: false,
-        user:{
-            name:"",
-            gender:"",
-            age:"",
-            id:"",
-            email:"",
-            point:"",
-            schedules:[]
+        user: {
+            name: "",
+            gender: "",
+            age: "",
+            id: "",
+            email: "",
+            point: "",
+            schedules: []
         }
     },
     action
@@ -87,7 +87,7 @@ export function reducer(
     switch (action.type) {
         case GET_USER:
             return {
-                ...state,
+                ...state
             };
         case GET_USER_SUCCESS:
             const { user } = action.payload;
@@ -97,7 +97,7 @@ export function reducer(
             };
         case GET_USER_FAILURE:
             return {
-                ...state,      
+                ...state
             };
         case GET_USER_EMAIL_VALIDATE:
             return {
@@ -132,7 +132,7 @@ export const api = {
         );
     },
     getUser: async (payload) => {
-        return await api_manager.get("/user/detail",payload);
+        return await api_manager.get("/user/detail", payload);
     }
 };
 
@@ -189,15 +189,14 @@ function* getUserValidateFunc(action) {
 function* getUserFunc(action) {
     try {
         const payload = action.payload;
-        const res = yield call(api.getUser,payload);
+        const res = yield call(api.getUser, payload);
         if (res) {
             yield put({
                 type: GET_USER_SUCCESS,
-                payload: { user : res.result }
+                payload: { user: res.result }
             });
         }
-    } catch (e) {
-    }
+    } catch (e) {}
 }
 
 export function* saga() {

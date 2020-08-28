@@ -1,39 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Pricing.scss";
-import axios from "axios";
+import Iamport from "react-iamport";
+import { getToken } from "client/others/token";
+import { Popup } from "client/components";
 
-const Pricing = () => {
-    const onClickPay = () => {
-        let config = {
-            headers: {
-                Authorization: `KakaoAK f314affe38c755754379a94c022fb46c`,
-                accept: "application/json",
-                "Content-Type":
-                    "application/x-www-form-urlencoded;charset=utf-8",
-                "Cache-Control": "no-cache:",
-                Pragma: "no-cache"
-            }
-        };
-        let data = {
-            partner_order_id: "20200813",
-            partner_user_id: "test",
-            item_name: "상담권",
-            quantity: 3,
-            total_amount: 1,
-            tax_free_amount: 0.1,
-            approval_url: "/pricing",
-            cancel_url: "/pricing",
-            fail_url: "/pricing"
-        };
+const _identificationCode = "imp59422487";
+const Pricing = (props) => {
+    const { user } = props;
+    const [prices, setPrices] = useState({
+        normal: 1,
+        export: 1,
+        master: 1
+    });
+    const [iamportParams, setIamportParams] = useState({
+        pg: "kakaopay",
+        pay_method: "card",
+        merchant_uid: "merchant_" + new Date().getTime(),
+        name: "Be Simple 포인트 충전",
+        m_redirect_url: window.location.origin + "pricing"
+    });
 
-        axios
-            .post("https://kapi.kakao.com/v1/payment/ready", data, config)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+    useEffect(() => {
+        setIamportParams((params) => ({
+            ...params,
+            buyer_name: user.name,
+            buyer_email: user.email
+        }));
+    }, [props.user]);
+
+    useEffect(() => {
+        props.getUser();
+    }, []);
+
+    const onClickMinus = (key) => {
+        if (prices[key] === 1) {
+            return;
+        }
+        setPrices((prices) => ({
+            ...prices,
+            [key]: prices[key] - 1
+        }));
+    };
+    const onClickPlus = (key) => {
+        setPrices((prices) => ({
+            ...prices,
+            [key]: prices[key] + 1
+        }));
+    };
+    const chargePoint = (res, point) => {
+        if (res.success) {
+            props.putChargePoint({
+                userId: user.id,
+                point
             });
+        }
     };
     return (
         <div className="container pricing">
@@ -46,45 +66,164 @@ const Pricing = () => {
                 <div className="card_box">
                     <ul className="flex_box between">
                         <li>
-                            <p className="top_txt">텍스트 테라피 30분 상담권</p>
+                            <p className="top_txt">
+                                텍스트 테라피 {30 * prices.normal}분 상담권
+                            </p>
                             <p className="card_title">일반 상담사</p>
                             <p className="price">
                                 <span className="sign">&#8361;</span>
-                                25,000
+                                {25000 * prices.normal}
                             </p>
                             <p className="point">
-                                <button className="minus_btn">-</button>1 POINT
-                                <button className="plus_btn">+</button>
+                                <button
+                                    className="minus_btn"
+                                    onClick={() => onClickMinus("normal")}
+                                >
+                                    -
+                                </button>
+                                {prices.normal} POINT
+                                <button
+                                    className="plus_btn"
+                                    onClick={() => onClickPlus("normal")}
+                                >
+                                    +
+                                </button>
                             </p>
-                            <button className="pay_btn" onClick={onClickPay}>
-                                결제하기
-                            </button>
+                            <Iamport
+                                identificationCode={_identificationCode}
+                                params={{
+                                    ...iamportParams,
+                                    amount: 1 //test
+                                    // amount: 25000 * prices.normal
+                                }}
+                                onFailed={(err) => console.log(err, "error")}
+                                onSuccess={(res) =>
+                                    chargePoint(res, prices.normal)
+                                }
+                                jqueryLoaded={false}
+                                render={(renderProps) => (
+                                    <button
+                                        className="pay_btn"
+                                        onClick={() => {
+                                            if (getToken()) {
+                                                renderProps.onClick();
+                                            } else {
+                                                Popup.loginPopup({
+                                                    className: "login"
+                                                });
+                                            }
+                                        }}
+                                    >
+                                        충전하기
+                                    </button>
+                                )}
+                            />
                         </li>
                         <li>
-                            <p className="top_txt">텍스트 테라피 30분 상담권</p>
+                            <p className="top_txt">
+                                텍스트 테라피 {30 * prices.master}분 상담권
+                            </p>
                             <p className="card_title">마스터 상담사</p>
                             <p className="price">
                                 <span className="sign">&#8361;</span>
-                                65,000
+                                {75000 * prices.master}
                             </p>
                             <p className="point">
-                                <button className="minus_btn">-</button>5 POINT
-                                <button className="plus_btn">+</button>
+                                <button
+                                    className="minus_btn"
+                                    onClick={() => onClickMinus("master")}
+                                >
+                                    -
+                                </button>
+                                {3 * prices.master} POINT
+                                <button
+                                    className="plus_btn"
+                                    onClick={() => onClickPlus("master")}
+                                >
+                                    +
+                                </button>
                             </p>
-                            <button className="pay_btn">결제하기</button>
+                            <Iamport
+                                identificationCode={_identificationCode}
+                                params={{
+                                    ...iamportParams,
+                                    amount: 75000 * prices.master
+                                }}
+                                onFailed={(err) => console.log(err, "error")}
+                                onSuccess={(res) =>
+                                    chargePoint(res, 3 * prices.master)
+                                }
+                                jqueryLoaded={false}
+                                render={(renderProps) => (
+                                    <button
+                                        className="pay_btn"
+                                        onClick={() => {
+                                            if (getToken()) {
+                                                renderProps.onClick();
+                                            } else {
+                                                Popup.loginPopup({
+                                                    className: "login"
+                                                });
+                                            }
+                                        }}
+                                    >
+                                        충전하기
+                                    </button>
+                                )}
+                            />{" "}
                         </li>
                         <li>
-                            <p className="top_txt">텍스트 테라피 30분 상담권</p>
+                            <p className="top_txt">
+                                텍스트 테라피 {30 * prices.export}분 상담권
+                            </p>
                             <p className="card_title">전문 상담사</p>
                             <p className="price">
                                 <span className="sign">&#8361;</span>
-                                50,000
+                                {50000 * prices.export}
                             </p>
                             <p className="point">
-                                <button className="minus_btn">-</button>3 POINT
-                                <button className="plus_btn">+</button>
+                                <button
+                                    className="minus_btn"
+                                    onClick={() => onClickMinus("export")}
+                                >
+                                    -
+                                </button>
+                                {2 * prices.export} POINT
+                                <button
+                                    className="plus_btn"
+                                    onClick={() => onClickPlus("export")}
+                                >
+                                    +
+                                </button>
                             </p>
-                            <button className="pay_btn">결제하기</button>
+                            <Iamport
+                                identificationCode={_identificationCode}
+                                params={{
+                                    ...iamportParams,
+                                    amount: 50000 * prices.export
+                                }}
+                                onFailed={(err) => console.log(err, "error")}
+                                onSuccess={(res) =>
+                                    chargePoint(res, 2 * prices.master)
+                                }
+                                jqueryLoaded={false}
+                                render={(renderProps) => (
+                                    <button
+                                        className="pay_btn"
+                                        onClick={() => {
+                                            if (getToken()) {
+                                                renderProps.onClick();
+                                            } else {
+                                                Popup.loginPopup({
+                                                    className: "login"
+                                                });
+                                            }
+                                        }}
+                                    >
+                                        충전하기
+                                    </button>
+                                )}
+                            />{" "}
                         </li>
                     </ul>
                 </div>
