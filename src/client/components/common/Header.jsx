@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
-import { getToken, getUserType } from "client/others/token";
+import { getToken, getUserType,} from "client/others/token";
 import { GoSignOut } from "react-icons/go";
-import { history } from "client/store";
 import { Popup } from "client/components";
+import { actions as userActions } from "client/modules/user";
+import { actions as authActions } from "client/modules/auth";
+import { history } from "client/store";
+
 import useReactRouter from "use-react-router";
 
 const Header = (props) => {
@@ -13,12 +16,18 @@ const Header = (props) => {
     const {
         location: { pathname }
     } = useReactRouter();
+    const [loginFlag, setLoginFlag] = useState(false);
 
     // [TO DO] token값으로 변경
     useEffect(() => {
-        console.log(props.token, props.type);
         const _is_admin = getToken() && getUserType() === 99;
         setIsAdmin(_is_admin);
+        if(localStorage.getItem("token")) {
+            setLoginFlag(true)
+        }
+        if(props.type === 0 ) {
+            props.getUser(); 
+        }
     }, [props.token, props.type]);
 
     const onClickLogin = () => {
@@ -27,7 +36,14 @@ const Header = (props) => {
     const onClickJoin = () => {
         Popup.joinPopup({ className: "join" });
     };
-
+    const onClickLogout = () => {
+        props.logout();
+        setIsAdmin("");
+        setLoginFlag(false)
+        alert("로그아웃 되었습니다.")
+        return history.push("/")
+    };
+    
     return (
         <div className="header">
             <div className="header_top">
@@ -43,14 +59,25 @@ const Header = (props) => {
                         </span>
                     </div>
                     {/* [TO DO] logout처리 */}
-                    {is_admin ? (
-                        <button
-                            className="logout-btn"
-                            onClick={() => localStorage.removeItem("token")}
-                        >
-                            <GoSignOut />
-                            로그아웃
-                        </button>
+                    {loginFlag ? (
+                    <div className="login">
+                        <span>
+                            <button className="logout-btn" onClick={onClickLogout}>
+                                <GoSignOut />
+                                로그아웃
+                                </button>
+                        </span>
+                        <span>|</span>
+                        <span className="last">
+                         <button onClick={() =>
+                            history.push("/detail")
+                            }>
+                             <MdPerson  />
+                             마이페이지
+                         </button>
+                        </span>
+                    </div>
+                        
                     ) : (
                         <div className="login">
                             <span>
@@ -149,7 +176,7 @@ const Header = (props) => {
                                         </button>
                                     </li>
                                     <li>
-                                        <button
+                                       <button
                                             className="last_btn"
                                             onClick={() =>
                                                 history.push(
@@ -173,12 +200,16 @@ const Header = (props) => {
 const mapStateToProps = (state) => {
     return {
         token: state.auth.token,
-        type: state.auth.type
+        type: state.auth.type,
+        user: state.user.user
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        getUser: (payload) => dispatch(userActions.getUser(payload)),
+        logout:() => dispatch(authActions.logout())
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

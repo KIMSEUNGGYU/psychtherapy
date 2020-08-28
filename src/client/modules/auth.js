@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import api_manager from "client/api-manager";
 import { parsingToken } from "client/others/token";
 import { history } from "client/store";
@@ -7,6 +7,8 @@ const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILURE = "LOGIN_FAILURE";
 
+const LOGOUT = "LOGOUT";
+const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 const REFRESH_TOKEN = "REFRESH_TOKEN";
 const REFRESH_TOKEN_SUCCESS = "REFRESH_TOKEN_SUCCESS";
 
@@ -22,6 +24,12 @@ export const actions = {
     loginFailure: (payload) => ({
         type: LOGIN_FAILURE,
         payload
+    }),
+    logout: () => ({
+        type: LOGOUT
+    }),
+    logoutSuccess: () => ({
+        type: LOGOUT_SUCCESS
     }),
     refreshToken: () => ({
         type: REFRESH_TOKEN
@@ -47,6 +55,12 @@ export function reducer(
                 ...state,
                 token,
                 type
+            };
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                token: "",
+                type: ""
             };
         default:
             return state;
@@ -76,8 +90,28 @@ function* loginFunc(action) {
             localStorage.setItem("refreshToken", refreshToken);
             callbackFunc();
             if (type === 99) {
+                alert("Admin Login");
                 history.push("/admin_users?page=1&size=25");
             }
+            if (type === 0) {
+                alert("Common User Login");
+            }
+            if (type === 1) {
+                alert("Partners Login");
+            }
+        }
+    } catch (e) {}
+}
+
+function* logoutFunc() {
+    try {
+        yield put(
+            localStorage.removeItem("refreshToken"),
+            localStorage.removeItem("token")
+        );
+        if (!localStorage.getItem("token")) {
+            yield put({ type: LOGOUT_SUCCESS });
+            history.push("/");
         }
     } catch (e) {}
 }
@@ -103,5 +137,6 @@ function* refreshTokenFunc(action) {
 
 export function* saga() {
     yield takeEvery(LOGIN, loginFunc);
+    yield takeLatest(LOGOUT, logoutFunc);
     yield takeEvery(REFRESH_TOKEN, refreshTokenFunc);
 }

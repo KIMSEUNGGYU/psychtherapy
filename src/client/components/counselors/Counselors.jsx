@@ -73,12 +73,7 @@ const Counselors = (props) => {
                                             className="more_btn"
                                             onClick={() =>
                                                 props.history.push(
-                                                    `${
-                                                        props.location.pathname
-                                                    }/${queryString.stringify(
-                                                        queryData
-                                                    )}/${el.id}`
-                                                )
+                                                    `${props.location.pathname}/${queryString.stringify(queryData)}/${el.id}`)
                                             }
                                         >
                                             자세히 보기

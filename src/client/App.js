@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "client/app.scss";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
@@ -18,7 +18,8 @@ import {
     PageAdminPartners,
     PageAdminWaiters,
     PageScheduleManagement,
-    PagePricing
+    PagePricing,
+    PageDetail
 } from "client/pages";
 import { Header, Footer, Chat, RefreshToken } from "client/components";
 
@@ -46,7 +47,12 @@ const App = (props) => {
                 <PublicRoute exact path="/pricing" component={PagePricing} />
                 <PrivateRoute
                     exact
-                    path="/partners/:id/schedule_management"
+                    path="/detail"
+                    component={PageDetail}
+                />
+                <PrivateRoute
+                    exact
+                    path="/schedule_management/:partner_id"
                     component={PageScheduleManagement}
                 />
                 <AdminPrivateRoute

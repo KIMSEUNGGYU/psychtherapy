@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+
+.detail {
+    width: 100%;
+    min-height: calc(100vh - 6.375rem);
+    padding-top: 8.5rem;
+    padding-bottom: 2rem;
+    .title {
+        line-height: 1.125rem;
+        font-weight: 500;
+        font-size: 1.125rem;
+        margin-bottom: 1rem;
+    }
+    .schedule-btn {
+        background: #6ab4a5;
+        padding: 0.675rem 1.25rem;
+        color: #fff;
+    }
+}

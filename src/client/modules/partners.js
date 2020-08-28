@@ -69,6 +69,24 @@ export function reducer(
             };
         case GET_PARTNER_SUCCESS:
             const { partner } = action.payload;
+            if (partner.career === null) {
+                return {
+                    ...state,
+                    partner: {
+                        ...partner,
+                        keyword: "우울",
+                        url: "",
+                        shortInfo: "",
+                        career: "",
+                        info: "",
+                        chatCost: "",
+                        level: 1,
+                        certificate: 1,
+                        image: "",
+                        evaluate: false
+                    }
+                };
+            }
             return {
                 ...state,
                 partner,
@@ -119,7 +137,6 @@ function* getPartnerFunc(action) {
 function* getPartnersFunc(action) {
     try {
         const { payload } = action;
-        console.log(payload.keyword);
         const res = yield call(api.getPartners, payload);
         //[TO DO]
         if (res) {
