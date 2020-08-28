@@ -5,6 +5,7 @@ import { saga as userSaga } from "client/modules/user";
 import { saga as partnersSaga } from "client/modules/partners";
 import { saga as scheduleSaga } from "client/modules/schedule";
 import { saga as chatSaga } from "client/modules/chat";
+import { saga as pointSaga } from "client/modules/point";
 
 export default function* rootSaga() {
     yield all([
@@ -13,6 +14,7 @@ export default function* rootSaga() {
         fork(userSaga),
         fork(partnersSaga),
         fork(scheduleSaga),
-        fork(chatSaga)
+        fork(chatSaga),
+        fork(pointSaga)
     ]);
 }
