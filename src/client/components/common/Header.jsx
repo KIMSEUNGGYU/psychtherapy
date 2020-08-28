@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import "./Header.scss";
 import { MdEmail, MdPhone, MdPerson, MdLock } from "react-icons/md";
-import { getToken, getUserType,} from "client/others/token";
+import { getToken, getUserType } from "client/others/token";
 import { GoSignOut } from "react-icons/go";
 import { Popup } from "client/components";
 import { actions as userActions } from "client/modules/user";
@@ -22,11 +22,11 @@ const Header = (props) => {
     useEffect(() => {
         const _is_admin = getToken() && getUserType() === 99;
         setIsAdmin(_is_admin);
-        if(localStorage.getItem("token")) {
-            setLoginFlag(true)
+        if (localStorage.getItem("token")) {
+            setLoginFlag(true);
         }
-        if(props.type === 0 ) {
-            props.getUser(); 
+        if (props.type === 0) {
+            props.getUser();
         }
     }, [props.token, props.type]);
 
@@ -39,11 +39,11 @@ const Header = (props) => {
     const onClickLogout = () => {
         props.logout();
         setIsAdmin("");
-        setLoginFlag(false)
-        alert("로그아웃 되었습니다.")
-        return history.push("/")
+        setLoginFlag(false);
+        alert("로그아웃 되었습니다.");
+        return history.push("/");
     };
-    
+
     return (
         <div className="header">
             <div className="header_top">
@@ -60,24 +60,30 @@ const Header = (props) => {
                     </div>
                     {/* [TO DO] logout처리 */}
                     {loginFlag ? (
-                    <div className="login">
-                        <span>
-                            <button className="logout-btn" onClick={onClickLogout}>
-                                <GoSignOut />
-                                로그아웃
+                        <div className="login">
+                            <span>
+                                <button
+                                    className="logout-btn"
+                                    onClick={onClickLogout}
+                                >
+                                    <GoSignOut />
+                                    로그아웃
                                 </button>
-                        </span>
-                        <span>|</span>
-                        <span className="last">
-                         <button onClick={() =>
-                            history.push("/detail")
-                            }>
-                             <MdPerson  />
-                             마이페이지
-                         </button>
-                        </span>
-                    </div>
-                        
+                            </span>
+                            {is_admin ? (
+                                ""
+                            ) : (
+                                <span className="last">
+                                    <span>|</span>
+                                    <button
+                                        onClick={() => history.push("/detail")}
+                                    >
+                                        <MdPerson />
+                                        마이페이지
+                                    </button>
+                                </span>
+                            )}
+                        </div>
                     ) : (
                         <div className="login">
                             <span>
@@ -176,7 +182,7 @@ const Header = (props) => {
                                         </button>
                                     </li>
                                     <li>
-                                       <button
+                                        <button
                                             className="last_btn"
                                             onClick={() =>
                                                 history.push(
@@ -208,7 +214,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUser: (payload) => dispatch(userActions.getUser(payload)),
-        logout:() => dispatch(authActions.logout())
+        logout: () => dispatch(authActions.logout())
     };
 };
 
