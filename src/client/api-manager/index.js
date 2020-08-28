@@ -1,14 +1,21 @@
 import Ajax from "./ajax";
-import { getToken } from "client/others/token";
+import { getToken, getRefreshToken } from "client/others/token";
 
 class ResourceService extends Ajax {
     constructor(host) {
         super({
             headerAuthorization: () => {
+                const obj = {
+                    token: "",
+                    refreshToken: ""
+                };
                 if (getToken()) {
-                    return getToken();
+                    obj["token"] = getToken();
                 }
-                return "";
+                if (getRefreshToken()) {
+                    obj["refreshToken"] = getRefreshToken();
+                }
+                return obj;
             },
             headers: {
                 accept: "application/json",
@@ -24,7 +31,7 @@ class ResourceService extends Ajax {
     }
 }
 
-const link = "http://localhost:3000/";
+const link = "http://15.164.52.189/";
 const host = `${link}api/v1`;
 
 const api_manager = new ResourceService(host);
