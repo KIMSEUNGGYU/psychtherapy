@@ -12,7 +12,6 @@ import { keywords } from "client/others/const";
 import { LayerPopup } from "client/libs/popup";
 
 const PartnerProfilePopup = (props) => {
-    console.log(props, "props");
     const [partnerData, setPartnerData] = useState(props.partner);
     const {
         email,
@@ -63,7 +62,7 @@ const PartnerProfilePopup = (props) => {
                 let base64String = window.btoa(binaryData);
                 setPartnerData((partnerData) => ({
                     ...partnerData,
-                    image: base64String
+                    image: `data:image/jpg;base64, ${base64String}`
                 }));
             };
         })(f);
@@ -84,7 +83,7 @@ const PartnerProfilePopup = (props) => {
                     <p className="sub-title">프로필 설정</p>
                     <div className="picture_box">
                         <div className="img_box">
-                            <img src={doc1} alt="" />
+                            <img src={image} alt="" />
                         </div>
                         <label
                             className="upload_btn custom-file-upload"

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Counselor.scss";
 import { AiOutlineYoutube } from "react-icons/ai";
 import moment from "moment";
-import doc1 from "client/images/doc1.jpg";
 import { Scheduler, Popup } from "client/components";
 
 const Counselor = (props) => {
@@ -29,7 +28,7 @@ const Counselor = (props) => {
             : 0;
         setTotalPoint(_totalPoint);
     }, [reservedId]);
-
+    console.log(props.partner, "partner");
     useEffect(() => {
         if (props.partner.schedules) {
             let scheduleArr = [];
@@ -103,7 +102,7 @@ const Counselor = (props) => {
                 </div>
                 <div className="top_box flex_box between">
                     <div className="img_box">
-                        <img src={doc1} alt="" />
+                        <img src={props.partner.image} alt="" />
                     </div>
                     <div className="txt_box">
                         <p className="level">
