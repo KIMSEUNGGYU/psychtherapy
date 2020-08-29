@@ -64,6 +64,7 @@ export function reducer(
                 }
             ]
         },
+        schedules: [],
         partners: [],
         partnersTotal: 0
     },
@@ -91,7 +92,8 @@ export function reducer(
                         level: 1,
                         certificate: 1,
                         image: "",
-                        evaluate: false
+                        evaluate: false,
+                        schedules: []
                     }
                 };
             }
@@ -114,8 +116,8 @@ export function reducer(
 }
 export const api = {
     getPartner: async (payload) => {
-        const { id } = payload;
-        return await api_manager.get(`/partner/detail/${id}`);
+        const { partnerId } = payload;
+        return await api_manager.get(`/partner/detail/${partnerId}`);
     },
     getPartners: async (payload) => {
         const { page, size, gender, level, certificate, keyword } = payload;

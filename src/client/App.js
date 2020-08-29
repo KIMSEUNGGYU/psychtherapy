@@ -36,7 +36,7 @@ const App = (props) => {
                 />
                 <PublicRoute
                     exact
-                    path="/partners/:prev_search/:id"
+                    path="/partners/:prev_search/:partner_id"
                     component={PageCounselor}
                 />
                 <PublicRoute
@@ -45,11 +45,7 @@ const App = (props) => {
                     component={PageCounselingPayment}
                 />
                 <PublicRoute exact path="/pricing" component={PagePricing} />
-                <PrivateRoute
-                    exact
-                    path="/detail"
-                    component={PageDetail}
-                />
+                <PrivateRoute exact path="/detail" component={PageDetail} />
                 <PrivateRoute
                     exact
                     path="/schedule_management/:partner_id"
