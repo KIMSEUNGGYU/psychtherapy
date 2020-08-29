@@ -52,6 +52,10 @@
                         &.delete_btn {
                             color: rgba(0, 0, 0, 0.3);
                         }
+                        &.reserve_btn {
+                            background: $primary;
+                            color: #fff;
+                        }
                     }
                     text-align: right;
                     border-left: none;

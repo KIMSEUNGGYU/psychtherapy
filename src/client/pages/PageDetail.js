@@ -2,20 +2,25 @@ import { connect } from "react-redux";
 import { Detail } from "client/components";
 import { actions as partnersActions } from "client/modules/partners";
 import { actions as userActions } from "client/modules/user";
+import { actions as scheduleActions } from "client/modules/schedule";
 
-
-
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
     return {
         token: state.auth.token,
         type: state.auth.type,
         user: state.user.user,
-        partner: state.partners.partner
-}; };
+        partner: state.partners.partner,
+        schedules: state.schedule.schedules
+    };
+};
 
-const mapDispatchToProps = (dispatch) => { return {
-    getPartner: (payload) => dispatch(partnersActions.getPartner(payload)),
-    getUser: (payload) => dispatch(userActions.getUser(payload))
-}; };
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getPartner: (payload) => dispatch(partnersActions.getPartner(payload)),
+        getPartnerScheduleList: (payload) =>
+            dispatch(scheduleActions.getPartnerScheduleList(payload)),
+        getUser: (payload) => dispatch(userActions.getUser(payload))
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);

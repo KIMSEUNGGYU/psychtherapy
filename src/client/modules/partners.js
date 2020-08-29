@@ -54,7 +54,15 @@ export function reducer(
             level: 1,
             certificate: 1,
             image: "",
-            evaluate: false
+            evaluate: false,
+            schedules: [
+                {
+                    scheduleId: "",
+                    reservation: "",
+                    roomId: null,
+                    startedAt: ""
+                }
+            ]
         },
         partners: [],
         partnersTotal: 0
@@ -125,7 +133,10 @@ function* getPartnerFunc(action) {
             yield put({
                 type: GET_PARTNER_SUCCESS,
                 payload: {
-                    partner: res.result.partner
+                    partner: {
+                        ...res.result.partner,
+                        schedules: res.result.schedules
+                    }
                 }
             });
         }
