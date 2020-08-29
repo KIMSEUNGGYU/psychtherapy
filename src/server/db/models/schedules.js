@@ -105,7 +105,14 @@ module.exports = (sequelize, DataTypes) => {
         ["id", "scheduleId"],
         [sequelize.literal("IF (userId IS NULL, false, true)"), "reservation"],
         "roomId",
-        "startedAt",
+        [
+          sequelize.Sequelize.fn(
+            "date_format",
+            sequelize.Sequelize.col("startedAt"),
+            "%Y-%m-%d %H:%i:%s",
+          ),
+          "startedAt",
+        ],
       ],
       raw: true,
       where: { ...condition },
