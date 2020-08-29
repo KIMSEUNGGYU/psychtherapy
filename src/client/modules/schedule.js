@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest, takeEvery } from "redux-saga/effects";
 import api_manager from "client/api-manager";
 // import { history } from "client/store";
 
@@ -127,12 +127,16 @@ function* getPartnerScheduleListFunc(action) {
 }
 
 function* postPartnerScheduleFunc(action) {
-    const { partnerId, date } = action.payload;
+    const { partnerId, date, schedules } = action.payload;
     try {
         const res = yield call(api.postPartnerSchedule, action.payload);
         if (res) {
+            console.log(res, "res");
             alert("일정이 추가 되었습니다.");
-            yield put({ type: GET_PARTNER_SCHEDULE_LIST, payload:{ partnerId, date }});
+            yield put({
+                type: GET_PARTNER_SCHEDULE_LIST,
+                payload: { partnerId, date }
+            });
         }
     } catch (e) {
         console.log(e);
@@ -141,9 +145,8 @@ function* postPartnerScheduleFunc(action) {
 
 function* deletePartnerScheduleFunc(action) {
     try {
-        const payload = action.payload;
-        console.log(action.payload, "delete");
-        const res = yield call(api.deletePartnerSchedule, payload);
+        const res = yield call(api.deletePartnerSchedule, action.payload);
+        console.log(res, "res");
         if (res) {
             yield put({ type: DELETE_PARTNER_SCHEDULE_SUCCESS });
             alert("일정이 취소 되었습니다.");

@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Counselor.scss";
 import { AiOutlineYoutube } from "react-icons/ai";
+import moment from "moment";
 import doc1 from "client/images/doc1.jpg";
 import { Scheduler } from "client/components";
 
@@ -10,7 +11,70 @@ const Counselor = (props) => {
     useEffect(() => {
         getPartner({ id });
     }, []);
-    console.log(props.partner);
+    const { partner_id } = props.match.params;
+
+    const [times, setTimes] = useState([]);
+    const [scheduleDate, setScheduleDate] = useState(
+        moment().format("YYYY-MM-DD")
+    );
+    useEffect(() => {
+        const payload = {
+            partnerId: Number(partner_id),
+            date: moment().format("YYYY-MM-DD")
+        };
+        props.getPartnerScheduleList(payload);
+    }, []);
+
+    useEffect(() => {
+        if (props.schedules) {
+            console.log(props.schedules);
+            let scheduleArr = [];
+            for (let i = 0; i < 48; i++) {
+                const startedAt = moment()
+                    .utcOffset(0)
+                    .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+                    .add(i * 30, "minutes")
+                    .format("YYYY-MM-DD HH:mm:ss");
+                let obj = {
+                    startedAt,
+                    reservation: 2,
+                    scheduleId: null
+                };
+                props.schedules.forEach((el) => {
+                    if (el.startedAt === startedAt) {
+                        obj["reservation"] = el.reservation;
+                        obj["scheduleId"] = el.scheduleId;
+                    }
+                });
+                scheduleArr.push(obj);
+            }
+            setTimes(scheduleArr);
+        }
+    }, [props.schedules]);
+    const onClickSave = (edit, schedules) => {
+        if (edit === "delete") {
+            schedules.forEach((scheduleId) => {
+                props.deletePartnerSchedule({
+                    partnerId: Number(partner_id),
+                    scheduleId
+                });
+            });
+        } else {
+            props.postPartnerSchedule({
+                partnerId: Number(partner_id),
+                date: scheduleDate,
+                schedules
+            });
+        }
+    };
+    const schedulerProps = {
+        schedules: props.schedules,
+        userType: "partner",
+        times,
+        scheduleDate,
+        setScheduleDate,
+        onClickSave
+    };
     return (
         <div className="container counselor">
             <div className="layout">
@@ -92,7 +156,7 @@ const Counselor = (props) => {
                 </div>
                 <div className="scheduler_box">
                     <p className="sub_title">상담 가능 시간</p>
-                    <Scheduler {...props} />
+                    <Scheduler {...schedulerProps} />
                 </div>
                 <div className="payment_box flex_box between">
                     <p className="total">TOTAL :</p>

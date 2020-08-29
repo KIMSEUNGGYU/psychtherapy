@@ -1,6 +1,22 @@
 @import "../../styles/variables";
 
 .scheduler_box {
+    .save_btn {
+        display: flex;
+        justify-content: flex-end;
+        button {
+            width: 10rem;
+            height: 3rem;
+            background: $primary;
+            font-size: 1rem;
+            color: #fff;
+            &:disabled {
+                background: #b0b0b0;
+                color: #fff;
+                cursor: not-allowed;
+            }
+        }
+    }
     .top_box {
         .today {
             // text-align: center;
@@ -11,14 +27,12 @@
         button {
             width: 6rem;
             height: 2rem;
-            &.cancel_btn {
+            border: 1px solid #b0b0b0;
+            color: #b0b0b0;
+            margin-right: 0.5rem;
+            &.active {
                 border: 1px solid $primary;
                 color: $primary;
-                margin-right: 0.5rem;
-            }
-            &.save_btn {
-                background: $primary;
-                color: #fff;
             }
         }
     }
@@ -66,16 +80,20 @@
             border: 1px solid #b0b0b0;
             color: #b0b0b0;
             line-height: 3.5rem;
+            &:disabled {
+                cursor: not-allowed;
+            }
             &.selected {
-                border: 3px solid $primary;
+                border: 2px solid $primary;
                 background-color: rgba(106, 180, 165, 0.25);
                 color: $primary;
             }
             &.reserve_able {
-                border: 1px solid $primary;
+                border: 2px solid $primary;
                 color: $primary;
             }
             &.reserved {
+                border: 2px solid $primary;
                 background: $primary;
                 color: #fff;
             }
