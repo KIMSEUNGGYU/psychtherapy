@@ -3,44 +3,48 @@ import "./Counselor.scss";
 import { AiOutlineYoutube } from "react-icons/ai";
 import moment from "moment";
 import doc1 from "client/images/doc1.jpg";
-import { Scheduler } from "client/components";
+import { Scheduler, Popup } from "client/components";
 
 const Counselor = (props) => {
-    const { partner, getPartner, match } = props;
-    const { prev_search, id } = match.params;
-    useEffect(() => {
-        getPartner({ id });
-    }, []);
-    const { partner_id } = props.match.params;
-
+    const { partner, getPartner, match, getUser } = props;
+    const { prev_search, partner_id } = match.params;
     const [times, setTimes] = useState([]);
     const [scheduleDate, setScheduleDate] = useState(
         moment().format("YYYY-MM-DD")
     );
+    const [reservedId, setReservedId] = useState(0);
+    const [totalPoint, setTotalPoint] = useState(0);
     useEffect(() => {
-        const payload = {
-            partnerId: Number(partner_id),
-            date: moment().format("YYYY-MM-DD")
-        };
-        props.getPartnerScheduleList(payload);
+        getPartner({ partnerId: Number(partner_id) });
+        getUser();
     }, []);
 
     useEffect(() => {
-        if (props.schedules) {
-            console.log(props.schedules);
+        const _totalPoint = reservedId
+            ? props.partner.level === 1
+                ? 3
+                : props.partner.level === 2
+                ? 2
+                : props.partner.level
+            : 0;
+        setTotalPoint(_totalPoint);
+    }, [reservedId]);
+
+    useEffect(() => {
+        if (props.partner.schedules) {
             let scheduleArr = [];
             for (let i = 0; i < 48; i++) {
                 const startedAt = moment()
                     .utcOffset(0)
                     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
                     .add(i * 30, "minutes")
-                    .format("YYYY-MM-DD HH:mm:ss");
+                    .toISOString();
                 let obj = {
                     startedAt,
                     reservation: 2,
                     scheduleId: null
                 };
-                props.schedules.forEach((el) => {
+                props.partner.schedules.forEach((el) => {
                     if (el.startedAt === startedAt) {
                         obj["reservation"] = el.reservation;
                         obj["scheduleId"] = el.scheduleId;
@@ -48,32 +52,38 @@ const Counselor = (props) => {
                 });
                 scheduleArr.push(obj);
             }
+            console.log(scheduleArr);
             setTimes(scheduleArr);
         }
-    }, [props.schedules]);
-    const onClickSave = (edit, schedules) => {
-        if (edit === "delete") {
-            schedules.forEach((scheduleId) => {
-                props.deletePartnerSchedule({
-                    partnerId: Number(partner_id),
-                    scheduleId
-                });
+    }, [props.partner]);
+
+    const onClickApply = () => {
+        if (!props.user.id) {
+            Popup.loginPopup({
+                className: "login"
             });
-        } else {
-            props.postPartnerSchedule({
-                partnerId: Number(partner_id),
-                date: scheduleDate,
-                schedules
-            });
+            return;
         }
+        if (props.user.point < totalPoint) {
+            alert("포인트가 부족합니다");
+            props.history.push("/pricing");
+            return;
+        }
+        props.putPurchasePoint({
+            userId: props.user.id,
+            point: totalPoint,
+            partnerId: Number(partner_id),
+            scheduleId: reservedId
+        });
     };
     const schedulerProps = {
-        schedules: props.schedules,
-        userType: "partner",
+        schedules: props.partner.schedules,
+        userType: "user",
         times,
         scheduleDate,
         setScheduleDate,
-        onClickSave
+        reservedId,
+        setReservedId
     };
     return (
         <div className="container counselor">
@@ -127,32 +137,7 @@ const Counselor = (props) => {
                             <AiOutlineYoutube />
                             소개 영상 보러가기
                         </button>
-                        {/* <button className="put_btn">상담 신청하기</button> */}
                     </div>
-                    {/* <div className="put_box">
-                        <div className="notice">
-                            <p className="notice_title">결제 안내</p>
-                            <p className="notice_txt">
-                                대한민국의 영토는 한반도와 그 부속도서로 한다.
-                                국회는 상호원조 또는 안전보장에 관한 조약 중요한
-                                국제조직에 관한 조약, 국회는 상호원조
-                            </p>
-                        </div>
-                        <div className="point_box flex_box between">
-                            <p className="label">상담 가격</p>
-                            <p className="value">5Point</p>
-                        </div>
-                        <button
-                            className="put_btn"
-                            onClick={() =>
-                                props.history.push(
-                                    "/counselors/1/counseling_payment"
-                                )
-                            }
-                        >
-                            상담 신청하기
-                        </button>
-                    </div> */}
                 </div>
                 <div className="scheduler_box">
                     <p className="sub_title">상담 가능 시간</p>
@@ -161,8 +146,14 @@ const Counselor = (props) => {
                 <div className="payment_box flex_box between">
                     <p className="total">TOTAL :</p>
                     <div className="right_box">
-                        <span className="point">5 POINT</span>
-                        <button className="pay_btn">상담 신청하기</button>
+                        <span className="point">{totalPoint} POINT</span>
+                        <button
+                            className="pay_btn"
+                            onClick={onClickApply}
+                            disabled={!reservedId}
+                        >
+                            상담 신청하기
+                        </button>
                     </div>
                 </div>
             </div>

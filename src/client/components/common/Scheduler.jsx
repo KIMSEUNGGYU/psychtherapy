@@ -23,14 +23,18 @@ const Scheduler = (props) => {
     };
 
     const onClickTime = (startedAt, scheduleId) => {
-        if (edit === "delete") {
-            const filterArr = enteredArr.filter((el) => {
-                return el !== startedAt;
-            });
-            setEnteredArr(filterArr);
-            setDeletedArr(deletedArr.concat(scheduleId));
+        if (props.userType === "partner") {
+            if (edit === "delete") {
+                const filterArr = enteredArr.filter((el) => {
+                    return el !== startedAt;
+                });
+                setEnteredArr(filterArr);
+                setDeletedArr(deletedArr.concat(scheduleId));
+            } else {
+                setEnteredArr(enteredArr.concat(startedAt));
+            }
         } else {
-            setEnteredArr(enteredArr.concat(startedAt));
+            props.setReservedId(scheduleId);
         }
     };
 
@@ -84,19 +88,32 @@ const Scheduler = (props) => {
                     return (
                         <button
                             className={`${
-                                el.reservation === 1
+                                props.userType === "partner"
+                                    ? el.reservation === 1
+                                        ? "selected"
+                                        : (el.reservation === 0 ||
+                                              enteredArr.includes(
+                                                  el.startedAt
+                                              )) &&
+                                          !deletedArr.includes(el.scheduleId)
+                                        ? "reserve_able"
+                                        : ""
+                                    : props.reservedId === el.scheduleId
                                     ? "selected"
-                                    : (el.reservation === 0 ||
-                                          enteredArr.includes(el.startedAt)) &&
-                                      !deletedArr.includes(el.scheduleId)
+                                    : el.reservation === 0
                                     ? "reserve_able"
+                                    : el.reservation === 1
+                                    ? "reserved"
                                     : ""
                             }`}
                             disabled={
-                                el.reservation === 1 ||
-                                !edit ||
-                                (edit === "delete" && el.reservation === 2) ||
-                                (edit === "enter" && el.reservation === 0)
+                                props.userType === "partner"
+                                    ? el.reservation === 1 ||
+                                      !edit ||
+                                      (edit === "delete" &&
+                                          el.reservation === 2) ||
+                                      (edit === "enter" && el.reservation === 0)
+                                    : el.reservation !== 0
                             }
                             onClick={() => {
                                 onClickTime(el.startedAt, el.scheduleId);

@@ -10,7 +10,6 @@ import {
 // [TODO]
 const Pagination = (props) => {
     const { total, queryData, setQueryData } = props;
-    console.log(total, "total");
     const size = Number(queryData.size);
     const page = Number(queryData.page);
     const [pageInputValue, setPageInputValue] = useState("");

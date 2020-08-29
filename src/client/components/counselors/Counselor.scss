@@ -55,7 +55,6 @@
             }
             .youtube_btn {
                 margin-top: 2rem;
-                width: 10rem;
                 text-align: left;
                 font-size: 1rem;
                 line-height: 2rem;
@@ -94,39 +93,10 @@
             background: $primary;
             color: #fff;
             height: 2.25rem;
+            &:disabled {
+                cursor: not-allowed;
+                background: #b0b0b0;
+            }
         }
     }
-    // .put_box {
-    //     width: 25%;
-    //     height: 20rem;
-    //     border: 1px solid #e0e0e0;
-    //     padding: 2.5rem;
-    //     line-height: 1.5rem;
-    //     .notice_title {
-    //         font-weight: 500;
-    //         margin-bottom: 0.5rem;
-    //     }
-    //     .notice_txt {
-    //         color: #666;
-    //     }
-    //     .point_box {
-    //         width: 100%;
-    //         margin: 1rem 0 1.25rem;
-    //         padding: 0.5rem 0;
-    //         border-top: 1px solid #e0e0e0;
-    //         border-bottom: 1px solid #e0e0e0;
-
-    //         .value {
-    //             color: $primary;
-    //             font-weight: 700;
-    //         }
-    //     }
-    //     .put_btn {
-    //         width: 100%;
-    //         font-size: 0.875rem;
-    //         background: $primary;
-    //         height: 2.5rem;
-    //         color: #fff;
-    //     }
-    // }
 }

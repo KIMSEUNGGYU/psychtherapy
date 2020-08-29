@@ -56,6 +56,7 @@ export function reducer(
             image: "",
             evaluate: false
         },
+        schedules: [],
         partners: [],
         partnersTotal: 0
     },
@@ -83,7 +84,8 @@ export function reducer(
                         level: 1,
                         certificate: 1,
                         image: "",
-                        evaluate: false
+                        evaluate: false,
+                        schedules: []
                     }
                 };
             }
@@ -106,8 +108,8 @@ export function reducer(
 }
 export const api = {
     getPartner: async (payload) => {
-        const { id } = payload;
-        return await api_manager.get(`/partner/detail/${id}`);
+        const { partnerId } = payload;
+        return await api_manager.get(`/partner/detail/${partnerId}`);
     },
     getPartners: async (payload) => {
         const { page, size, gender, level, certificate, keyword } = payload;
@@ -125,7 +127,10 @@ function* getPartnerFunc(action) {
             yield put({
                 type: GET_PARTNER_SUCCESS,
                 payload: {
-                    partner: res.result.partner
+                    partner: {
+                        ...res.result.partner,
+                        schedules: res.result.schedules
+                    }
                 }
             });
         }

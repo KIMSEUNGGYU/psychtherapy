@@ -34,6 +34,7 @@ export const api = {
         return await api_manager.put("/point/charge", payload);
     },
     putPurchasePoint: async (payload) => {
+        console.log(payload);
         return await api_manager.put("/point/purchase", payload);
     }
 };
@@ -59,7 +60,7 @@ function* putPurchasePointFunc(action) {
         if (res) {
             yield put({ type: PUT_PURCHASE_POINT_SUCCESS });
             yield put({ type: GET_USER });
-            alert("상담권 구입이 완료되었습니다");
+            alert("상담 신청이 완료되었습니다");
         }
     } catch (e) {
         console.log(e);

@@ -54,11 +54,20 @@ const PartnerProfilePopup = (props) => {
             [key]: value
         }));
     };
-    const onChangeImageFile = async (e) => {
-        const formData = new FormData();
-        formData.append("file", e.target.files[0]);
-        // 서버의 upload API 호출
-        // const res = await axios.post("/api/upload", formData);
+    const onChangeImageFile = (e) => {
+        let f = e.target.files[0];
+        let reader = new FileReader();
+        reader.onload = ((theFile) => {
+            return (e) => {
+                let binaryData = e.target.result;
+                let base64String = window.btoa(binaryData);
+                setPartnerData((partnerData) => ({
+                    ...partnerData,
+                    image: base64String
+                }));
+            };
+        })(f);
+        reader.readAsBinaryString(f);
     };
     const onClickSave = () => {
         const callbackFunc = () => {
