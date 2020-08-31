@@ -10,7 +10,10 @@
       "url": "{protocol}://{domain}/api/{version}",
       "variables": {
         "protocol": {
-          "enum": ["http", "https"],
+          "enum": [
+            "http",
+            "https"
+          ],
           "default": "http"
         },
         "domain": {
@@ -23,7 +26,10 @@
           "default": "127.0.0.1:3000"
         },
         "version": {
-          "enum": ["v1", "v2"],
+          "enum": [
+            "v1",
+            "v2"
+          ],
           "default": "v1"
         }
       }
@@ -57,6 +63,10 @@
     {
       "name": "token",
       "description": "JWT 토큰 관련 API"
+    },
+    {
+      "name": "chat",
+      "description": "채팅 관련 API"
     }
   ],
   "security": [
@@ -67,7 +77,9 @@
   "paths": {
     "/user/signup": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "피상담자 회원가입 API",
         "description": "피상담자가 회원가입 시 사용하는 API 입니다.",
         "security": [
@@ -99,7 +111,9 @@
     },
     "/user/signin": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "피상담자 / 상담사 로그인 API",
         "description": "피상담자 / 상담사 로그인 시 사용하는 API 입니다.",
         "security": [
@@ -150,7 +164,9 @@
     },
     "/user/signout": {
       "delete": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "피상담자 / 상담사 로그아웃 API",
         "description": "피상담자 / 상담사 로그아웃 시 사용하는 API 입니다. (해당 API 사용 여부는 불분명)",
         "security": [
@@ -176,7 +192,9 @@
     },
     "/user/email/validate": {
       "get": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "피상담자 / 상담사 이메일 중복 확인 API",
         "security": [
           {
@@ -206,7 +224,9 @@
     },
     "/admin/users": {
       "get": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "summary": "어드민에서 피상담자 정보 리스트업 API",
         "security": [
           {
@@ -275,7 +295,9 @@
     },
     "/user/detail": {
       "get": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "특정 유저 상세정보",
         "description": "1. 유저 마이페이지에서 사용 하고 본인만 보는 것으로 userId는 JWT안에 있는 값으로 만 판별해서 내려줌",
         "security": [
@@ -326,7 +348,9 @@
     },
     "/admin/partners": {
       "get": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "summary": "어드민에서 상담사 정보 리스트업 API",
         "security": [
           {
@@ -399,7 +423,9 @@
     },
     "/admin/partner/{partnerId}": {
       "put": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "summary": "어드민에서 상담사 정보 업데이트 API",
         "security": [
           {
@@ -444,7 +470,9 @@
     },
     "/partner": {
       "get": {
-        "tags": ["partner"],
+        "tags": [
+          "partner"
+        ],
         "summary": "상담사 정보 리스트업 API",
         "security": [
           {
@@ -517,7 +545,9 @@
     },
     "/partner/signup": {
       "post": {
-        "tags": ["partner"],
+        "tags": [
+          "partner"
+        ],
         "summary": "상담사 회원 가입 API",
         "security": [
           {
@@ -548,7 +578,9 @@
     },
     "/partner/detail/{partnerId}": {
       "get": {
-        "tags": ["partner"],
+        "tags": [
+          "partner"
+        ],
         "summary": "상담사의 상세정보 API",
         "parameters": [
           {
@@ -594,7 +626,9 @@
     },
     "/keyword": {
       "get": {
-        "tags": ["keyword"],
+        "tags": [
+          "keyword"
+        ],
         "summary": "키워드 정보 리스트 업 API",
         "security": [
           {
@@ -639,7 +673,9 @@
     },
     "/point/charge": {
       "put": {
-        "tags": ["point"],
+        "tags": [
+          "point"
+        ],
         "summary": "결제 후 포인트 충전 API",
         "security": [
           {
@@ -679,7 +715,9 @@
     },
     "/point/purchase": {
       "put": {
-        "tags": ["point"],
+        "tags": [
+          "point"
+        ],
         "summary": "피상담자가 상담사의 상담권 구매시 사용 API",
         "security": [
           {
@@ -719,7 +757,9 @@
     },
     "/schedule/partner": {
       "post": {
-        "tags": ["schedule"],
+        "tags": [
+          "schedule"
+        ],
         "summary": "상담사가 본인의 상담 스케쥴 등록 API",
         "security": [
           {
@@ -754,7 +794,9 @@
         }
       },
       "delete": {
-        "tags": ["schedule"],
+        "tags": [
+          "schedule"
+        ],
         "summary": "상담사 스케쥴 삭제 API",
         "security": [
           {
@@ -790,7 +832,9 @@
     },
     "/schedule/{partnerId}/{date}": {
       "get": {
-        "tags": ["schedule"],
+        "tags": [
+          "schedule"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/partnerIdPathParam"
@@ -853,7 +897,9 @@
     },
     "/token/refresh": {
       "put": {
-        "tags": ["token"],
+        "tags": [
+          "token"
+        ],
         "summary": "토큰 리프레쉬",
         "security": [
           {
@@ -878,6 +924,62 @@
                       "properties": {
                         "result": {
                           "$ref": "#/components/schemas/token"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/chat": {
+      "get": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "채팅 정보 조회",
+        "security": [
+          {
+            "X_API_KEY": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/roomIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Success"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "content": {
+                              "$ref": "#/components/schemas/content"
+                            }
+                          }
                         }
                       }
                     }
@@ -1102,6 +1204,30 @@
           }
         }
       },
+      "content": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "user": {
+              "type": "string",
+              "example": "user"
+            },
+            "content": {
+              "type": "string",
+              "example": "내용입니다.. (이거 수정해야될듯)"
+            },
+            "at": {
+              "type": "string",
+              "example": "2020-08-31 11:54 PM"
+            }
+          }
+        }
+      },
       "user": {
         "type": "object",
         "properties": {
@@ -1131,7 +1257,13 @@
             "example": 27
           }
         },
-        "required": ["email", "password", "name", "gender", "age"]
+        "required": [
+          "email",
+          "password",
+          "name",
+          "gender",
+          "age"
+        ]
       },
       "userDetail": {
         "type": "object",
@@ -1172,7 +1304,14 @@
             }
           }
         },
-        "required": ["email", "password", "name", "gender", "age", "point"]
+        "required": [
+          "email",
+          "password",
+          "name",
+          "gender",
+          "age",
+          "point"
+        ]
       },
       "partner": {
         "type": "object",
@@ -1430,7 +1569,12 @@
             "items": {
               "type": "string"
             },
-            "example": ["우울", "저울", "행복", "연복"]
+            "example": [
+              "우울",
+              "저울",
+              "행복",
+              "연복"
+            ]
           }
         }
       },
@@ -1489,6 +1633,14 @@
       }
     },
     "parameters": {
+      "roomIdParam": {
+        "in": "query",
+        "name": "roomId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
       "scheduleIdParam": {
         "in": "query",
         "name": "scheduleId",
