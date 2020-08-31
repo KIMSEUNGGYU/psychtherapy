@@ -56,7 +56,7 @@ const Table = (props) => {
                                                         <button className={action.className}
                                                             disabled={true}
                                                         >
-                                                            입장 대기중...
+                                                            입장하기
                                                         </button>
                                                     </td>
                                                 );
@@ -67,7 +67,7 @@ const Table = (props) => {
                                                         <button className={action.className}
                                                             onClick={() => action.callbackFunc(el["roomId"])}
                                                         >
-                                                            상담 내역
+                                                            상담내역
                                                         </button>
                                                     </td>
                                                 );

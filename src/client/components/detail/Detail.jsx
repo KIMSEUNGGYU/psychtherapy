@@ -4,6 +4,7 @@ import { history } from "client/store";
 import { getToken, parsingToken } from "client/others/token";
 import { Table } from "client/components";
 import moment from "moment";
+import InfoBox from "../common/InfoBox";
 
 const Detail = (props) => {
     const [reserved, setReserved] = useState([]);
@@ -36,42 +37,9 @@ const Detail = (props) => {
     useEffect(() => {
         if (userInfo.type === 1) {
             if (props.partner.schedules) {
-                const test = [
-                    {
-                        scheduleId: 36,
-                        reservation: 0,
-                        roomId: null,
-                        startedAt: "2020-08-26T01:30:00.000Z"
-                    },
-                    {
-                        scheduleId: 35,
-                        reservation: 0,
-                        roomId: null,
-                        startedAt: "2020-08-26T01:30:00.000Z"
-                    },
-                    {
-                        scheduleId: 36,
-                        reservation: 1,
-                        roomId: "39de47d4a5",
-                        startedAt: "2020-08-31 14:00:00"
-                    },
-                    {
-                        scheduleId: 37,
-                        reservation: 1,
-                        roomId: "39de47d4a5",
-                        startedAt: "2020-08-31 13:00:00"
-                    },
-                    {
-                        scheduleId: 37,
-                        reservation: 1,
-                        roomId: "39de47d4a5",
-                        startedAt: "2020-08-31 18:00:00"
-                    }
-                ];
                 let tempReserved = [];
                 let tempEndConsultation= [];
-                test.forEach((el) => {
-                    // props.partner.schedules.forEach((el) => {
+                    props.partner.schedules.forEach((el) => {
                     if (el["reservation"] === 1) {
                         const currentTime = moment();
                         const reservedTime = moment(el["startedAt"]);
@@ -90,42 +58,9 @@ const Detail = (props) => {
         }
         if (userInfo.type === 0) {
             if (props.user.schedules) {
-                const test = [
-                    {
-                        scheduleId: 36,
-                        reservation: 0,
-                        roomId: null,
-                        startedAt: "2020-08-26T01:30:00.000Z"
-                    },
-                    {
-                        scheduleId: 35,
-                        reservation: 0,
-                        roomId: null,
-                        startedAt: "2020-08-26T01:30:00.000Z"
-                    },
-                    {
-                        scheduleId: 36,
-                        reservation: 1,
-                        roomId: "39de47d4a5",
-                        startedAt: "2020-08-31 14:00:00"
-                    },
-                    {
-                        scheduleId: 37,
-                        reservation: 1,
-                        roomId: "39de47d4a5",
-                        startedAt: "2020-08-31 13:00:00"
-                    },
-                    {
-                        scheduleId: 37,
-                        reservation: 1,
-                        roomId: "39de47d4a5",
-                        startedAt: "2020-08-31 18:00:00"
-                    }
-                ];
                 let tempReserved = [];
                 let tempEndConsultation= [];
-                test.forEach((el) => {
-                // props.user.schedules.forEach((el) => {
+                props.user.schedules.forEach((el) => {
                     if (el["reservation"] === 1) {
                         const currentTime = moment();
                         const reservedTime = moment(el["startedAt"]);
@@ -156,7 +91,7 @@ const Detail = (props) => {
                 commonBtn: true,
                 className: "reserve_status_btn",
                 callbackFunc: (roomId) => {
-                    alert(roomId, "???");
+                    alert(roomId);
                 }
             }
         ],
@@ -173,11 +108,51 @@ const Detail = (props) => {
                 commonBtn: true,
                 className: "reserve_status_btn",
                 callbackFunc: (roomId) => {
-                    alert(roomId, "???");
+                    alert(roomId);
                 }
             }
         ],
         nonePaginationsProps: true
+    };
+
+    const infoBoxUserProps = {
+        label: {
+            age: "나이",
+            email: "아이디 / 이메일",
+            gender: "성별",
+            point: "잔여 포인트",
+        },
+        value: {
+            age: props.user.name,
+            email: props.user.email,
+            gender: props.partner.gender === 1 ? "남자" : "여자",
+            point: props.user.point,
+        }
+    };
+
+    const infoBoxPartnerProps = {
+        label: {
+            name: "이름",
+            age: "나이",
+            email: "아이디 / 이메일",
+            phoneNumber: "연락처",
+            gender: "성별",
+            level: "파트너 등급",
+            certificate : "관련 자격증",
+            chatCost: "상담 가격",
+            keyword: "상담 키워드",
+        },
+        value: {
+            name: props.partner.name,
+            age: props.partner.age,
+            email: props.partner.email,
+            phoneNumber: props.partner.phoneNumber.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3"),
+            gender: props.partner.gender === 1 ? "남자" : "여자",
+            level: props.partner.level === 1 ? "마스터(Master)" : (props.partner.level === 2 ? "전문가(Export)" : (props.partner.level === 3 ? "일반(Nomal)" : "")),
+            certificate : props.partner.certificate === 1 ? "1급" : (props.partner.certificate === 2 ? "2급" : (props.partner.certificate === 3 ? "무급" : "")),
+            chatCost: props.partner.chatCost,
+            keyword: props.partner.keyword,
+        }
     };
 
     console.log(props.user, props.partner, "마이페이지 정보");
@@ -200,7 +175,9 @@ const Detail = (props) => {
                         </button>
                     )}
                 </div>
-                <p className="sub_title">상담 내역</p>
+                <p className="sub_title">나의 정보</p>
+                {userInfo.type === 0 ? (<InfoBox {...infoBoxUserProps}/>) : (<InfoBox {...infoBoxPartnerProps}/>)}
+                <p className="sub_title">상담 내역</p>                
                 <Table {...endConsultationTableProps} />
                 <p className="sub_title">예약 내역</p>
                 <Table {...reservationTableProps} />

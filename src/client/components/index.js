@@ -4,6 +4,8 @@ import Popup from "client/components/common/popup/Popup";
 import Pagination from "client/components/common/Pagination";
 import Table from "client/components/common/Table";
 import Scheduler from "client/components/common/Scheduler";
+import RefreshToken from "client/components/common/RefreshToken";
+import InfoBox from "client/components/common/InfoBox";
 
 import AdminUsers from "client/components/admin/AdminUsers";
 import AdminWaiters from "client/components/admin/AdminWaiters";
@@ -25,7 +27,7 @@ import ScheduleManagement from "client/components/schedule-management/ScheduleMa
 import Pricing from "client/components/pricing/Pricing";
 import Detail from "client/components/detail/Detail";
 import Chat from "client/components/chat/Chat";
-import RefreshToken from "client/components/common/RefreshToken";
+
 
 export {
     Header,
@@ -49,5 +51,6 @@ export {
     Table,
     Detail,
     Chat,
-    RefreshToken
+    RefreshToken,
+    InfoBox
 };
