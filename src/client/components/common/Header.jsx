@@ -164,7 +164,10 @@ const Header = (props) => {
                                         <button>홈</button>
                                     </li>
                                     <li>
-                                        <button>이용 가이드</button>
+                                        <button
+                                            onClick={() => {
+                                                alert("TODO")
+                                            }}>이용 가이드</button>
                                     </li>
                                     <li>
                                         <button

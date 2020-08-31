@@ -12,7 +12,6 @@ import { keywords } from "client/others/const";
 import { LayerPopup } from "client/libs/popup";
 
 const PartnerProfilePopup = (props) => {
-    console.log(props, "props");
     const [partnerData, setPartnerData] = useState(props.partner);
     const {
         email,
@@ -54,11 +53,20 @@ const PartnerProfilePopup = (props) => {
             [key]: value
         }));
     };
-    const onChangeImageFile = async (e) => {
-        const formData = new FormData();
-        formData.append("file", e.target.files[0]);
-        // 서버의 upload API 호출
-        // const res = await axios.post("/api/upload", formData);
+    const onChangeImageFile = (e) => {
+        let f = e.target.files[0];
+        let reader = new FileReader();
+        reader.onload = ((theFile) => {
+            return (e) => {
+                let binaryData = e.target.result;
+                let base64String = window.btoa(binaryData);
+                setPartnerData((partnerData) => ({
+                    ...partnerData,
+                    image: `data:image/jpg;base64, ${base64String}`
+                }));
+            };
+        })(f);
+        reader.readAsBinaryString(f);
     };
     const onClickSave = () => {
         const callbackFunc = () => {
@@ -75,7 +83,7 @@ const PartnerProfilePopup = (props) => {
                     <p className="sub-title">프로필 설정</p>
                     <div className="picture_box">
                         <div className="img_box">
-                            <img src={doc1} alt="" />
+                            <img src={image} alt="" />
                         </div>
                         <label
                             className="upload_btn custom-file-upload"

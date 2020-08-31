@@ -1,0 +1,19 @@
+.info_box {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    padding: 2rem;
+    .info_item {
+        margin-bottom: 1.5rem;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        span {
+            display: inline-block;
+            &.label {
+                width: 15%;
+                font-weight: 500;
+            }
+        }
+    }
+}
