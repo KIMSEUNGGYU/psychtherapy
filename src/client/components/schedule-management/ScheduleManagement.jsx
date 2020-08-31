@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./ScheduleManagement.scss";
 import { Scheduler } from "client/components";
 import moment from "moment";
-import _ from "lodash-es";
 
 const ScheduleManagement = (props) => {
     const { partner_id } = props.match.params;
@@ -11,6 +10,8 @@ const ScheduleManagement = (props) => {
     const [scheduleDate, setScheduleDate] = useState(
         moment().format("YYYY-MM-DD")
     );
+    const m = moment();
+
 
     useEffect(() => {
         const payload = {
@@ -30,7 +31,6 @@ const ScheduleManagement = (props) => {
 
     useEffect(() => {
         if (props.schedules) {
-            console.log(props.schedules);
             let scheduleArr = [];
             for (let i = 0; i < 48; i++) {
                 const startedAt = moment()
@@ -44,7 +44,9 @@ const ScheduleManagement = (props) => {
                     scheduleId: null
                 };
                 props.schedules.forEach((el) => {
-                    if (el.startedAt === startedAt) {
+                    if(m.valueOf() > moment(startedAt)){
+                        obj["reservation"] = 2;
+                    } else if (el.startedAt === startedAt) {
                         obj["reservation"] = el.reservation;
                         obj["scheduleId"] = el.scheduleId;
                     }

@@ -7,12 +7,15 @@ import { Scheduler, Popup } from "client/components";
 const Counselor = (props) => {
     const { partner, getPartner, match, getUser } = props;
     const { prev_search, partner_id } = match.params;
+    
     const [times, setTimes] = useState([]);
     const [scheduleDate, setScheduleDate] = useState(
         moment().format("YYYY-MM-DD")
     );
     const [reservedId, setReservedId] = useState(0);
     const [totalPoint, setTotalPoint] = useState(0);
+    const m = moment();
+
     useEffect(() => {
         getPartner({ partnerId: Number(partner_id) });
         getUser();
@@ -29,7 +32,6 @@ const Counselor = (props) => {
         setTotalPoint(_totalPoint);
     }, [reservedId]);
     useEffect(() => {
-        console.log(props.partner,"partner")
         if (props.partner.schedules) {
             let scheduleArr = [];
             for (let i = 0; i < 48; i++) {
@@ -44,7 +46,9 @@ const Counselor = (props) => {
                     scheduleId: null
                 };
                 props.partner.schedules.forEach((el) => {
-                    if (el.startedAt === startedAt) {
+                    if(m.valueOf() > moment(startedAt)){
+                        obj["reservation"] = 2;
+                    } else if (el.startedAt === startedAt) {
                         obj["reservation"] = el.reservation;
                         obj["scheduleId"] = el.scheduleId;
                     }
