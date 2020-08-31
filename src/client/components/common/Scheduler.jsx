@@ -140,23 +140,4 @@ const Scheduler = (props) => {
         </div>
     );
 };
-
-// const mapStateToProps = (state) => {
-//     return {
-//         schedules: state.schedule.schedules
-//     };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         getPartnerScheduleList: (payload) =>
-//             dispatch(scheduleActions.getPartnerScheduleList(payload)),
-//         postPartnerSchedule: (payload) =>
-//             dispatch(scheduleActions.postPartnerSchedule(payload)),
-//         deletePartnerSchedule: (payload) =>
-//             dispatch(scheduleActions.deletePartnerSchedule(payload))
-//     };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Scheduler);
 export default Scheduler;

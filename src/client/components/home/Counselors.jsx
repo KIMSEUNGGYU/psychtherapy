@@ -1,6 +1,8 @@
 import React from "react";
 import "./Counselors.scss";
 import t from "client/images/t.jpg";
+import { history } from "client/store";
+
 
 const Counselors = () => {
     return (
@@ -24,8 +26,8 @@ const Counselors = () => {
                             사막이다.
                         </p>
                         <div className="btn_box">
-                            <button className="popup_btn">이용 가이드</button>
-                            <button className="link_btn">요금 안내</button>
+                            <button className="popup_btn" onClick={() => {alert("TODO")}}>이용 가이드</button>
+                            <button className="link_btn" onClick={() => history.push("/pricing")}>요금 안내</button>
                         </div>
                     </div>
                 </div>
