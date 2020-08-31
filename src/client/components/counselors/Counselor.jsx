@@ -28,8 +28,8 @@ const Counselor = (props) => {
             : 0;
         setTotalPoint(_totalPoint);
     }, [reservedId]);
-    console.log(props.partner, "partner");
     useEffect(() => {
+        console.log(props.partner,"partner")
         if (props.partner.schedules) {
             let scheduleArr = [];
             for (let i = 0; i < 48; i++) {
@@ -37,7 +37,7 @@ const Counselor = (props) => {
                     .utcOffset(0)
                     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
                     .add(i * 30, "minutes")
-                    .toISOString();
+                    .format("YYYY-MM-DD HH:mm:ss");
                 let obj = {
                     startedAt,
                     reservation: 2,
