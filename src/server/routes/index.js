@@ -9,6 +9,7 @@ const keyword = require("./keyword");
 const point = require("./point");
 const schedule = require("./schedule");
 const token = require("./token");
+const chat = require("./chat");
 const { BASEURL } = require("../library/constant");
 
 // middleware
@@ -21,6 +22,7 @@ router.use(`${BASEURL}/partner`, partner);
 router.use(`${BASEURL}/keyword`, keyword);
 router.use(`${BASEURL}/schedule`, schedule);
 router.use(`${BASEURL}/token`, token);
+router.use(`${BASEURL}/chat`, chat);
 router.use(`${BASEURL}/admin`, middleware.jwtAuth, admin);
 router.use(`${BASEURL}/point`, middleware.jwtAuth, point);
 

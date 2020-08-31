@@ -24,5 +24,13 @@ module.exports = (sequelize, DataTypes) => {
   messages.insertMessage = (roomId, content, transaction) =>
     messages.create({ roomId, content }, { transaction });
 
+  messages.getContentByRoomId = async roomId => {
+    return await messages.findOne({
+      raw: true,
+      attributes: ["content"],
+      where: { roomId: roomId },
+    });
+  };
+
   return messages;
 };

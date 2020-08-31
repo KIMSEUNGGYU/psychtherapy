@@ -2,15 +2,12 @@ const sequelize = require("../db/models").sequelize;
 const models = require("../db/models");
 
 exports.insertRoomAndMessages = async (roomId, messages) => {
-  const messageContent = {};
-  let mess = "";
-  messages.forEach(message => {
-    message["roomId"] = roomId;
-    mess += JSON.stringify(message);
+  const messageConetent = {};
+  messages.forEach((message, index) => {
+    messageConetent[index] = message;
   });
-  messageContent[roomId] = mess;
 
-  const content = JSON.stringify(messageContent);
+  const content = JSON.stringify(messageConetent);
 
   let transaction;
   try {
