@@ -85,6 +85,7 @@ const Scheduler = (props) => {
                     <span className="reserved">이미 예약 됨</span>
                 </div>
                 {schedules.map((el, key) => {
+                    console.log(el.reservation,"reservation")
                     return (
                         <button
                             className={`${
@@ -107,13 +108,14 @@ const Scheduler = (props) => {
                                     : ""
                             }`}
                             disabled={
-                                props.userType === "partner"
+                                el.reservation === 3 ||
+                                (props.userType === "partner"
                                     ? el.reservation === 1 ||
                                       !edit ||
                                       (edit === "delete" &&
                                           el.reservation === 2) ||
                                       (edit === "enter" && el.reservation === 0)
-                                    : el.reservation !== 0
+                                    : el.reservation !== 0)
                             }
                             onClick={() => {
                                 onClickTime(el.startedAt, el.scheduleId);

@@ -47,7 +47,7 @@ const Counselor = (props) => {
                 };
                 props.partner.schedules.forEach((el) => {
                     if(m.valueOf() > moment(startedAt)){
-                        obj["reservation"] = 2;
+                        obj["reservation"] = 3;
                     } else if (el.startedAt === startedAt) {
                         obj["reservation"] = el.reservation;
                         obj["scheduleId"] = el.scheduleId;
