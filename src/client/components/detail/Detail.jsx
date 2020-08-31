@@ -6,9 +6,8 @@ import { Table } from "client/components";
 import moment from "moment";
 
 const Detail = (props) => {
-    console.log(props, props.partner.schedules, "Detail props");
-
     const [reserved, setReserved] = useState([]);
+    const [endConsultation, setEndConsultation] = useState([]);
     const [userInfo, setUserInfo] = useState({
         userId: null,
         type: null
@@ -30,20 +29,9 @@ const Detail = (props) => {
         if (userInfo.type === 0) {
             props.getUser();
         } else if (userInfo.type === 1) {
-            props.getPartner({ id: userInfo.userId });
+            props.getPartner({ partnerId: userInfo.userId });
         }
     }, [userInfo]);
-
-    const CounselingProps = {
-        ths: {
-            scheduleId: "예약 번호 (ID)",
-            reservation: "예약 확인",
-            startedAt: "예약 시간",
-            roomId: "ROOM ID"
-        },
-        tds: props.user.schedules,
-        nonePaginationsProps: true
-    };
 
     useEffect(() => {
         if (userInfo.type === 1) {
@@ -64,51 +52,126 @@ const Detail = (props) => {
                     {
                         scheduleId: 36,
                         reservation: 1,
-                        roomId: "asdwdasd",
-                        startedAt: "2020-08-29 20:30:00"
+                        roomId: "39de47d4a5",
+                        startedAt: "2020-08-31 14:00:00"
                     },
                     {
                         scheduleId: 37,
                         reservation: 1,
-                        roomId: "asdwdsdsdasd",
-                        startedAt: "2020-08-29 20:00:00"
+                        roomId: "39de47d4a5",
+                        startedAt: "2020-08-31 13:00:00"
+                    },
+                    {
+                        scheduleId: 37,
+                        reservation: 1,
+                        roomId: "39de47d4a5",
+                        startedAt: "2020-08-31 18:00:00"
                     }
                 ];
-                let arr = [];
-                test.forEach((el, index) => {
+                let tempReserved = [];
+                let tempEndConsultation= [];
+                test.forEach((el) => {
                     // props.partner.schedules.forEach((el) => {
                     if (el["reservation"] === 1) {
-                        arr.push(el);
+                        const currentTime = moment();
+                        const reservedTime = moment(el["startedAt"]);
+                        const duration = moment.duration(currentTime.diff(reservedTime)).asMinutes();
+                        if ( duration > 30 ) {
+                            tempEndConsultation.push(el);
+                        }
+                        if ( duration <= 30 ) {
+                            tempReserved.push(el);
+                        }
                     }
                 });
-                setReserved(arr);
+                setReserved(tempReserved);
+                setEndConsultation(tempEndConsultation);
             }
         }
         if (userInfo.type === 0) {
             if (props.user.schedules) {
-                let arr = [];
-                props.partner.schedules.forEach((el) => {
+                const test = [
+                    {
+                        scheduleId: 36,
+                        reservation: 0,
+                        roomId: null,
+                        startedAt: "2020-08-26T01:30:00.000Z"
+                    },
+                    {
+                        scheduleId: 35,
+                        reservation: 0,
+                        roomId: null,
+                        startedAt: "2020-08-26T01:30:00.000Z"
+                    },
+                    {
+                        scheduleId: 36,
+                        reservation: 1,
+                        roomId: "39de47d4a5",
+                        startedAt: "2020-08-31 14:00:00"
+                    },
+                    {
+                        scheduleId: 37,
+                        reservation: 1,
+                        roomId: "39de47d4a5",
+                        startedAt: "2020-08-31 13:00:00"
+                    },
+                    {
+                        scheduleId: 37,
+                        reservation: 1,
+                        roomId: "39de47d4a5",
+                        startedAt: "2020-08-31 18:00:00"
+                    }
+                ];
+                let tempReserved = [];
+                let tempEndConsultation= [];
+                test.forEach((el) => {
+                // props.user.schedules.forEach((el) => {
                     if (el["reservation"] === 1) {
-                        arr.push(el);
+                        const currentTime = moment();
+                        const reservedTime = moment(el["startedAt"]);
+                        const duration = moment.duration(currentTime.diff(reservedTime)).asMinutes();
+                        if ( duration > 30 ) {
+                            tempEndConsultation.push(el);
+                        }
+                        if ( duration <= 30 ) {
+                            tempReserved.push(el);
+                        }
                     }
                 });
-                setReserved(arr);
+                setReserved(tempReserved);
+                setEndConsultation(tempEndConsultation);
             }
         }
     }, [props.partner, props.user]);
 
-    console.log(reserved, "??");
+    const endConsultationTableProps = {
+        ths: {
+            scheduleId: "예약 번호 (ID)",
+            startedAt: "상담 리스트",
 
+        },
+        tds: endConsultation,
+        actions: [
+            {
+                commonBtn: true,
+                className: "reserve_status_btn",
+                callbackFunc: (roomId) => {
+                    alert(roomId, "???");
+                }
+            }
+        ],
+        nonePaginationsProps: true
+    };
     const reservationTableProps = {
         ths: {
             scheduleId: "예약 번호 (ID)",
-            startedAt: "예약 시간"
+            startedAt: "예약 리스트"
         },
         tds: reserved,
         actions: [
             {
                 commonBtn: true,
-                className: "reserve_btn",
+                className: "reserve_status_btn",
                 callbackFunc: (roomId) => {
                     alert(roomId, "???");
                 }
@@ -138,7 +201,7 @@ const Detail = (props) => {
                     )}
                 </div>
                 <p className="sub_title">상담 내역</p>
-                <Table {...CounselingProps} />
+                <Table {...endConsultationTableProps} />
                 <p className="sub_title">예약 내역</p>
                 <Table {...reservationTableProps} />
             </div>

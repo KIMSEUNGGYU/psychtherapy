@@ -11,6 +11,7 @@ const ScheduleManagement = (props) => {
     const [scheduleDate, setScheduleDate] = useState(
         moment().format("YYYY-MM-DD")
     );
+
     useEffect(() => {
         const payload = {
             partnerId: Number(partner_id),
@@ -18,6 +19,14 @@ const ScheduleManagement = (props) => {
         };
         props.getPartnerScheduleList(payload);
     }, []);
+
+    useEffect(() => {
+        const payload = {
+            partnerId: Number(partner_id),
+            date: scheduleDate
+        };
+        props.getPartnerScheduleList(payload);
+    }, [scheduleDate]);
 
     useEffect(() => {
         if (props.schedules) {

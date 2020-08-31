@@ -35,63 +35,39 @@ const Table = (props) => {
                                 })}
                                 {actions &&
                                     actions.map((action, actionKey) => {
-                                        console.log(el, "??tabe?");
                                         if (action.commonBtn) {
                                             const currentTime = moment();
-                                            const reservedTime = moment(
-                                                el["startedAt"]
-                                            );
-                                            const duration = moment
-                                                .duration(
-                                                    currentTime.diff(
-                                                        reservedTime
-                                                    )
-                                                )
-                                                .asMinutes();
-
-                                            if (
-                                                -30 <= duration &&
-                                                duration <= 0
-                                            ) {
+                                            const reservedTime = moment(el["startedAt"]);
+                                            const duration = moment.duration(currentTime.diff(reservedTime)).asMinutes();
+                                            if ( 0 <= duration && duration <= 30) {
                                                 return (
-                                                    <td
-                                                        className="actions"
-                                                        key={actionKey}
-                                                    >
-                                                        <button
-                                                            className={
-                                                                action.className
-                                                            }
-                                                            onClick={() =>
-                                                                action.callbackFunc(
-                                                                    el["roomId"]
-                                                                )
-                                                            }
-                                                        >
+                                                    <td className="actions" key={actionKey}>
+                                                        <button className={ action.className }
+                                                            onClick={() => action.callbackFunc(el["roomId"])}>
                                                             입장하기
                                                         </button>
                                                     </td>
                                                 );
                                             }
 
-                                            if (duration > 0) {
+                                            if ( duration < 0) {
                                                 return (
-                                                    <td
-                                                        className="actions"
-                                                        key={actionKey}
-                                                    >
-                                                        <button
-                                                            className={
-                                                                action.className
-                                                            }
+                                                    <td className="actions" key={actionKey}>
+                                                        <button className={action.className}
                                                             disabled={true}
-                                                            onClick={() =>
-                                                                action.callbackFunc(
-                                                                    el["roomId"]
-                                                                )
-                                                            }
                                                         >
-                                                            입장불가
+                                                            입장 대기중...
+                                                        </button>
+                                                    </td>
+                                                );
+                                            }
+                                            if ( duration > 30) {
+                                                return (
+                                                    <td className="actions" key={actionKey}>
+                                                        <button className={action.className}
+                                                            onClick={() => action.callbackFunc(el["roomId"])}
+                                                        >
+                                                            상담 내역
                                                         </button>
                                                     </td>
                                                 );
