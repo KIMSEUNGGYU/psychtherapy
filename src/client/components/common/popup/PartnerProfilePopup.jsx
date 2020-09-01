@@ -5,7 +5,6 @@ import {
     MdRadioButtonUnchecked,
     MdFileUpload
 } from "react-icons/md";
-import doc1 from "client/images/doc1.jpg";
 import { actions as partnersActions } from "client/modules/partners";
 import { actions as adminActions } from "client/modules/admin";
 import { keywords } from "client/others/const";

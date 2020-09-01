@@ -3,6 +3,7 @@ import { Detail } from "client/components";
 import { actions as partnersActions } from "client/modules/partners";
 import { actions as userActions } from "client/modules/user";
 import { actions as scheduleActions } from "client/modules/schedule";
+import { actions as chatActions } from "client/modules/chat";
 
 const mapStateToProps = (state) => {
     return {
