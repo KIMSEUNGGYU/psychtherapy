@@ -19,22 +19,22 @@ const GET_ROOM = "GET_ROOM";
 const GET_ROOM_SUCCESS = "GET_ROOM_SUCCESS";
 
 export const actions = {
-    enterRoom: (payload) => ({
+    enterRoom: payload => ({
         type: ENTER_ROOM,
         payload
     }),
-    updateRoom: (payload) => ({
+    updateRoom: payload => ({
         type: UPDATE_ROOM,
         payload
     }),
-    sendMessage: (payload) => ({
+    sendMessage: payload => ({
         type: SEND_MESSAGE,
         payload
     }),
     leaveRoom: () => ({
         type: LEAVE_ROOM
     }),
-    getRoom: (payload) => ({
+    getRoom: payload => ({
         type: GET_ROOM,
         payload
     })
@@ -73,25 +73,25 @@ export function reducer(
 
 let socket;
 export const sockets = {
-    enterRoom: (payload) => {
-        socket = io("http://localhost:3001/", {
+    enterRoom: payload => {
+        socket = io("http://localhost:3000/", {
             query: payload
         });
         return new Promise((resolve, reject) => {
             socket.emit("enterRoom", payload);
-            socket.once("room", (room) => {
+            socket.once("room", room => {
                 resolve(room);
-                socket.on("room", (messages) => {
+                socket.on("room", messages => {
                     console.log(messages, "msg");
                     store.dispatch(actions.updateRoom(messages));
                 });
             });
         });
     },
-    sendMessage: (payload) => {
+    sendMessage: payload => {
         return new Promise((resolve, reject) => {
             socket.emit("message", payload);
-            socket.once("room", (message) => {
+            socket.once("room", message => {
                 resolve(message);
             });
         });
@@ -106,7 +106,7 @@ export const sockets = {
 };
 
 export const api = {
-    getRoom: async (payload) => {
+    getRoom: async payload => {
         const { roomId } = payload;
         return await api_manager.get(`/chat?roomId=${roomId}`);
     }
@@ -181,7 +181,6 @@ function* getRoomFunc(action) {
     try {
         const res = yield call(api.getRoom, payload);
         if (res) {
-            console.log(res, "Res");
             yield put({
                 type: GET_ROOM_SUCCESS
             });
