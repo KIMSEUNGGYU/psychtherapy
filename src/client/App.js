@@ -54,7 +54,7 @@ const App = (props) => {
                 />
                 <PrivateRoute
                     exact
-                    path="/chat/:room_id/:user_id"
+                    path="/chat/:room_id/:user_id/:started_at"
                     component={PageChat}
                 />
                 <AdminPrivateRoute

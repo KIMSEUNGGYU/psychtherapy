@@ -8,9 +8,9 @@ class Room {
     }
 
     static enter({ id, user }) {
-        const room = Room.instances.find(room => room.id === id);
+        const room = Room.instances.find((room) => room.id === id);
         if (room) {
-            if (!room.users.find(u => u.id === user)) {
+            if (!room.users.find((u) => u.id === user.id)) {
                 room.users.push(user);
             }
             return room;
@@ -21,7 +21,7 @@ class Room {
     }
 
     static get({ id }) {
-        const room = Room.instances.find(room => room.id === id);
+        const room = Room.instances.find((room) => room.id === id);
         if (room) {
             return room;
         }
@@ -29,8 +29,8 @@ class Room {
 
     static leave({ user }) {
         let userIndex = -1;
-        const room = Room.instances.find(room => {
-            userIndex = room.users.findIndex(u => u.id == user.id);
+        const room = Room.instances.find((room) => {
+            userIndex = room.users.findIndex((u) => u.id == user.id);
             return userIndex != -1;
         });
         if (room) {
@@ -41,7 +41,7 @@ class Room {
     }
 
     static message({ id, user, content }) {
-        const room = Room.instances.find(room => room.id === id);
+        const room = Room.instances.find((room) => room.id === id);
         if (room) {
             const message = {
                 id:

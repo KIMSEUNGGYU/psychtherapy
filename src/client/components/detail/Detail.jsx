@@ -93,13 +93,13 @@ const Detail = (props) => {
             {
                 commonBtn: true,
                 className: "reserve_status_btn",
-                callbackFunc: (roomId) => {
+                callbackFunc: (roomId, startAt) => {
                     props.history.push(
                         `/chat/${roomId}/${
                             userInfo.type === 0
                                 ? props.user.id
                                 : props.partner.id
-                        }`
+                        }/${startAt}`
                     );
                 }
             }
@@ -116,13 +116,13 @@ const Detail = (props) => {
             {
                 commonBtn: true,
                 className: "reserve_status_btn",
-                callbackFunc: (roomId) => {
+                callbackFunc: (roomId, startAt) => {
                     props.history.push(
                         `/chat/${roomId}/${
                             userInfo.type === 0
                                 ? props.user.id
                                 : props.partner.id
-                        }`
+                        }/${startAt}`
                     );
                 }
             }
@@ -186,8 +186,6 @@ const Detail = (props) => {
             keyword: props.partner.keyword
         }
     };
-
-    console.log(props.user, props.partner, "마이페이지 정보");
 
     return (
         <div className="container detail">
