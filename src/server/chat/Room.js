@@ -23,10 +23,9 @@ class Room {
     static get({ id }) {
         const room = Room.instances.find((room) => room.id === id);
         if (room) {
-            return room;
+            return { ...room };
         }
     }
-
     static leave({ user }) {
         let userIndex = -1;
         const room = Room.instances.find((room) => {
