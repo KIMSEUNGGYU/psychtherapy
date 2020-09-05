@@ -5,7 +5,6 @@ import moment from "moment";
 
 const Table = (props) => {
     const { ths, tds, actions, paginationProps, nonePaginationsProps } = props;
-    console.log(tds, "???");
     return (
         <div className="table_box">
             <table>
@@ -37,35 +36,83 @@ const Table = (props) => {
                                     actions.map((action, actionKey) => {
                                         if (action.commonBtn) {
                                             const currentTime = moment();
-                                            const reservedTime = moment(el["startedAt"]);
-                                            const duration = moment.duration(currentTime.diff(reservedTime)).asMinutes();
-                                            if ( 0 <= duration && duration <= 30) {
+                                            const reservedTime = moment(
+                                                el["startedAt"]
+                                            );
+                                            const duration = moment
+                                                .duration(
+                                                    currentTime.diff(
+                                                        reservedTime
+                                                    )
+                                                )
+                                                .asMinutes();
+                                            if (
+                                                0 <= duration &&
+                                                duration <= 30
+                                            ) {
                                                 return (
-                                                    <td className="actions" key={actionKey}>
-                                                        <button className={ action.className }
-                                                            onClick={() => action.callbackFunc(el["roomId"])}>
-                                                            입장하기
-                                                        </button>
-                                                    </td>
-                                                );
-                                            }
-
-                                            if ( duration < 0) {
-                                                return (
-                                                    <td className="actions" key={actionKey}>
-                                                        <button className={action.className}
-                                                            disabled={true}
+                                                    <td
+                                                        className="actions"
+                                                        key={actionKey}
+                                                    >
+                                                        <button
+                                                            className={
+                                                                action.className
+                                                            }
+                                                            onClick={() =>
+                                                                action.callbackFunc(
+                                                                    el[
+                                                                        "roomId"
+                                                                    ],
+                                                                    el[
+                                                                        "startedAt"
+                                                                    ]
+                                                                )
+                                                            }
                                                         >
                                                             입장하기
                                                         </button>
                                                     </td>
                                                 );
                                             }
-                                            if ( duration > 30) {
+
+                                            if (duration < 0) {
                                                 return (
-                                                    <td className="actions" key={actionKey}>
-                                                        <button className={action.className}
-                                                            onClick={() => action.callbackFunc(el["roomId"])}
+                                                    <td
+                                                        className="actions"
+                                                        key={actionKey}
+                                                    >
+                                                        <button
+                                                            className={
+                                                                action.className
+                                                            }
+                                                            disabled
+                                                        >
+                                                            입장하기
+                                                        </button>
+                                                    </td>
+                                                );
+                                            }
+                                            if (duration > 30) {
+                                                return (
+                                                    <td
+                                                        className="actions"
+                                                        key={actionKey}
+                                                    >
+                                                        <button
+                                                            className={
+                                                                action.className
+                                                            }
+                                                            onClick={() =>
+                                                                action.callbackFunc(
+                                                                    el[
+                                                                        "roomId"
+                                                                    ],
+                                                                    el[
+                                                                        "startedAt"
+                                                                    ]
+                                                                )
+                                                            }
                                                         >
                                                             상담내역
                                                         </button>

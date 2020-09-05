@@ -85,23 +85,11 @@ export function reducer(
     action
 ) {
     switch (action.type) {
-        case GET_USER:
-            return {
-                ...state
-            };
         case GET_USER_SUCCESS:
             const { user } = action.payload;
             return {
                 ...state,
                 user
-            };
-        case GET_USER_FAILURE:
-            return {
-                ...state
-            };
-        case GET_USER_EMAIL_VALIDATE:
-            return {
-                ...state
             };
         case GET_USER_EMAIL_VALIDATE_SUCCESS:
             return {

@@ -15,6 +15,9 @@ const LEAVE_ROOM_SUCCESS = "LEAVE_ROOM_SUCCESS";
 const SEND_MESSAGE = "SEND_MESSAGE";
 const SEND_MESSAGE_SUCCESS = "SEND_MESSAGE_SUCCESS";
 
+const GET_ROOM = "GET_ROOM";
+const GET_ROOM_SUCCESS = "GET_ROOM_SUCCESS";
+
 export const actions = {
     enterRoom: (payload) => ({
         type: ENTER_ROOM,
@@ -30,6 +33,10 @@ export const actions = {
     }),
     leaveRoom: () => ({
         type: LEAVE_ROOM
+    }),
+    getRoom: (payload) => ({
+        type: GET_ROOM,
+        payload
     })
 };
 
@@ -50,6 +57,7 @@ export function reducer(
                 ...state,
                 room
             };
+        case GET_ROOM_SUCCESS:
         case UPDATE_ROOM_SUCCESS:
             const { messages } = action.payload;
             return {
@@ -67,16 +75,14 @@ export function reducer(
 let socket;
 export const sockets = {
     enterRoom: (payload) => {
-        socket = io("http://localhost:8080/", {
+        socket = io("http://localhost:3000/", {
             query: payload
         });
-        console.log("enter room");
         return new Promise((resolve, reject) => {
             socket.emit("enterRoom", payload);
             socket.once("room", (room) => {
                 resolve(room);
                 socket.on("room", (messages) => {
-                    console.log(messages, "msg");
                     store.dispatch(actions.updateRoom(messages));
                 });
             });
@@ -96,6 +102,13 @@ export const sockets = {
             socket.off("room");
             resolve();
         });
+    }
+};
+
+export const api = {
+    getRoom: async (payload) => {
+        const { roomId } = payload;
+        return await api_manager.get(`/chat?roomId=${roomId}`);
     }
 };
 
@@ -162,9 +175,35 @@ function* leaveRoomFunc(action) {
     }
 }
 
+function* getRoomFunc(action) {
+    const { payload } = action;
+    console.log(payload);
+    try {
+        const res = yield call(api.getRoom, payload);
+        if (res) {
+            yield put({
+                type: GET_ROOM_SUCCESS,
+                payload: {
+                    messages: res.result.contents
+                }
+            });
+        } else {
+            yield put({
+                type: GET_ROOM_SUCCESS,
+                payload: {
+                    messages: []
+                }
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export function* saga() {
     yield takeEvery(ENTER_ROOM, enterRoomFunc);
     yield takeEvery(UPDATE_ROOM, updateRoomFunc);
     yield takeEvery(LEAVE_ROOM, leaveRoomFunc);
     yield takeEvery(SEND_MESSAGE, sendMessageFunc);
+    yield takeEvery(GET_ROOM, getRoomFunc);
 }

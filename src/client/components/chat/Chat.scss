@@ -2,18 +2,152 @@
 
 .chat_box {
     position: fixed;
-    display: none;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 999;
+    width: 100%;
+    height: 100%;
     background: #fff;
-    padding: 3rem;
-    li {
-        margin-bottom: 1rem;
-        &:last-child {
-            margin-bottom: 3rem;
+    z-index: 9999;
+    .chat_header {
+        position: relative;
+        width: 4.375rem;
+        height: 100%;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
+        .menu_btn {
+            width: 4.375rem;
+            height: 4.375rem;
+            color: $primary;
+            font-size: 2.125rem;
+            line-height: 4.375rem;
+            text-align: center;
+        }
+        .toggle_box {
+            position: absolute;
+            top: 3.375rem;
+            left: 3.375rem;
+            width: 7rem;
+            padding: 0.5rem 0.75rem;
+            background: #efefef;
+            border-radius: 5px;
+            text-align: center;
+            li {
+                cursor: pointer;
+                line-height: 1.5rem;
+            }
+        }
+    }
+
+    .chat_contents_box {
+        width: calc(100% - 4.375rem);
+        height: 100%;
+        .name {
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        .contents {
+            padding: 1rem;
+            overflow-y: scroll;
+            width: 100%;
+            height: calc(100% - 6.313rem);
+            .message {
+                line-height: 1rem;
+                word-break: break-all;
+                max-width: 100%;
+                margin-bottom: 1rem;
+                &.right {
+                    text-align: right;
+                    .content {
+                        background: #eee;
+                        .date {
+                            color: #999;
+                        }
+                    }
+                }
+                &.left {
+                    text-align: left;
+                    .content {
+                        background: $primary;
+                        color: #fff;
+                        .date {
+                            color: #eee;
+                        }
+                    }
+                }
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .content {
+                    display: inline-block;
+                    padding: 0.75rem;
+                    border-radius: 10px;
+                    .date {
+                        font-size: 0.5rem;
+                        margin-top: 1rem;
+                    }
+                }
+            }
+        }
+        .enter_box {
+            position: absolute;
+            bottom: 0;
+            padding: 1.5rem;
+            width: 100%;
+            border-top: 1px solid #f0eff5;
+            input[type="text"] {
+                position: relative;
+                width: calc(100% - 10rem);
+                height: 2.75rem;
+                border-radius: 10px;
+                border: none;
+                background: rgba(86, 139, 128, 0.2);
+                padding: 0 1rem;
+            }
+            .submit_btn {
+                background: $primary;
+                color: #fff;
+                width: 4rem;
+                height: 2.75rem;
+                border-radius: 10px;
+                margin-left: 1rem;
+                font-size: 1.25rem;
+            }
+        }
+    }
+    // li {
+    //     margin-bottom: 1rem;
+    //     &:last-child {
+    //         margin-bottom: 3rem;
+    //     }
+    // }
+}
+
+@media (max-width: 400px) {
+    .chat_box {
+        .chat_header {
+            width: 100%;
+            height: 3.75rem;
+            .menu_btn {
+                width: 3.75rem;
+                height: 3.75rem;
+                line-height: 3.75rem;
+            }
+        }
+        .chat_contents_box {
+            width: 100%;
+            .enter_box {
+                input[type="text"] {
+                    width: calc(100% - 4rem);
+                    height: 2rem;
+                    border-radius: 5px;
+                }
+                .submit_btn {
+                    width: 3rem;
+                    height: 2rem;
+                    border-radius: 5px;
+                    font-size: 1rem;
+                }
+            }
         }
     }
 }

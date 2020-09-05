@@ -27,5 +27,5 @@ export const parsingToken = (token) => {
 export const getUserType = () => {
     const token = getToken();
     const type = parsingToken(token).type;
-    return type ? type : false;
+    return type === 0 || type ? type : false;
 };

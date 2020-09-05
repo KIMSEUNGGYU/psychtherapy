@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Counselors.scss";
 import queryString from "query-string";
 import { MdZoomIn } from "react-icons/md";
-import { FaBitcoin } from "react-icons/fa";
 import { Filter, Pagination } from "client/components";
-import doc1 from "client/images/doc1.jpg";
-import doc2 from "client/images/doc2.jpg";
-import doc3 from "client/images/doc3.jpg";
 
 const Counselors = (props) => {
     const [queryData, setQueryData] = useState(
@@ -55,7 +51,7 @@ const Counselors = (props) => {
                         {props.partners.map((el, key) => {
                             return (
                                 <li className="counselor" key={key}>
-                                    <img src={doc1} alt="" />
+                                    <img src={el.image} alt="" />
                                     <div className="txt_box">
                                         <p className="level">
                                             {el.level === 1
@@ -73,7 +69,12 @@ const Counselors = (props) => {
                                             className="more_btn"
                                             onClick={() =>
                                                 props.history.push(
-                                                    `${props.location.pathname}/${queryString.stringify(queryData)}/${el.id}`)
+                                                    `${
+                                                        props.location.pathname
+                                                    }/${queryString.stringify(
+                                                        queryData
+                                                    )}/${el.id}`
+                                                )
                                             }
                                         >
                                             자세히 보기

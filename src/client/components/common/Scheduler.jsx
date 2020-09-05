@@ -85,7 +85,6 @@ const Scheduler = (props) => {
                     <span className="reserved">이미 예약 됨</span>
                 </div>
                 {schedules.map((el, key) => {
-                    console.log(el.reservation,"reservation")
                     return (
                         <button
                             className={`${
