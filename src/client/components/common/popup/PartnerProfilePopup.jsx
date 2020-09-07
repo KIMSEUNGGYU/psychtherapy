@@ -28,9 +28,10 @@ const PartnerProfilePopup = (props) => {
         certificate,
         image
     } = partnerData;
+
     useEffect(() => {
         props.getPartner({
-            id: props.id
+            partnerId: props.id
         });
     }, []);
 
