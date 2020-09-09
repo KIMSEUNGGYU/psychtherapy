@@ -140,7 +140,7 @@ const Detail = (props) => {
         value: {
             age: props.user.name,
             email: props.user.email,
-            gender: props.partner.gender === 1 ? "남자" : "여자",
+            gender: props.user.gender === 1 ? "남자" : "여자",
             point: props.user.point
         }
     };
@@ -166,14 +166,7 @@ const Detail = (props) => {
                 "$1-$2-$3"
             ),
             gender: props.partner.gender === 1 ? "남자" : "여자",
-            level:
-                props.partner.level === 1
-                    ? "마스터(Master)"
-                    : props.partner.level === 2
-                    ? "전문가(Export)"
-                    : props.partner.level === 3
-                    ? "일반(Nomal)"
-                    : "",
+            level: props.partner.level === 1 ? "마스터(Master)" : props.partner.level === 2 ? "전문가(Export)" : props.partner.level === 3 ? "일반(Nomal)" : "",
             certificate:
                 props.partner.certificate === 1
                     ? "1급"
@@ -186,7 +179,7 @@ const Detail = (props) => {
             keyword: props.partner.keyword
         }
     };
-
+    
     return (
         <div className="container detail">
             <div className="layout">

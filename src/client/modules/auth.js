@@ -100,7 +100,11 @@ function* loginFunc(action) {
                 alert("Partners Login");
             }
         }
-    } catch (e) {}
+    } catch (e) {
+        if(e.status === 401 || e.statusText === "Unauthorized") {
+            alert("아이디 혹은 패스워드를 확인해 주시기 바랍니다.")
+        }
+    }
 }
 
 function* logoutFunc() {
