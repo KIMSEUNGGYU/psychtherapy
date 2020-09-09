@@ -83,14 +83,14 @@ export function reducer(
                     ...state,
                     partner: {
                         ...partner,
-                        keyword: "우울",
+                        keyword: "",
                         url: "",
                         shortInfo: "",
                         career: "",
                         info: "",
                         chatCost: "",
-                        level: 1,
-                        certificate: 1,
+                        level: "",
+                        certificate:"",
                         image: "",
                         evaluate: false,
                         schedules: []
