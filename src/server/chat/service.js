@@ -12,11 +12,16 @@ exports.insertRoomAndMessages = async (roomId, messages) => {
   let transaction;
   try {
     console.log("SAVE DATA ROOM AND MESSAGE");
-    transaction = await sequelize.transaction(); // 트랜잭션 생성
-    await models.rooms.insertRoom(roomId, transaction);
-    await models.messages.insertMessage(roomId, content, transaction);
 
-    transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
+    const checkRoom = await models.messages.checkRoom(roomId);
+    // 방이 생성되지 않았다면
+    if (checkRoom === null) {
+      await models.messages.insertMessage(roomId, content);
+    } else {
+      // 이미 방이 존재한다면 update
+      await models.messages.updateMessage(roomId, content);
+    }
+
     return true;
   } catch (err) {
     console.error(err);

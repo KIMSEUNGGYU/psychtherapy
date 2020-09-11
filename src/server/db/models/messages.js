@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  messages.insertMessage = (roomId, content, transaction) =>
-    messages.create({ roomId, content }, { transaction });
+  messages.insertMessage = (roomId, content) =>
+    messages.create({ roomId, content });
 
   messages.getContentByRoomId = async roomId => {
     return await messages.findOne({
@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       where: { roomId: roomId },
     });
   };
+
+  messages.checkRoom = roomId =>
+    messages.findOne({ raw: true, where: { roomId } });
+
+  messages.updateMessage = (roomId, content) =>
+    messages.update({ roomId, content }, { where: { roomId } });
 
   return messages;
 };
