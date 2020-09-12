@@ -4,7 +4,7 @@ import { getUserType } from "client/others/token";
 import { MdComment, MdSend } from "react-icons/md";
 import moment, { duration } from "moment";
 
-const Chat = (props) => {
+const Chat = props => {
     const { room_id: id, user_id, started_at } = props.match.params;
     const type = getUserType();
     const status =
@@ -19,7 +19,7 @@ const Chat = (props) => {
         }
     }, [ref]);
     useEffect(() => {
-        if (!status) {
+        if (status) {
             props.getRoom({
                 roomId: id
             });
@@ -54,7 +54,7 @@ const Chat = (props) => {
         setContent("");
     };
 
-    const onKeyPress = (e) => {
+    const onKeyPress = e => {
         if (e.charCode === 13) {
             onSubmit();
         }
@@ -123,9 +123,9 @@ const Chat = (props) => {
                         type="text"
                         value={content}
                         onKeyPress={onKeyPress}
-                        onChange={(e) => setContent(e.target.value)}
+                        onChange={e => setContent(e.target.value)}
                         placeholder={status && "메세지를 입력하세요"}
-                        readOnly={!status}
+                        // readOnly={!status}
                     />
                     <button className="submit_btn" onClick={onSubmit}>
                         <MdSend />
