@@ -76,7 +76,7 @@ let socket;
 export const sockets = {
     enterRoom: payload => {
         console.log(window.location.hostname, "log");
-        socket = io("http://" + window.location.hostname + "/", {
+        socket = io("http://" + window.location.hostname + ":3000/", {
             query: payload
         });
         return new Promise((resolve, reject) => {
