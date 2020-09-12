@@ -75,7 +75,7 @@ export function reducer(
 let socket;
 export const sockets = {
     enterRoom: payload => {
-        socket = io("http://" + window.location.hostname + ":3000/", {
+        socket = io("http://" + window.location.hostname + "/", {
             query: payload
         });
         return new Promise((resolve, reject) => {
