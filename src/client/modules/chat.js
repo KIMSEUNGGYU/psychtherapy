@@ -76,6 +76,7 @@ let socket;
 export const sockets = {
     enterRoom: (payload) => {
         socket = io("http://localhost:3000", {
+
             query: payload
         });
         return new Promise((resolve, reject) => {
