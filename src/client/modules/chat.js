@@ -75,6 +75,7 @@ export function reducer(
 let socket;
 export const sockets = {
     enterRoom: payload => {
+        console.log(window.location.hostname, "log");
         socket = io("http://" + window.location.hostname + "/", {
             query: payload
         });
