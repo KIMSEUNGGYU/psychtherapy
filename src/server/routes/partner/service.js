@@ -1,7 +1,7 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
 
-exports.isPartnerUser = async partnerId => {
+exports.isPartnerUser = async (partnerId) => {
   try {
     const partner = await models.users.isUserPartner(partnerId);
     if (!partner) {
@@ -14,7 +14,7 @@ exports.isPartnerUser = async partnerId => {
   }
 };
 
-exports.getPartnerList = async query => {
+exports.getPartnerList = async (query) => {
   try {
     let condition = {};
     for (const [key, value] of Object.entries(query)) {
@@ -37,7 +37,7 @@ exports.getPartnerList = async query => {
       models,
       condition,
       limit,
-      offset,
+      offset
     );
     return partners;
   } catch (err) {
@@ -45,7 +45,7 @@ exports.getPartnerList = async query => {
   }
 };
 
-exports.generatePartner = async body => {
+exports.generatePartner = async (body) => {
   body.type = 1; // partner
   body.evaluate = 0; // 파트너 초반 가입은 평가를 받아야함
   const {
@@ -59,14 +59,19 @@ exports.generatePartner = async body => {
     evaluate,
   } = body;
 
+  let hashPassword = crypto
+    .createHash("sha512")
+    .update(password)
+    .digest("base64");
+
   let transaction;
   try {
     transaction = await sequelize.transaction(); // 트랜잭션 생성
     const { id } = await models.users.signup(
       email,
-      password,
+      hashPassword,
       type,
-      transaction,
+      transaction
     ); // users 테이블에 데이터를 넣고, 해당 id 값 가져옴
     await models.partnerDetails.signup(
       id,
@@ -75,7 +80,7 @@ exports.generatePartner = async body => {
       phoneNumber,
       gender,
       evaluate,
-      transaction,
+      transaction
     ); // usersDetails 테이블에 데이터를 삽입
     await models.points.signup(id, transaction); // points 테이블에 데이터 삽입
     transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
@@ -87,7 +92,7 @@ exports.generatePartner = async body => {
   }
 };
 
-exports.getPartner = async partnerId => {
+exports.getPartner = async (partnerId) => {
   try {
     const condition = { partnerId };
     const result = await models.partnerDetails.getPartner(condition, models);
@@ -97,12 +102,12 @@ exports.getPartner = async partnerId => {
   }
 };
 
-exports.partnerTotalCount = async condition => {
+exports.partnerTotalCount = async (condition) => {
   const totalCount = await models.partnerDetails.partnerTotalCount(condition);
   return totalCount[0];
 };
 
-exports.getPartnerSchedule = async partnerId => {
+exports.getPartnerSchedule = async (partnerId) => {
   const condition = { partnerId };
   return await models.schedules.getSchedule(condition);
 };
