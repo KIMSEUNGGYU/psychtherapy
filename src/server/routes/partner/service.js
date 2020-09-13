@@ -1,5 +1,6 @@
 const sequelize = require("../../db/models").sequelize;
 const models = require("../../db/models");
+const crypto = require("crypto");
 
 exports.isPartnerUser = async (partnerId) => {
   try {
