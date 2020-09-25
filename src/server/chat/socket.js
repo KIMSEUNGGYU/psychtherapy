@@ -49,9 +49,9 @@ const socketHandler = socket => {
     const { users, messages } = Room.get({ id });
     const room = Room.leave({ user });
 
-    if (room && messages.length && users.length <= 0) {
-      await service.insertRoomAndMessages(id, messages);
+    await service.insertRoomAndMessages(id, messages);
 
+    if (room && messages.length && users.length <= 0) {
       socket.leave(room.id, () => {
         socket.to(room.id).emit("room", room);
         Room.outRoom({ id });
