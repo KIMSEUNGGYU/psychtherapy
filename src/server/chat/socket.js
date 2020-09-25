@@ -63,9 +63,9 @@ const socketHandler = socket => {
     }
   };
 
-  setInterval(() => {
-    console.log("room inst", Room.instances, Room.instances.length);
-  }, 5000);
+  // setInterval(() => {
+  //   console.log("room inst", Room.instances, Room.instances.length);
+  // }, 5000);
 
   socket.on("leaveRoom", leaveRoomHandler);
   socket.on("disconnect", leaveRoomHandler);
