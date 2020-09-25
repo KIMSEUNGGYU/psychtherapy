@@ -43,8 +43,33 @@ const socketHandler = socket => {
     }
   };
 
+  const outRoomHandler = async () => {
+    // 상담 내역 저장:Room.get({ id })로 user가 disconnection 되기 전의 room에 대한 정보를 가져온 뒤 저장
+    console.log("out handler");
+    const { users, messages } = Room.get({ id });
+    const room = Room.leave({ user });
+
+    if (room && messages.length && users.length <= 0) {
+      await service.insertRoomAndMessages(id, messages);
+
+      socket.leave(room.id, () => {
+        socket.to(room.id).emit("room", room);
+        Room.outRoom({ id });
+      });
+    } else {
+      socket.leave(room.id, () => {
+        socket.to(room.id).emit("room", room);
+      });
+    }
+  };
+
+  setInterval(() => {
+    console.log("room inst", Room.instances, Room.instances.length);
+  }, 5000);
+
   socket.on("leaveRoom", leaveRoomHandler);
   socket.on("disconnect", leaveRoomHandler);
+  socket.on("outRoom", outRoomHandler);
 };
 
 module.exports = socketHandler;
