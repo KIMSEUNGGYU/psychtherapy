@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
     enterRoom: (payload) => dispatch(chatActions.enterRoom(payload)),
     getRoom: (payload) => dispatch(chatActions.getRoom(payload)),
     leaveRoom: () => dispatch(chatActions.leaveRoom()),
-    sendMessage: (payload) => dispatch(chatActions.sendMessage(payload))
+    sendMessage: (payload) => dispatch(chatActions.sendMessage(payload)),
+    outRoom: () => dispatch(chatActions.outRoom()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

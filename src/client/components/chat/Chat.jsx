@@ -43,6 +43,32 @@ const Chat = (props) => {
             ref.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [ref, props.room]);
+    
+    // 수정
+    useEffect(() => {
+        const outRoom = () => {
+            console.log("exe timeout");
+            props.outRoom();
+            props.history.push("/detail");
+        }
+        const alertMessage = () => {
+            alert("시간이 1분 남았습니다.")
+            
+        }
+
+        const setTimeFunc = () => {
+            const ssionTimeOut = 1000 * 180; // 1분 30초
+            setTimeout(outRoom, ssionTimeOut)
+        }
+        
+        const alertTimeFunc = () => {
+            const ssionTimeOut = 1000 * 30; // 30초
+            setTimeout(alertMessage, ssionTimeOut)
+        }
+
+        alertTimeFunc()
+        setTimeFunc()
+    }, []);
 
     const onSubmit = () => {
         const payload = {

@@ -18,6 +18,10 @@ const SEND_MESSAGE_SUCCESS = "SEND_MESSAGE_SUCCESS";
 const GET_ROOM = "GET_ROOM";
 const GET_ROOM_SUCCESS = "GET_ROOM_SUCCESS";
 
+// 수정
+const OUT_ROOM = "OUT_ROOM";
+const OUT_ROOM_SUCCESS = "OUT_ROOM_SUCCESS";
+
 export const actions = {
     enterRoom: (payload) => ({
         type: ENTER_ROOM,
@@ -37,7 +41,11 @@ export const actions = {
     getRoom: (payload) => ({
         type: GET_ROOM,
         payload
-    })
+    }),
+    // 수정
+    outRoom: () => ({
+        type: OUT_ROOM,
+    }),
 };
 
 export function reducer(
@@ -74,10 +82,23 @@ export function reducer(
 
 let socket;
 export const sockets = {
+    
     enterRoom: (payload) => {
-        socket = io("http://" + window.location.hostname + "/", {
+        // nginx prod
+        // socket = io("http://" + window.location.hostname + "/", {
+        //     query: payload
+        // });
+        // dev
+        // socket = io("http://127.0.0.1:3000/", {
+        //     query: payload
+        // });
+
+        // test prod
+        // console.log("check", window.location.hostname)
+        socket = io("http://" + "15.164.52.189" + "/", {
             query: payload
         });
+
         return new Promise((resolve, reject) => {
             socket.emit("enterRoom", payload);
             socket.once("room", (room) => {
@@ -102,7 +123,16 @@ export const sockets = {
             socket.off("room");
             resolve();
         });
-    }
+    },
+    // 수정
+    outRoom: () => {
+        return new Promise((resolve, reject) => {
+            socket.emit("outRoom");
+            socket.off("room");
+            resolve();
+        });
+    },
+
 };
 
 export const api = {
@@ -200,10 +230,27 @@ function* getRoomFunc(action) {
     }
 }
 
+// 수정
+function* outRoomFunc(action) {
+    try {
+      const res = yield call(sockets.outRoom);
+      if (res) {
+        yield put({
+          type: OUT_ROOM_SUCCESS,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+}
+
+
 export function* saga() {
     yield takeEvery(ENTER_ROOM, enterRoomFunc);
     yield takeEvery(UPDATE_ROOM, updateRoomFunc);
     yield takeEvery(LEAVE_ROOM, leaveRoomFunc);
     yield takeEvery(SEND_MESSAGE, sendMessageFunc);
     yield takeEvery(GET_ROOM, getRoomFunc);
+    // 수정
+    yield takeEvery(OUT_ROOM, outRoomFunc);
 }
