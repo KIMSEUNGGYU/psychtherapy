@@ -4,7 +4,7 @@ import { getUserType } from "client/others/token";
 import { MdComment, MdSend } from "react-icons/md";
 import moment, { duration } from "moment";
 
-const Chat = (props) => {
+const Chat = props => {
     const { room_id: id, user_id, started_at } = props.match.params;
     const type = getUserType();
     const status =
@@ -43,31 +43,40 @@ const Chat = (props) => {
             ref.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [ref, props.room]);
-    
+
     // 수정
     useEffect(() => {
         const outRoom = () => {
             console.log("exe timeout");
             props.outRoom();
             props.history.push("/detail");
-        }
-        const alertMessage = () => {
-            alert("시간이 1분 남았습니다.")
-            
-        }
+        };
 
-        const setTimeFunc = () => {
-            const ssionTimeOut = 1000 * 180; // 1분 30초
-            setTimeout(outRoom, ssionTimeOut)
-        }
-        
-        const alertTimeFunc = () => {
-            const ssionTimeOut = 1000 * 30; // 30초
-            setTimeout(alertMessage, ssionTimeOut)
-        }
+        const format = "YYYY-MM-DD hh:mm:ss A";
 
-        alertTimeFunc()
-        setTimeFunc()
+        const alert_time = moment(started_at)
+            .add(30, "minutes")
+            .subtract(60, "seconds")
+            .format(format);
+
+        const out_time = moment(started_at)
+            .add(30, "minutes")
+            .add(90, "seconds")
+            .format(format);
+
+        const checkTime = () => {
+            console.log(alert_time, out_time);
+            if (moment().format(format) === alert_time) {
+                alert("시간이 1분 남았습니다.");
+            }
+            if (moment().format(format) === out_time) {
+                outRoom();
+            }
+        };
+        const setIntervalFunc = setInterval(() => checkTime(), 1000);
+        return () => {
+            clearInterval(setIntervalFunc);
+        };
     }, []);
 
     const onSubmit = () => {
@@ -80,7 +89,7 @@ const Chat = (props) => {
         setContent("");
     };
 
-    const onKeyPress = (e) => {
+    const onKeyPress = e => {
         if (e.charCode === 13) {
             onSubmit();
         }
@@ -149,7 +158,7 @@ const Chat = (props) => {
                         type="text"
                         value={content}
                         onKeyPress={onKeyPress}
-                        onChange={(e) => setContent(e.target.value)}
+                        onChange={e => setContent(e.target.value)}
                         placeholder={status && "메세지를 입력하세요"}
                         readOnly={!status}
                     />
