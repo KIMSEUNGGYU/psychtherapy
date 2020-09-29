@@ -65,7 +65,6 @@ const Chat = props => {
             .format(format);
 
         const checkTime = () => {
-            console.log(alert_time, out_time);
             if (moment().format(format) === alert_time) {
                 alert("시간이 1분 남았습니다.");
             }
