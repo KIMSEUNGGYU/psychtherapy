@@ -72,10 +72,12 @@ const Chat = props => {
                 outRoom();
             }
         };
-        const setIntervalFunc = setInterval(() => checkTime(), 1000);
-        return () => {
-            clearInterval(setIntervalFunc);
-        };
+        if (status) {
+            const setIntervalFunc = setInterval(() => checkTime(), 1000);
+            return () => {
+                clearInterval(setIntervalFunc);
+            };
+        }
     }, []);
 
     const onSubmit = () => {
