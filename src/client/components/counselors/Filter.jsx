@@ -1,6 +1,6 @@
 import React from "react";
 import "./Filter.scss";
-import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
+import { MdRadioButtonChecked, MdRadioButtonUnchecked, MdSearch} from "react-icons/md";
 import { keywords } from "client/others/const";
 
 const Filter = (props) => {
@@ -14,13 +14,26 @@ const Filter = (props) => {
             [key]: el
         }));
     };
+
+    const onClickAllSearch = () => {
+        props.setQueryData((queryData) => ({
+                ...queryData,
+                page:1,
+                size:15,
+                gender:"",
+                level:"",
+                certificate:"",
+                keyword:""
+        }))
+    }
+
     return (
         <div className="filter_box">
             <p className="title">
                 상담사 찾기
-                {/* <span>
-                    <MdRefresh /> 검색 초기화
-                </span> */}
+                <button className="all_search_btn" onClick={() => onClickAllSearch()}>
+                <MdSearch /> 검색 초기화
+                </button>
             </p>
             {/* <div className="search_box">
                 <input
