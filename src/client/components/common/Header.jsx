@@ -183,7 +183,7 @@ const Header = (props) => {
                                             className="last_btn"
                                             onClick={() =>
                                                 history.push(
-                                                    "/partners?page=1&size=25&gender=1&level=1&certificate=1&keyword=우울"
+                                                    "/partners?page=1&size=25"
                                                 )
                                             }
                                         >

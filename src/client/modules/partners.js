@@ -121,6 +121,11 @@ export const api = {
     },
     getPartners: async (payload) => {
         const { page, size, gender, level, certificate, keyword } = payload;
+        if(level === undefined) {
+            return await api_manager.get(
+                `/partner?page=${page}&size=${size}&gender=${""}&level=${""}&certificate=${""}&keyword=${""}`
+            );
+        }
         return await api_manager.get(
             `/partner?page=${page}&size=${size}&gender=${gender}&level=${level}&certificate=${certificate}&keyword=${keyword}`
         );
