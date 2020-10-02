@@ -1,6 +1,6 @@
 import React from "react";
 import "./Filter.scss";
-import { MdRadioButtonChecked, MdRadioButtonUnchecked, MdSearch} from "react-icons/md";
+import { MdRadioButtonChecked, MdRadioButtonUnchecked, MdRefresh} from "react-icons/md";
 import { keywords } from "client/others/const";
 
 const Filter = (props) => {
@@ -32,7 +32,7 @@ const Filter = (props) => {
             <p className="title">
                 상담사 찾기
                 <button className="all_search_btn" onClick={() => onClickAllSearch()}>
-                <MdSearch /> 검색 초기화
+                <MdRefresh /> 검색 초기화
                 </button>
             </p>
             {/* <div className="search_box">
