@@ -40,6 +40,7 @@ const Detail = (props) => {
                 let tempReserved = [];
                 let tempEndConsultation = [];
                 props.partner.schedules.forEach((el) => {
+                    
                     if (el["reservation"] === 1) {
                         const currentTime = moment();
                         const reservedTime = moment(el["startedAt"]);
@@ -83,15 +84,19 @@ const Detail = (props) => {
         }
     }, [props.partner, props.user]);
 
+
     const endConsultationTableProps = {
         ths: {
             scheduleId: "예약 번호 (ID)",
-            startedAt: "상담 리스트"
+            consultDay: "상담 일자",
+            startedAt: "상담 시작 시간",
+            endAt: "상담 종료 시간",
         },
         tds: endConsultation,
         actions: [
             {
                 commonBtn: true,
+                userType: userInfo.type,
                 className: "reserve_status_btn",
                 callbackFunc: (roomId, startAt) => {
                     props.history.push(
@@ -106,6 +111,7 @@ const Detail = (props) => {
         ],
         nonePaginationsProps: true
     };
+
     const reservationTableProps = {
         ths: {
             scheduleId: "예약 번호 (ID)",
@@ -119,10 +125,10 @@ const Detail = (props) => {
                 callbackFunc: (roomId, startAt) => {
                     props.history.push(
                         `/chat/${roomId}/${
-                            userInfo.type === 0
-                                ? props.user.id
-                                : props.partner.id
-                        }/${startAt}`
+                            userInfo.type === 0 
+                                ? props.user.id 
+                                : props.partner.id 
+                            }/${startAt}`
                     );
                 }
             }

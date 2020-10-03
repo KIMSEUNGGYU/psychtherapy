@@ -5,14 +5,11 @@ import moment from "moment";
 
 const ScheduleManagement = (props) => {
     const { partner_id } = props.match.params;
-
     const [times, setTimes] = useState([]);
     const [scheduleDate, setScheduleDate] = useState(
         moment().format("YYYY-MM-DD")
     );
     const m = moment();
-
-
     useEffect(() => {
         const payload = {
             partnerId: Number(partner_id),
@@ -33,8 +30,8 @@ const ScheduleManagement = (props) => {
         if (props.schedules) {
             let scheduleArr = [];
             for (let i = 0; i < 48; i++) {
-                const startedAt = moment()
-                    .utcOffset(0)
+                const startedAt = moment(scheduleDate)
+                    .utcOffset("+0900")
                     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
                     .add(i * 30, "minutes")
                     .format("YYYY-MM-DD HH:mm:ss");
@@ -55,7 +52,9 @@ const ScheduleManagement = (props) => {
             }
             setTimes(scheduleArr);
         }
-    }, [props.schedules]);
+    }, [props.schedules, scheduleDate]);
+
+
     const onClickSave = (edit, schedules) => {
         if (edit === "delete") {
             schedules.forEach((scheduleId) => {
