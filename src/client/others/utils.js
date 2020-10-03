@@ -27,3 +27,12 @@ export const DeduplicationInArrContent = (arr) => {
     }
     return arr;
 };
+
+export const formatNumberWithComma = x => {
+    if (!x) {
+      return 0;
+    }
+    let parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
