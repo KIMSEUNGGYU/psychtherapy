@@ -3,6 +3,7 @@ import "./Pricing.scss";
 import Iamport from "react-iamport";
 import { getToken } from "client/others/token";
 import { Popup } from "client/components";
+import { formatNumberWithComma } from "../../others/utils"
 
 const _identificationCode = "imp59422487";
 const Pricing = (props) => {
@@ -72,7 +73,7 @@ const Pricing = (props) => {
                             <p className="card_title">일반 상담사</p>
                             <p className="price">
                                 <span className="sign">&#8361;</span>
-                                {25000 * prices.normal}
+                                {formatNumberWithComma(25000 * prices.normal)}
                             </p>
                             <p className="point">
                                 <button
@@ -81,7 +82,7 @@ const Pricing = (props) => {
                                 >
                                     -
                                 </button>
-                                {prices.normal} POINT
+                                {25000 * prices.normal} POINT
                                 <button
                                     className="plus_btn"
                                     onClick={() => onClickPlus("normal")}
@@ -93,12 +94,12 @@ const Pricing = (props) => {
                                 identificationCode={_identificationCode}
                                 params={{
                                     ...iamportParams,
-                                    amount: 1 //test
-                                    // amount: 25000 * prices.normal
+                                    // amount: 1 //test
+                                    amount: 25000 * prices.normal
                                 }}
                                 onFailed={(err) => console.log(err, "error")}
                                 onSuccess={(res) =>
-                                    chargePoint(res, prices.normal)
+                                    chargePoint(res, 25000 * prices.normal)
                                 }
                                 jqueryLoaded={false}
                                 render={(renderProps) => (
@@ -126,7 +127,7 @@ const Pricing = (props) => {
                             <p className="card_title">마스터 상담사</p>
                             <p className="price">
                                 <span className="sign">&#8361;</span>
-                                {75000 * prices.master}
+                                {formatNumberWithComma(75000 * prices.master)}
                             </p>
                             <p className="point">
                                 <button
@@ -135,7 +136,7 @@ const Pricing = (props) => {
                                 >
                                     -
                                 </button>
-                                {3 * prices.master} POINT
+                                {75000 * prices.master} POINT
                                 <button
                                     className="plus_btn"
                                     onClick={() => onClickPlus("master")}
@@ -151,7 +152,7 @@ const Pricing = (props) => {
                                 }}
                                 onFailed={(err) => console.log(err, "error")}
                                 onSuccess={(res) =>
-                                    chargePoint(res, 3 * prices.master)
+                                    chargePoint(res, 75000 * prices.master)
                                 }
                                 jqueryLoaded={false}
                                 render={(renderProps) => (
@@ -179,7 +180,7 @@ const Pricing = (props) => {
                             <p className="card_title">전문 상담사</p>
                             <p className="price">
                                 <span className="sign">&#8361;</span>
-                                {50000 * prices.export}
+                                {formatNumberWithComma(50000 * prices.export)}
                             </p>
                             <p className="point">
                                 <button
@@ -188,7 +189,7 @@ const Pricing = (props) => {
                                 >
                                     -
                                 </button>
-                                {2 * prices.export} POINT
+                                {50000 * prices.export} POINT
                                 <button
                                     className="plus_btn"
                                     onClick={() => onClickPlus("export")}
@@ -204,7 +205,7 @@ const Pricing = (props) => {
                                 }}
                                 onFailed={(err) => console.log(err, "error")}
                                 onSuccess={(res) =>
-                                    chargePoint(res, 2 * prices.master)
+                                    chargePoint(res, 50000 * prices.master)
                                 }
                                 jqueryLoaded={false}
                                 render={(renderProps) => (

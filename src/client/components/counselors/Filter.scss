@@ -8,12 +8,21 @@
         line-height: 1.125rem;
         font-weight: 500;
         font-size: 1.125rem;
-        margin-bottom: 1rem;
-        > span {
+        margin-bottom: 1.5rem;
+        .all_search_btn {
             float: right;
             font-weight: 400;
             font-size: 0.75rem;
-            color: #a0a0a0;
+            line-height: 1rem;
+            padding: 0.4rem 0.7rem;
+            color: #6ab4a5;
+            justify-content: unset;
+            margin-bottom: 3.5rem;
+            svg {
+                width: 0.9rem;
+                height: 0.9rem;
+            }
+         
         }
     }
     .sub_title {

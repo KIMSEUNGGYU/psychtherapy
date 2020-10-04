@@ -22,13 +22,11 @@ const Counselor = (props) => {
     }, []);
 
     useEffect(() => {
-        const _totalPoint = reservedId
-            ? props.partner.level === 1
-                ? 3
-                : props.partner.level === 2
-                ? 2
-                : props.partner.level
-            : 0;
+        const _totalPoint = reservedId 
+            ? props.partner.level === 1 
+            ? 75000 : props.partner.level === 2 
+            ? 50000 : props.partner.level === 3 
+            ? 25000 : props.partner.level: 0;
         setTotalPoint(_totalPoint);
     }, [reservedId]);
     useEffect(() => {

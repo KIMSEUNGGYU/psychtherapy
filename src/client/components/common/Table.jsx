@@ -30,10 +30,23 @@ const Table = (props) => {
                                             </td>
                                         );
                                     }
+                                    if(ele === "endAt") {
+                                        const endAtTime = moment(el["startedAt"])
+                                            .add(30, "minutes")
+                                            .format("YYYY-MM-DD HH:mm:ss");
+                                        return <td key={i}>{endAtTime}</td>;
+                                    }
+                                    if(ele === "consultDay") {
+                                        const consultDay = moment(el["startedAt"])
+                                            .format("MM/DD");
+                                        return <td key={i}>{consultDay}</td>;
+                                    }
                                     return <td key={i}>{el[ele]}</td>;
+                                    
                                 })}
                                 {actions &&
                                     actions.map((action, actionKey) => {
+                                        console.log(actions,"act?")
                                         if (action.commonBtn) {
                                             const currentTime = moment();
                                             const reservedTime = moment(
@@ -93,17 +106,18 @@ const Table = (props) => {
                                                     </td>
                                                 );
                                             }
-                                            if (duration > 30) {
-                                                return (
-                                                    <td
-                                                        className="actions"
-                                                        key={actionKey}
-                                                    >
-                                                        <button
-                                                            className={
+                                            if (duration > 30 ) {
+                                                    return (
+                                                        <td
+                                                            className="actions"
+                                                            key={actionKey}
+                                                        >
+                                                            {action.userType === 1 ?
+                                                            <button
+                                                                className={
                                                                 action.className
-                                                            }
-                                                            onClick={() =>
+                                                                }
+                                                                onClick={() =>
                                                                 action.callbackFunc(
                                                                     el[
                                                                         "roomId"
@@ -115,9 +129,10 @@ const Table = (props) => {
                                                             }
                                                         >
                                                             상담내역
-                                                        </button>
-                                                    </td>
-                                                );
+                                                            </button> : ""}
+                                                        </td>
+                                                    );
+                                                
                                             }
                                         }
                                         return (
