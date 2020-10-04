@@ -6,11 +6,11 @@ const Main = () => {
         <div className="main">
             <div className="layout">
                 <div className="center_box y">
-                    <p className="title">당신을 위해 존재하는 심리전문가</p>
+                    <p className="title">과학적이고 마음 따뜻한 심리서비스</p>
                     <p className="description">
-                        당신의 마음을 읽어줄 상담사를 찾아보세요
+                        당신의 마음에 귀기울이는 심리전문가를 찾아보세요
                         <br />
-                        당신의 행복이 비심플의 행복입니다
+                        당신의 마음건강이 에이프릴의 비젼입니다
                     </p>
                 </div>
             </div>
