@@ -101,7 +101,7 @@ const Header = (props) => {
                             return history.push("/");
                         }}
                     >
-                        Be Simple
+                        April
                     </h1>
                     <div className="nav_box">
                         <ul>

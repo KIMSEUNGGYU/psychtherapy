@@ -4,7 +4,7 @@ import "./Footer.scss";
 const Footer = () => {
     return (
         <div className="footer">
-            <h1 className="logo">Be Simple</h1>
+            <h1 className="logo">April</h1>
             <p className="copyright">
                 Copyrightⓒ2020 Be Simple. All rights reserved. Design by Be
                 Simple
