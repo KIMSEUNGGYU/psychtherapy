@@ -3,7 +3,7 @@ import "./Scheduler.scss";
 import moment from "moment";
 import { history } from "client/store";
 
-const Scheduler = (props) => {
+const Scheduler = props => {
     const [schedules, setSchedules] = useState(props.times);
     const [edit, setEdit] = useState(false);
     const [deletedArr, setDeletedArr] = useState([]);
@@ -15,7 +15,7 @@ const Scheduler = (props) => {
         }
     }, [props.times]);
 
-    const onClickEdit = (key) => {
+    const onClickEdit = key => {
         setEdit(key);
         if (key === "enter") {
             setDeletedArr([]);
@@ -25,7 +25,7 @@ const Scheduler = (props) => {
     const onClickTime = (startedAt, scheduleId) => {
         if (props.userType === "partner") {
             if (edit === "delete") {
-                const filterArr = enteredArr.filter((el) => {
+                const filterArr = enteredArr.filter(el => {
                     return el !== startedAt;
                 });
                 setEnteredArr(filterArr);
@@ -48,20 +48,20 @@ const Scheduler = (props) => {
 
     return (
         <div className="scheduler_box">
-            {history.location.pathname.includes("schedule") && (
-                <div className="top_box flex_box between">
-                    <p className="today">
-                        일정 선택 캘린더
-                        <input
-                            type="date"
-                            value={props.scheduleDate}
-                            min={moment().format("YYYY-MM-DD")}
-                            onChange={(e) =>
-                                props.setScheduleDate(e.target.value)
-                            }
-                        ></input>
-                    </p>
-                    <div className="date_pick_box"></div>
+            <div className="top_box flex_box between">
+                <p className="today">
+                    {history.location.pathname.includes("schedule")
+                        ? "일정 관리 캘린더"
+                        : "예약 캘린더"}
+                    <input
+                        type="date"
+                        value={props.scheduleDate}
+                        min={moment().format("YYYY-MM-DD")}
+                        onChange={e => props.setScheduleDate(e.target.value)}
+                    ></input>
+                </p>
+                <div className="date_pick_box"></div>
+                {history.location.pathname.includes("schedule") && (
                     <div className="btn_box">
                         <button
                             className={`${edit === "delete" && "active"}`}
@@ -76,8 +76,8 @@ const Scheduler = (props) => {
                             일정 등록
                         </button>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
             <div className="select_times_box">
                 <div className="legend_box">
                     <span className="non_selected">상담 불가</span>

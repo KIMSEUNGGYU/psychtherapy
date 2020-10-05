@@ -4,10 +4,10 @@ import { AiOutlineYoutube } from "react-icons/ai";
 import moment from "moment";
 import { Scheduler, Popup } from "client/components";
 
-const Counselor = (props) => {
+const Counselor = props => {
     const { partner, getPartner, match, getUser } = props;
     const { prev_search, partner_id } = match.params;
-    
+
     const [times, setTimes] = useState([]);
     const [scheduleDate, setScheduleDate] = useState(
         moment().format("YYYY-MM-DD")
@@ -22,19 +22,24 @@ const Counselor = (props) => {
     }, []);
 
     useEffect(() => {
-        const _totalPoint = reservedId 
-            ? props.partner.level === 1 
-            ? 75000 : props.partner.level === 2 
-            ? 50000 : props.partner.level === 3 
-            ? 25000 : props.partner.level: 0;
+        const _totalPoint = reservedId
+            ? props.partner.level === 1
+                ? 75000
+                : props.partner.level === 2
+                ? 50000
+                : props.partner.level === 3
+                ? 25000
+                : props.partner.level
+            : 0;
         setTotalPoint(_totalPoint);
     }, [reservedId]);
+
     useEffect(() => {
         if (props.partner.schedules) {
             let scheduleArr = [];
             for (let i = 0; i < 48; i++) {
-                const startedAt = moment()
-                    .utcOffset(0)
+                const startedAt = moment(scheduleDate)
+                    .utcOffset("+0900")
                     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
                     .add(i * 30, "minutes")
                     .format("YYYY-MM-DD HH:mm:ss");
@@ -43,8 +48,8 @@ const Counselor = (props) => {
                     reservation: 2,
                     scheduleId: null
                 };
-                props.partner.schedules.forEach((el) => {
-                    if(m.valueOf() > moment(startedAt)){
+                props.partner.schedules.forEach(el => {
+                    if (m.valueOf() > moment(startedAt)) {
                         obj["reservation"] = 3;
                     } else if (el.startedAt === startedAt) {
                         obj["reservation"] = el.reservation;
@@ -56,7 +61,7 @@ const Counselor = (props) => {
             console.log(scheduleArr);
             setTimes(scheduleArr);
         }
-    }, [props.partner]);
+    }, [props.partner, scheduleDate]);
 
     const onClickApply = () => {
         if (!props.user.id) {

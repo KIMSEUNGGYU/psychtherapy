@@ -3,7 +3,7 @@ import "./ScheduleManagement.scss";
 import { Scheduler } from "client/components";
 import moment from "moment";
 
-const ScheduleManagement = (props) => {
+const ScheduleManagement = props => {
     const { partner_id } = props.match.params;
     const [times, setTimes] = useState([]);
     const [scheduleDate, setScheduleDate] = useState(
@@ -40,8 +40,8 @@ const ScheduleManagement = (props) => {
                     reservation: 2,
                     scheduleId: null
                 };
-                props.schedules.forEach((el) => {
-                    if(m.valueOf() > moment(startedAt)){
+                props.schedules.forEach(el => {
+                    if (m.valueOf() > moment(startedAt)) {
                         obj["reservation"] = 3;
                     } else if (el.startedAt === startedAt) {
                         obj["reservation"] = el.reservation;
@@ -54,10 +54,9 @@ const ScheduleManagement = (props) => {
         }
     }, [props.schedules, scheduleDate]);
 
-
     const onClickSave = (edit, schedules) => {
         if (edit === "delete") {
-            schedules.forEach((scheduleId) => {
+            schedules.forEach(scheduleId => {
                 props.deletePartnerSchedule({
                     partnerId: Number(partner_id),
                     scheduleId
