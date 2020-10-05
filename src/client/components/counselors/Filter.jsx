@@ -1,14 +1,18 @@
 import React from "react";
 import "./Filter.scss";
-import { MdRadioButtonChecked, MdRadioButtonUnchecked, MdRefresh} from "react-icons/md";
+import {
+    MdRadioButtonChecked,
+    MdRadioButtonUnchecked,
+    MdRefresh
+} from "react-icons/md";
 import { keywords } from "client/others/const";
 
-const Filter = (props) => {
+const Filter = props => {
     const { gender, level, certificate, keyword } = props.queryData;
 
     const onClickFilter = (e, key, el) => {
         console.log(key);
-        props.setQueryData((queryData) => ({
+        props.setQueryData(queryData => ({
             ...queryData,
             page: 1,
             [key]: el
@@ -16,23 +20,26 @@ const Filter = (props) => {
     };
 
     const onClickAllSearch = () => {
-        props.setQueryData((queryData) => ({
-                ...queryData,
-                page:1,
-                size:15,
-                gender:"",
-                level:"",
-                certificate:"",
-                keyword:""
-        }))
-    }
+        props.setQueryData(queryData => ({
+            ...queryData,
+            page: 1,
+            size: 15,
+            gender: "",
+            level: "",
+            certificate: "",
+            keyword: ""
+        }));
+    };
 
     return (
         <div className="filter_box">
             <p className="title">
                 상담사 찾기
-                <button className="all_search_btn" onClick={() => onClickAllSearch()}>
-                <MdRefresh /> 검색 초기화
+                <button
+                    className="all_search_btn"
+                    onClick={() => onClickAllSearch()}
+                >
+                    <MdRefresh /> 검색 초기화
                 </button>
             </p>
             {/* <div className="search_box">
@@ -50,7 +57,7 @@ const Filter = (props) => {
                 <ul>
                     <li
                         className={`${level === "1" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "level", "1")}
+                        onClick={e => onClickFilter(e, "level", "1")}
                     >
                         {level === "1" ? (
                             <MdRadioButtonChecked />
@@ -61,7 +68,7 @@ const Filter = (props) => {
                     </li>
                     <li
                         className={`${level === "2" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "level", "2")}
+                        onClick={e => onClickFilter(e, "level", "2")}
                     >
                         {level === "2" ? (
                             <MdRadioButtonChecked />
@@ -72,7 +79,7 @@ const Filter = (props) => {
                     </li>
                     <li
                         className={`${level === "3" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "level", "3")}
+                        onClick={e => onClickFilter(e, "level", "3")}
                     >
                         {level === "3" ? (
                             <MdRadioButtonChecked />
@@ -92,7 +99,7 @@ const Filter = (props) => {
                                 decodeURI(keyword) === el && "active"
                             } keyword`}
                             key={key}
-                            onClick={(e) => onClickFilter(e, "keyword", el)}
+                            onClick={e => onClickFilter(e, "keyword", el)}
                         >
                             {el}
                         </span>
@@ -104,7 +111,7 @@ const Filter = (props) => {
                 <ul>
                     <li
                         className={`${certificate === "1" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "certificate", "1")}
+                        onClick={e => onClickFilter(e, "certificate", "1")}
                     >
                         {certificate === "1" ? (
                             <MdRadioButtonChecked />
@@ -115,7 +122,7 @@ const Filter = (props) => {
                     </li>
                     <li
                         className={`${certificate === "2" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "certificate", "2")}
+                        onClick={e => onClickFilter(e, "certificate", "2")}
                     >
                         {certificate === "2" ? (
                             <MdRadioButtonChecked />
@@ -126,7 +133,7 @@ const Filter = (props) => {
                     </li>
                     <li
                         className={`${certificate === "3" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "certificate", "3")}
+                        onClick={e => onClickFilter(e, "certificate", "3")}
                     >
                         {certificate === "3" ? (
                             <MdRadioButtonChecked />
@@ -142,7 +149,7 @@ const Filter = (props) => {
                 <ul>
                     <li
                         className={`${gender === "1" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "gender", "1")}
+                        onClick={e => onClickFilter(e, "gender", "1")}
                     >
                         {gender === "1" ? (
                             <MdRadioButtonChecked />
@@ -153,7 +160,7 @@ const Filter = (props) => {
                     </li>
                     <li
                         className={`${gender === "2" && "active"}`}
-                        onClick={(e) => onClickFilter(e, "gender", "2")}
+                        onClick={e => onClickFilter(e, "gender", "2")}
                     >
                         {gender === "2" ? (
                             <MdRadioButtonChecked />

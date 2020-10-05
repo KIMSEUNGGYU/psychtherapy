@@ -4,7 +4,7 @@ import queryString from "query-string";
 import { MdZoomIn } from "react-icons/md";
 import { Filter, Pagination } from "client/components";
 
-const Counselors = (props) => {
+const Counselors = props => {
     const [queryData, setQueryData] = useState(
         queryString.parse(props.location.search)
     );
