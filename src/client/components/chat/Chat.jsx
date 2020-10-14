@@ -93,7 +93,7 @@ const Chat = (props) => {
                     </div>
                 )}
             </div>
-            <div className={`chat_contents_box ${status ? 'split' : 'full'}`}>
+            <div className={`chat_contents_box full`}>
                 <div className="contents">
                     <ul>
                         {props.room.messages.map((el, key) => {
@@ -119,7 +119,6 @@ const Chat = (props) => {
                     <div ref={ref} />
                 </div>
                 {
-                    status &&
                     <div className="enter_box">
                         <input
                             type="text"
@@ -135,7 +134,7 @@ const Chat = (props) => {
                     </div>
                 }
             </div>
-            <div className={`chat_note ${status ? 'split' : 'full'}`}>
+            {/* <div className={`chat_note ${status ? 'split' : 'full'}`}>
                 {
                     !status &&
                     <div className="enter_box">
@@ -167,7 +166,7 @@ const Chat = (props) => {
                         </button>
                     </div>
                 }
-            </div>
+            </div> */}
         </div>
     );
 };
