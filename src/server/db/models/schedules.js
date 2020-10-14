@@ -2,6 +2,7 @@
 const { Model, Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const moment = require("moment");
+const db = require('./userdetails')
 
 module.exports = (sequelize, DataTypes) => {
   class schedules extends Model {
@@ -99,11 +100,12 @@ module.exports = (sequelize, DataTypes) => {
       where: { id: scheduleId, partnerId },
     });
 
-  schedules.getSchedule = async condition => {
+  schedules.getSchedule = async (models, condition) => {
+    const name = condition.userId ? [sequelize.col("partnerDetail.name"),"name"] : [sequelize.col("userDetail.name"),"name"];
     return await schedules.findAll({
       attributes: [
         ["id", "scheduleId"],
-        [sequelize.literal("IF (userId IS NULL, false, true)"), "reservation"],
+        [sequelize.literal("IF (schedules.userId IS NULL, false, true)"), "reservation"],
         "roomId",
         [
           sequelize.Sequelize.fn(
@@ -113,6 +115,18 @@ module.exports = (sequelize, DataTypes) => {
           ),
           "startedAt",
         ],
+        name,
+        "partnerID",
+      ],
+      include: [
+        {
+          model: models.userDetails,
+          attributes: [], 
+        },
+        {
+          model: models.partnerDetails,
+          attributes: [],
+        }
       ],
       raw: true,
       where: { ...condition },

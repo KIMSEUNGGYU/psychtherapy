@@ -88,6 +88,7 @@ const Detail = (props) => {
     const endConsultationTableProps = {
         ths: {
             scheduleId: "예약 번호 (ID)",
+            name: userInfo.type === 0 ? "상담자" : "내담자",
             consultDay: "상담 일자",
             startedAt: "상담 시작 시간",
             endAt: "상담 종료 시간",
@@ -115,6 +116,7 @@ const Detail = (props) => {
     const reservationTableProps = {
         ths: {
             scheduleId: "예약 번호 (ID)",
+            name: userInfo.type === 0 ? "상담자" : "내담자",
             startedAt: "예약 리스트"
         },
         tds: reserved,
