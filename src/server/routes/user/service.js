@@ -64,5 +64,5 @@ exports.getUserDetailPoint = async (userId) =>
 // 유저가 등록한 schedule 가져오는 것!
 exports.getUserSchedule = async (userId) => {
   const condition = { userId };
-  return await models.schedules.getSchedule(condition);
+  return await models.schedules.getSchedule(models, condition);
 };

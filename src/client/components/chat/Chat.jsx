@@ -93,7 +93,7 @@ const Chat = (props) => {
                     </div>
                 )}
             </div>
-            <div className="chat_contents_box">
+            <div className={`chat_contents_box full`}>
                 <div className="contents">
                     <ul>
                         {props.room.messages.map((el, key) => {
@@ -118,20 +118,55 @@ const Chat = (props) => {
                     </ul>
                     <div ref={ref} />
                 </div>
-                <div className="enter_box">
-                    <input
-                        type="text"
-                        value={content}
-                        onKeyPress={onKeyPress}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder={status && "메세지를 입력하세요"}
-                        readOnly={!status}
-                    />
-                    <button className="submit_btn" onClick={onSubmit}>
-                        <MdSend />
-                    </button>
-                </div>
+                {
+                    <div className="enter_box">
+                        <input
+                            type="text"
+                            value={content}
+                            onKeyPress={onKeyPress}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder={status && "메세지를 입력하세요"}
+                            readOnly={!status}
+                        />
+                        <button className="submit_btn" onClick={onSubmit}>
+                            <MdSend />
+                        </button>
+                    </div>
+                }
             </div>
+            {/* <div className={`chat_note ${status ? 'split' : 'full'}`}>
+                {
+                    !status &&
+                    <div className="enter_box">
+                        <button className="button">
+                            저장하고 뒤로가기
+                        </button>
+                    </div>
+                }
+                <div>
+                    <ul style={{ display: 'flex', justifyContent:'center' }}>
+                        {
+                            type===0 ? '자주 쓰는 문구' : '상담 노트'
+                        }
+                    </ul>
+                    <div ref={ref} />
+                </div>
+                <p className="content">
+                    <textarea
+                    />
+                </p>
+                {
+                    type===1 && status &&
+                    <div className="enter_box">
+                        <button className="button">
+                            저장하기
+                        </button>
+                        <button className="button">
+                            상담 예약
+                        </button>
+                    </div>
+                }
+            </div> */}
         </div>
     );
 };
