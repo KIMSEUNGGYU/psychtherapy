@@ -2,7 +2,6 @@
 const { Model, Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const moment = require("moment");
-const db = require('./userdetails')
 
 module.exports = (sequelize, DataTypes) => {
   class schedules extends Model {
@@ -94,6 +93,23 @@ module.exports = (sequelize, DataTypes) => {
       where: { id: scheduleId },
     });
 
+  schedules.getUserInfoBySchedule = async (models, userId) =>
+    await schedules.findOne({
+      raw: true,
+      where: { userId },
+      attributes: [
+        sequelize.Sequelize.col("userDetail.name","name"),
+        sequelize.Sequelize.col("userDetail.gender","gender"),
+        sequelize.Sequelize.col("userDetail.age","age"),
+      ],
+      include: [
+        {
+          model: models.userDetails,
+          attributes: []
+        },
+      ]
+    });
+
   schedules.scheduleIdCotainPartnerId = async (scheduleId, partnerId) =>
     await schedules.findOne({
       raw: true,
@@ -116,7 +132,8 @@ module.exports = (sequelize, DataTypes) => {
           "startedAt",
         ],
         name,
-        "partnerID",
+        "partnerId",
+        "userId"
       ],
       include: [
         {

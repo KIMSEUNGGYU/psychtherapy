@@ -53,3 +53,13 @@ exports.detail = async (req, res, next) => {
     ? res.status(200).json(view.partnerDetail(partner, schedules))
     : res.status(204).json(view.empty());
 };
+
+exports.userInfo = async (req, res, next) => {
+  const userId = req.params["userId"];
+
+  const userInfo = await service.getUserInfo(userId);
+
+  return userInfo
+    ? res.status(200).json(view.userInfo(userInfo))
+    : res.status(204).json(view.empty());
+};

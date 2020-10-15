@@ -5,5 +5,6 @@ const controller = require("./controller");
 router.get("/", controller.partners);
 router.post("/signup", controller.signup);
 router.get("/detail/:partnerId", controller.detail);
+router.get("/userInfo/:userId", controller.userInfo);
 
 module.exports = router;

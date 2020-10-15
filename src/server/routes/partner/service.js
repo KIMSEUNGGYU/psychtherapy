@@ -112,3 +112,7 @@ exports.getPartnerSchedule = async (partnerId) => {
   const condition = { partnerId };
   return await models.schedules.getSchedule(models, condition);
 };
+
+exports.getUserInfo = async (userId) => {
+  return await models.schedules.getUserInfoBySchedule(models, userId);
+};

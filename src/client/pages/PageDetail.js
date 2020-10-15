@@ -20,7 +20,8 @@ const mapDispatchToProps = (dispatch) => {
         getPartner: (payload) => dispatch(partnersActions.getPartner(payload)),
         getPartnerScheduleList: (payload) =>
             dispatch(scheduleActions.getPartnerScheduleList(payload)),
-        getUser: (payload) => dispatch(userActions.getUser(payload))
+        getUser: (payload) => dispatch(userActions.getUser(payload)),
+        getUserInfo: (payload) => dispatch(partnersActions.getUserInfo(payload)),
     };
 };
 
