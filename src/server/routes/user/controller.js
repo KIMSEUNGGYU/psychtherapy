@@ -60,7 +60,9 @@ exports.check = async (req, res, next) => {
 
 exports.detail = async (req, res, next) => {
   let userId = null;
-  if (res.locals.userId) userId = res.locals.userId;
+  if (req.query["userId"]) userId = req.query["userId"]
+  else if (res.locals.userId) userId = res.locals.userId;
+  console.log('userId is', userId);
   if (userId === null) return res.status(400).json(view.badRequset()); // 이 부분은 필요 없을 수도..
 
   // user 정보를 가져옴

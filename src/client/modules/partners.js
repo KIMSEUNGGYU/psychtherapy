@@ -10,11 +10,6 @@ const GET_PARTNERS_SUCCESS = "GET_PARTNERS_SUCCESS";
 const GET_PARTNERS_FAILURE = "GET_PARTNERS_FAILURE";
 
 
-const GET_USER_INFO = "GET_USER_INFO";
-const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
-const GET_USER_INFO_FAILURE = "GET_USER_INFO_FAILURE";
-
-
 export const actions = {
     getPartner: (payload) => ({
         type: GET_PARTNER,
@@ -39,18 +34,6 @@ export const actions = {
     }),
     getPartnersFailure: (payload) => ({
         type: GET_PARTNERS_FAILURE,
-        payload
-    }),
-    getUserInfo: (payload) => ({
-        type: GET_USER_INFO,
-        payload
-    }),
-    getUserInfoSuccess: (payload) => ({
-        type: GET_USER_INFO_SUCCESS,
-        payload
-    }),
-    getUserInfoFailure: (payload) => ({
-        type: GET_USER_INFO_FAILURE,
         payload
     }),
 };
@@ -128,12 +111,6 @@ export function reducer(
                 partnersTotal,
                 loading: false
             };
-        case GET_USER_INFO_SUCCESS:
-            const { userInfo } = action.payload;
-            return {
-                ...state,
-                userInfo,
-            };
         default:
             return state;
     }
@@ -153,10 +130,6 @@ export const api = {
         return await api_manager.get(
             `/partner?page=${page}&size=${size}&gender=${gender}&level=${level}&certificate=${certificate}&keyword=${keyword}`
         );
-    },
-    getUserInfo: async (payload) => {
-        const { userId } = payload;
-        return await api_manager.get(`/partner/userInfo/${userId}`);
     },
 };
 
@@ -208,26 +181,7 @@ function* getPartnersFunc(action) {
     }
 }
 
-function* getUserInfoFunc(action) {
-    try {
-        const { payload } = action;
-        const res = yield call(api.getUserInfo, payload);
-        if (res) {
-            yield put({
-                type: GET_USER_INFO_SUCCESS,
-                payload: {
-                    userInfo: res.userInfo,
-                }
-            });
-        }
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-
 export function* saga() {
     yield takeEvery(GET_PARTNER, getPartnerFunc);
     yield takeEvery(GET_PARTNERS, getPartnersFunc);
-    yield takeEvery(GET_USER_INFO, getUserInfoFunc);
 }

@@ -8,6 +8,5 @@ exports.partnerDetail = (partner, schedules) => ({
   message: "Success",
   result: { partner, schedules },
 });
-exports.userInfo = (userInfo) => ({ userInfo })
 exports.empty = () => ({ message: "Empty Object", result: {} });
 exports.badRequest = () => ({ message: "Bad Request", result: {} });
