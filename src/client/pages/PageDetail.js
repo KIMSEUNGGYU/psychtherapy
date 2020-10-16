@@ -21,7 +21,6 @@ const mapDispatchToProps = (dispatch) => {
         getPartnerScheduleList: (payload) =>
             dispatch(scheduleActions.getPartnerScheduleList(payload)),
         getUser: (payload) => dispatch(userActions.getUser(payload)),
-        getUserInfo: (payload) => dispatch(partnersActions.getUserInfo(payload)),
     };
 };
 

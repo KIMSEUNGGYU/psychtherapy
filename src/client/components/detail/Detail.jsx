@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Detail.scss";
 import { history } from "client/store";
 import { getToken, parsingToken } from "client/others/token";
-import { Table } from "client/components";
+import { Popup, Table } from "client/components";
 import moment from "moment";
 import InfoBox from "../common/InfoBox";
 
@@ -86,6 +86,27 @@ const Detail = (props) => {
 
 
     const endConsultationTableProps = {
+        userType: userInfo.type,
+        getInfo: {
+            callbackFunc: (id) =>
+            userInfo.type===0 
+            ? Popup.partnerProfilePopup({
+                className: "partner_profile",
+                type: "read_only",
+                id,
+                setQueryData: () => ({
+                    page: 1
+                })
+            }) 
+            : Popup.userProfilePopup({
+                className: "user_profile",
+                type: "read_only",
+                id,
+                setQueryData: () => ({
+                    page: 1
+                })
+            }) 
+        },
         ths: {
             scheduleId: "예약 번호 (ID)",
             name: userInfo.type === 0 ? "상담자" : "내담자",

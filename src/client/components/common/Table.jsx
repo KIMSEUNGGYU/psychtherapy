@@ -4,7 +4,7 @@ import { Pagination } from "client/components";
 import moment from "moment";
 
 const Table = (props) => {
-    const { ths, tds, actions, paginationProps, nonePaginationsProps } = props;
+    const { userType, getInfo, ths, tds, actions, paginationProps, nonePaginationsProps } = props;
     return (
         <div className="table_box">
             <table>
@@ -40,6 +40,19 @@ const Table = (props) => {
                                         const consultDay = moment(el["startedAt"])
                                             .format("MM/DD");
                                         return <td key={i}>{consultDay}</td>;
+                                    }
+                                    if (ele === "name") {
+                                        return (
+                                            <td key={i}>
+                                                <button 
+                                                    onClick={
+                                                        () => getInfo.callbackFunc(userType===0 ? el["partnerId"] : el["userId"])
+                                                    }
+                                                >
+                                                    {el[ele]}
+                                                </button>
+                                            </td>
+                                        );
                                     }
                                     return <td key={i}>{el[ele]}</td>;
                                     
