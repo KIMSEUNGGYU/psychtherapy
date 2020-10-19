@@ -46,7 +46,10 @@ const Table = (props) => {
                                             <td key={i}>
                                                 <button 
                                                     onClick={
-                                                        () => getInfo.callbackFunc(userType===0 ? el["partnerId"] : el["userId"])
+                                                        () => getInfo.callbackFunc(
+                                                            userType===0 ? null : el["userId"],
+                                                            el["partnerId"]
+                                                        )
                                                     }
                                                 >
                                                     {el[ele]}

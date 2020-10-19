@@ -88,12 +88,12 @@ const Detail = (props) => {
     const endConsultationTableProps = {
         userType: userInfo.type,
         getInfo: {
-            callbackFunc: (id) =>
+            callbackFunc: (userId,partnerId) =>
             userInfo.type===0 
             ? Popup.partnerProfilePopup({
                 className: "partner_profile",
                 type: "read_only",
-                id,
+                id: partnerId,
                 setQueryData: () => ({
                     page: 1
                 })
@@ -101,7 +101,8 @@ const Detail = (props) => {
             : Popup.userProfilePopup({
                 className: "user_profile",
                 type: "read_only",
-                id,
+                userId,
+                partnerId,
                 setQueryData: () => ({
                     page: 1
                 })

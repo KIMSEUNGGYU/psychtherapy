@@ -60,9 +60,10 @@ exports.check = async (req, res, next) => {
 
 exports.detail = async (req, res, next) => {
   let userId = null;
-  if (req.query["userId"]) userId = req.query["userId"]
+  let partnerId = null;
+  if (req.query["userId"]) userId = req.query["userId"];
   else if (res.locals.userId) userId = res.locals.userId;
-  console.log('userId is', userId);
+  if (req.query["partnerId"]) partnerId = req.query["partnerId"];
   if (userId === null) return res.status(400).json(view.badRequset()); // 이 부분은 필요 없을 수도..
 
   // user 정보를 가져옴
@@ -71,6 +72,6 @@ exports.detail = async (req, res, next) => {
   if (!user) return res.status(200).json(view.badRequset());
 
   // 해당 유저가 등록한 스케쥴 정보들을 보여줌
-  const schedules = await service.getUserSchedule(userId);
+  const schedules = await service.getUserSchedule(userId,partnerId);
   return res.status(200).json(view.userDetail(user, schedules));
 };

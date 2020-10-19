@@ -301,73 +301,74 @@
     &.user_profile {
         .popup {
             width: 66rem;
+            height: 38rem; 
+            overflow-y: scroll;
             .sub-title {
                 font-size: 1rem;
                 margin-bottom: 2rem;
             }
-            .save_btn {
-                background: $primary;
-                color: #fff;
-                width: 8rem;
-                height: 2.5rem;
-                float: right;
-                margin-top: 2rem;
-                font-size: 1rem;
-            }
-            .left_box,
-            .right_box {
-                width: 50%;
-                height: 38rem;
-                overflow-y: scroll;
-                &::-webkit-scrollbar {
-                    width: 5px;
-                    border-radius: 1rem;
-                }
 
-                &::-webkit-scrollbar-track {
-                    width: 5px;
-                    border-radius: 1rem;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                    width: 5px;
-                    border-radius: 1rem;
-                    background-color: rgba(0, 0, 0, 0.2);
-                }
-                button {
-                    svg {
-                        margin-right: 0.5rem;
+            .table_box {
+                table {
+                    width: 100%;
+                    text-align: left;
+                    thead {
+                        border: 1px solid rgba(0, 0, 0, 0.125);
                     }
-                }
-                button.active {
-                    svg {
-                        color: $primary;
-                    }
-                }
-            }
-            .left_box {
-                padding-right: 2rem;
-                border-right: 1px solid #dfdfdf;
-            }
-            .right_box {
-                padding-left: 2rem;
-                padding-right: 1rem;
-                .input_box {
-                    input[type="textarea"] {
-                        height: 5rem;
-                        line-height: 1rem;
+                    tbody {
+                        tr {
+                            padding: 0 1rem;
+                            line-height: 2.5rem;
+                            // &:nth-of-type(2n - 1) {
+                            //     background: #eee;
+                            // }
+                            td {
+                                padding: 0 1rem;
+                                border-left: 1px solid rgba(0, 0, 0, 0.125);
+                                border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+                                &:last-child {
+                                    border-right: 1px solid rgba(0, 0, 0, 0.125);
+                                }
+                            }
+                            td.actions {
+                                button {
+                                    font-size: 1rem;
+                                    &.reserve_status_btn {
+                                        border-radius: 1px;
+                                        border: 1px solid #6ab4a5;
+                                        font-weight: 600;
+                                        padding: 0.7rem 0.7rem;
+                                        color: #6ab4a5;
+                                        font-size: 0.75rem;
+                                        line-height: 0rem;
+            
+                                        &:disabled {
+                                            cursor: not-allowed;
+                                            line-height: 0rem;
+                                            padding: 0.7rem 0.7rem;
+                                            border: 1px solid #b0b0b0;
+                                            color: #b0b0b0;
+                                        }
+                                    }
+                                }
+                                text-align: right;
+                                border-left: none;
+                            }
+                        }
                     }
                 }
             }
             .input_box {
-                margin-top: 2rem;
+                margin-bottom: 4rem;
                 ul {
                     li {
                         display: flex;
-                        justify-content: space-between;
                         margin-bottom: 1.5rem;
                         &:last-child {
                             margin-bottom: 0;
+                        }
+                        .label {
+                            width: 10rem;
                         }
                         input {
                             width: 20rem;
