@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       partnerId: DataTypes.INTEGER,
       roomId: DataTypes.STRING,
       startedAt: DataTypes.DATE,
+      note: DataTypes.STRING,
     },
     {
       sequelize,
@@ -98,6 +99,22 @@ module.exports = (sequelize, DataTypes) => {
       raw: true,
       where: { id: scheduleId, partnerId },
     });
+
+  schedules.getNote = async condition => {
+    console.log('condition', condition)
+    return await schedules.findOne({
+      raw: true,
+      attributes: ["id","note"],
+      where: { ...condition }
+    })
+  }
+
+  schedules.writeNote = async (note, condition, transaction) =>
+    await schedules.update(
+      { note },
+      { where: { ...condition }},
+      { transaction },
+    )
 
   schedules.getSchedule = async (models, condition) => {
     const name = condition.userId ? [sequelize.col("partnerDetail.name"),"name"] : [sequelize.col("userDetail.name"),"name"];

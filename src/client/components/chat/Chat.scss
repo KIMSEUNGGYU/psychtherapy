@@ -43,7 +43,7 @@
         
         &.full{
             width: calc(100% - 4.375rem);
-            height: 100%;
+            height: 70%;
             border-bottom: 1px solid #f0eff5;
         }
         &.split{
@@ -59,7 +59,12 @@
             padding: 1rem;
             overflow-y: auto;
             width: 100%;
-            height: calc(100% - 6.313rem);
+            &.full{
+                height: 100%;
+            }
+            &.split{
+                height: calc(100% - 6.313rem);
+            }
             .message {
                 line-height: 1rem;
                 word-break: break-all;

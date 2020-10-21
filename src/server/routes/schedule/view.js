@@ -3,6 +3,11 @@ exports.scheduleList = schedules => ({
   message: "Success",
   result: { schedules },
 });
+exports.note = note => ({
+  message: "Success",
+  result: { note }
+})
+
 exports.badRequest = () => ({ message: "Bad Request", result: {} });
 exports.empty = () => ({ message: "Empty Object", result: {} });
 

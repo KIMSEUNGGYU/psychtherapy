@@ -33,3 +33,21 @@ exports.createSchedules = async (partnerId, schedules) => {
     return false;
   }
 };
+
+exports.getPartnerNote = async (roomId) => {
+  return await models.schedules.getNote({roomId});
+};
+
+exports.putPartnerNote = async (note,roomId) => {
+  let transaction;
+  try{
+    transaction = await sequelize.transaction();
+    console.log('service note',note, roomId)
+    await models.schedules.writeNote(note, { roomId }, transaction);
+    transaction.commit();
+    return true;
+  } catch (err) {
+    console.log(`err : ${err}`);
+    transaction.rollback();
+  }
+};

@@ -11,6 +11,9 @@ const Chat = (props) => {
         moment().valueOf() < moment(started_at).add(30, "minutes").valueOf();
     const [content, setContent] = useState("");
     const [toggle, setToggle] = useState(false);
+
+    const [note,setNote] = useState('');
+
     const ref = useRef(null);
     useEffect(() => {
         if (ref.current) {
@@ -35,6 +38,9 @@ const Chat = (props) => {
             props.getPartner({
                 id: user_id
             });
+            props.getPartnerNote({
+                roomId: id,
+            });
         }
     }, []);
 
@@ -43,6 +49,12 @@ const Chat = (props) => {
             ref.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [ref, props.room]);
+
+    useEffect(() => {
+        if (props.note) {
+            setNote(props.note.note? props.note.note : '');
+        }
+    }, [props.note]);
 
     const onSubmit = () => {
         const payload = {
@@ -75,6 +87,15 @@ const Chat = (props) => {
         alert(`${remain}분 남았습니다`);
     };
 
+    const onSaveNote = () => {
+        console.log('onSave',note)
+        props.putPartnerNote({roomId: id, note})
+        if(!status) {
+            props.leaveRoom();
+            props.history.push("/detail");
+        }
+    }
+
     return (
         <div className="chat_box flex_box between">
             {/* <button onClick={onClickLeave}>나가기</button> */}
@@ -93,8 +114,8 @@ const Chat = (props) => {
                     </div>
                 )}
             </div>
-            <div className={`chat_contents_box full`}>
-                <div className="contents">
+            <div className={`chat_contents_box ${status ? 'split' : 'full'}`}>
+                <div className={`contents ${status ? 'split' : 'full'}`}>
                     <ul>
                         {props.room.messages.map((el, key) => {
                             const me = user_id === el.user;
@@ -119,6 +140,7 @@ const Chat = (props) => {
                     <div ref={ref} />
                 </div>
                 {
+                    status &&
                     <div className="enter_box">
                         <input
                             type="text"
@@ -134,11 +156,11 @@ const Chat = (props) => {
                     </div>
                 }
             </div>
-            {/* <div className={`chat_note ${status ? 'split' : 'full'}`}>
+            <div className={`chat_note ${status ? 'split' : 'full'}`}>
                 {
                     !status &&
                     <div className="enter_box">
-                        <button className="button">
+                        <button className="button" onClick={()=>onSaveNote()}>
                             저장하고 뒤로가기
                         </button>
                     </div>
@@ -152,8 +174,7 @@ const Chat = (props) => {
                     <div ref={ref} />
                 </div>
                 <p className="content">
-                    <textarea
-                    />
+                    <textarea defaultValue={note} onChange={(e)=>setNote(e.target.value)}/>
                 </p>
                 {
                     type===1 && status &&
@@ -166,7 +187,7 @@ const Chat = (props) => {
                         </button>
                     </div>
                 }
-            </div> */}
+            </div>
         </div>
     );
 };
