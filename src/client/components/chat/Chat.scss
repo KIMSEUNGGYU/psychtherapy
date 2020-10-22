@@ -43,8 +43,13 @@
         
         &.full{
             width: calc(100% - 4.375rem);
-            height: 70%;
             border-bottom: 1px solid #f0eff5;
+            &.partner{
+                height: 70%;
+            }
+            &.user{
+                height: 100%;
+            }
         }
         &.split{
             width: calc(60% - 4.375rem);
@@ -58,12 +63,17 @@
         .contents {
             padding: 1rem;
             overflow-y: auto;
-            width: 100%;
-            &.full{
-                height: 100%;
-            }
+            width: 100%;     
             &.split{
                 height: calc(100% - 6.313rem);
+            }
+            &.full{
+                &.partner{
+                    height: 100%;
+                }
+                &.user{
+                    height: calc(100% - 6.313rem);
+                }
             }
             .message {
                 line-height: 1rem;
