@@ -35,9 +35,6 @@ const Chat = (props) => {
         if (type === 0) {
             props.getUser();
         } else if (type === 1) {
-            props.getPartner({
-                id: user_id
-            });
             props.getPartnerNote({
                 roomId: id,
             });
@@ -114,8 +111,8 @@ const Chat = (props) => {
                     </div>
                 )}
             </div>
-            <div className={`chat_contents_box ${status ? 'split' : 'full'}`}>
-                <div className={`contents ${status ? 'split' : 'full'}`}>
+            <div className={`chat_contents_box ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : user}`}`}>
+                <div className={`contents ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : user}`}`}>
                     <ul>
                         {props.room.messages.map((el, key) => {
                             const me = user_id === el.user;
@@ -156,38 +153,37 @@ const Chat = (props) => {
                     </div>
                 }
             </div>
-            <div className={`chat_note ${status ? 'split' : 'full'}`}>
-                {
-                    !status &&
-                    <div className="enter_box">
-                        <button className="button" onClick={()=>onSaveNote()}>
-                            저장하고 뒤로가기
-                        </button>
+            {
+                type===1 &&
+                <div className={`chat_note ${status && type==1 ? 'split' : 'full'}`}>
+                    {
+                        !status &&
+                        <div className="enter_box">
+                            <button className="button" onClick={()=>onSaveNote()}>
+                                저장하고 뒤로가기
+                            </button>
+                        </div>
+                    }
+                    <div>
+                        <ul style={{ display: 'flex', justifyContent:'center' }}>
+                            상담 노트
+                        </ul>
+                        <div ref={ref} />
                     </div>
-                }
-                <div>
-                    <ul style={{ display: 'flex', justifyContent:'center' }}>
-                        {
-                            type===0 ? '자주 쓰는 문구' : '상담 노트'
-                        }
-                    </ul>
-                    <div ref={ref} />
+                    <p className="content">
+                        <textarea defaultValue={note} onChange={(e)=>setNote(e.target.value)}/>
+                    </p>
+
+                    {
+                        status &&
+                        <div className="enter_box">
+                            <button className="button" onClick={()=>onSaveNote()}>
+                                저장하기
+                            </button>
+                        </div>
+                    }
                 </div>
-                <p className="content">
-                    <textarea defaultValue={note} onChange={(e)=>setNote(e.target.value)}/>
-                </p>
-                {
-                    type===1 && status &&
-                    <div className="enter_box">
-                        <button className="button">
-                            저장하기
-                        </button>
-                        <button className="button">
-                            상담 예약
-                        </button>
-                    </div>
-                }
-            </div>
+            }
         </div>
     );
 };
