@@ -41,3 +41,26 @@ exports.deletePartnerSchedules = async (req, res, next) => {
     ? res.status(200).json(view.success())
     : res.status(400).json(view.badRequest());
 };
+
+exports.getPartnerNote = async (req, res, next) => {
+  const roomId = req.params["roomId"];
+  const success = await service.getPartnerNote(roomId);
+  console.log('succes?',success)
+  if (!success) return res.status(400).json(view.badRequest());
+
+  return success
+    ? res.status(200).json(view.note(success))
+    : res.status(204).json(view.empty());
+}
+
+exports.putPartnerNote = async (req, res, next) => {
+  const roomId = req.params["roomId"];
+  const { note } = req.body;
+  console.log('note?',roomId, note)
+  const success = await service.putPartnerNote(note, roomId);
+  if (!success) return res.status(400).json(view.badRequest());
+
+  return success.length
+    ? res.status(200).json(view.success())
+    : res.status(204).json(view.badRequest());
+}

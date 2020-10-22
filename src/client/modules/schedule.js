@@ -3,7 +3,7 @@ import api_manager from "client/api-manager";
 // import { history } from "client/store";
 
 const GET_PARTNER_SCHEDULE_LIST = "GET_PARTNER_SCHEDULE_LIST";
-const GET_PARTNER_SCHEDULE_LIST_SUCCESS = "GET__PARTNER_SCHEDULE_LIST_SUCCESS";
+const GET_PARTNER_SCHEDULE_LIST_SUCCESS = "GET_PARTNER_SCHEDULE_LIST_SUCCESS";
 const GET_PARTNER_SCHEDULE_LIST_FAILURE = "GET_PARTNER_SCHEDULE_LIST_FAILURE";
 
 const POST_PARTNER_SCHEDULE = "POST_PARTNER_SCHEDULE";
@@ -13,6 +13,14 @@ const POST_PARTNER_SCHEDULE_FAILURE = "POST_PARTNER_SCHEDULE_FAILURE";
 const DELETE_PARTNER_SCHEDULE = "DELETE_PARTNER_SCHEDULE";
 const DELETE_PARTNER_SCHEDULE_SUCCESS = "DELETE_PARTNER_SCHEDULE_SUCCESS";
 const DELETE_PARTNER_SCHEDULE_FAILURE = "DELETE_PARTNER_SCHEDULE_FAILURE";
+
+const GET_PARTNER_NOTE = "GET_PARTNER_NOTE";
+const GET_PARTNER_NOTE_SUCCESS = "GET_PARTNER_NOTE_SUCCESS";
+const GET_PARTNER_NOTE_FAILURE = "GET_PARTNER_NOTE_FAILURE";
+
+const PUT_PARTNER_NOTE = "PUT_PARTNER_NOTE";
+const PUT_PARTNER_NOTE_SUCCESS = "PUT_PARTNER_NOTE_SUCCESS";
+const PUT_PARTNER_NOTE_FAILURE = "PUT_PARTNER_NOTE_FAILURE";
 
 export const actions = {
     getPartnerScheduleList: (payload) => ({
@@ -50,7 +58,31 @@ export const actions = {
     deletePartnerScheduleFailure: (payload) => ({
         type: DELETE_PARTNER_SCHEDULE_FAILURE,
         payload
-    })
+    }),
+    getPartnerNote: (payload) => ({
+        type: GET_PARTNER_NOTE,
+        payload
+    }),
+    getPartnerNoteSuccess: (payload) => ({
+        type: GET_PARTNER_NOTE_SUCCESS,
+        payload
+    }),
+    getPartnerNoteFailure: (payload) => ({
+        type: GET_PARTNER_NOTE_FAILURE,
+        payload
+    }),
+    putPartnerNote: (payload) => ({
+        type: PUT_PARTNER_NOTE,
+        payload
+    }),
+    putPartnerNoteSuccess: (payload) => ({
+        type: PUT_PARTNER_NOTE_SUCCESS,
+        payload
+    }),
+    putPartnerNoteFailure: (payload) => ({
+        type: PUT_PARTNER_NOTE_FAILURE,
+        payload
+    }),
 };
 
 export function reducer(
@@ -80,6 +112,16 @@ export function reducer(
             return {
                 ...state
             };
+        case GET_PARTNER_NOTE_SUCCESS:
+            const { note } = action.payload;
+            return {
+                ...state,
+                note,
+            }
+        case PUT_PARTNER_NOTE_SUCCESS:
+            return {
+                ...state,
+            }
         default:
             return state;
     }
@@ -99,6 +141,14 @@ export const api = {
             `schedule/partner?partnerId=${partnerId}&scheduleId=${scheduleId}`,
             payload
         );
+    },
+    getPartnerNote: async (payload) => {
+        const { roomId } = payload;
+        return await api_manager.get(`/schedule/note/room/${roomId}`);
+    },
+    putPartnerNote: async (payload) => {
+        const { roomId, note } = payload;
+        return await api_manager.put(`/schedule/note/room/${roomId}`, { note });
     }
 };
 
@@ -156,8 +206,51 @@ function* deletePartnerScheduleFunc(action) {
     }
 }
 
+function* getPartnerNote(action) {
+    try {
+        const { payload } = action;
+        const res = yield call(api.getPartnerNote, payload);
+        if (res) {
+            yield put({
+                type: GET_PARTNER_NOTE_SUCCESS,
+                payload: {
+                    note: res.result.note,
+                }
+            });
+        } else {
+            yield put({
+                type: GET_PARTNER_NOTE_SUCCESS,
+                payload: {
+                    note: '',
+                }
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function* putPartnerNote(action) {
+    try {
+        const { payload } = action;
+        const res = yield call(api.putPartnerNote, payload);
+        if (res) {
+            yield put({
+                type: PUT_PARTNER_NOTE_SUCCESS,
+                payload: {
+                    note: res.result.note,
+                }
+            });
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export function* saga() {
     yield takeLatest(GET_PARTNER_SCHEDULE_LIST, getPartnerScheduleListFunc);
     yield takeLatest(POST_PARTNER_SCHEDULE, postPartnerScheduleFunc);
     yield takeLatest(DELETE_PARTNER_SCHEDULE, deletePartnerScheduleFunc);
+    yield takeLatest(GET_PARTNER_NOTE, getPartnerNote);
+    yield takeLatest(PUT_PARTNER_NOTE, putPartnerNote);
 }

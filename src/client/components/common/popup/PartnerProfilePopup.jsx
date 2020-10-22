@@ -77,7 +77,7 @@ const PartnerProfilePopup = (props) => {
     };
     return (
         <Fragment>
-            <p className="title">파트너 정보 입력</p>
+            <p className="title">{props.type==="edit" ? "파트너 정보 입력" : "상담자 정보"}</p>
             <div className="flex_box">
                 <div className="left_box">
                     <p className="sub-title">프로필 설정</p>
@@ -85,18 +85,24 @@ const PartnerProfilePopup = (props) => {
                         <div className="img_box">
                             <img src={image} alt="" />
                         </div>
-                        <label
-                            className="upload_btn custom-file-upload"
-                            htmlFor="file-upload"
-                        >
-                            <MdFileUpload />
-                            사진 업로드
-                        </label>
-                        <input
-                            id="file-upload"
-                            type="file"
-                            onChange={onChangeImageFile}
-                        />
+                        {
+                            props.type==="edit" &&
+                            <>
+                                <label
+                                    className="upload_btn custom-file-upload"
+                                    htmlFor="file-upload"
+                                >
+                                    <MdFileUpload />
+                                    사진 업로드
+                                </label>
+                                <input
+                                    id="file-upload"
+                                    type="file"
+                                    onChange={onChangeImageFile}
+                                    readOnly={props.type!=='edit'}
+                                />
+                            </>
+                        }
                     </div>
                     <div className="input_box">
                         <ul>
@@ -107,6 +113,7 @@ const PartnerProfilePopup = (props) => {
                                     name="email"
                                     onChange={onChangePartnerData}
                                     value={email}
+                                    readOnly={props.type!=='edit'}
                                 />
                             </li>{" "}
                             <li>
@@ -116,6 +123,7 @@ const PartnerProfilePopup = (props) => {
                                     name="name"
                                     onChange={onChangePartnerData}
                                     value={name}
+                                    readOnly={props.type!=='edit'}
                                 />{" "}
                             </li>{" "}
                             <li>
@@ -125,6 +133,7 @@ const PartnerProfilePopup = (props) => {
                                     name="age"
                                     onChange={onChangePartnerData}
                                     value={age ? age : ""}
+                                    readOnly={props.type!=='edit'}
                                 />{" "}
                             </li>{" "}
                             <li>
@@ -134,6 +143,7 @@ const PartnerProfilePopup = (props) => {
                                     name="phoneNumber"
                                     onChange={onChangePartnerData}
                                     value={phoneNumber}
+                                    readOnly={props.type!=='edit'}
                                 />
                             </li>
                             <li>
@@ -146,6 +156,7 @@ const PartnerProfilePopup = (props) => {
                                         onClick={(e) =>
                                             onClickPartnerData(e, "gender", 1)
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(gender) === 1 ? (
                                             <MdRadioButtonChecked />
@@ -161,6 +172,7 @@ const PartnerProfilePopup = (props) => {
                                         onClick={(e) =>
                                             onClickPartnerData(e, "gender", 2)
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(gender) === 2 ? (
                                             <MdRadioButtonChecked />
@@ -185,6 +197,7 @@ const PartnerProfilePopup = (props) => {
                                     name="chatCost"
                                     onChange={onChangePartnerData}
                                     value={chatCost}
+                                    readOnly={props.type!=='edit'}
                                 />
                             </li>{" "}
                             <li>
@@ -194,6 +207,7 @@ const PartnerProfilePopup = (props) => {
                                     name="shortInfo"
                                     onChange={onChangePartnerData}
                                     value={shortInfo}
+                                    readOnly={props.type!=='edit'}
                                 />
                             </li>{" "}
                             <li>
@@ -204,6 +218,7 @@ const PartnerProfilePopup = (props) => {
                                         name="career"
                                         onChange={onChangePartnerData}
                                         value={career}
+                                        readOnly={props.type!=='edit'}
                                     />
                                     {/* <button>+</button> */}
                                 </span>
@@ -216,6 +231,7 @@ const PartnerProfilePopup = (props) => {
                                         name="url"
                                         onChange={onChangePartnerData}
                                         value={url}
+                                        readOnly={props.type!=='edit'}
                                     />
                                     {/* <button>+</button> */}
                                 </span>
@@ -230,6 +246,7 @@ const PartnerProfilePopup = (props) => {
                                         onClick={(e) =>
                                             onClickPartnerData(e, "level", 1)
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(level) === 1 ? (
                                             <MdRadioButtonChecked />
@@ -245,6 +262,7 @@ const PartnerProfilePopup = (props) => {
                                         onClick={(e) =>
                                             onClickPartnerData(e, "level", 2)
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(level) === 2 ? (
                                             <MdRadioButtonChecked />
@@ -260,6 +278,7 @@ const PartnerProfilePopup = (props) => {
                                         onClick={(e) =>
                                             onClickPartnerData(e, "level", 3)
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(level) === 3 ? (
                                             <MdRadioButtonChecked />
@@ -285,6 +304,7 @@ const PartnerProfilePopup = (props) => {
                                                 1
                                             )
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(certificate) === 1 ? (
                                             <MdRadioButtonChecked />
@@ -305,6 +325,7 @@ const PartnerProfilePopup = (props) => {
                                                 2
                                             )
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(certificate) === 2 ? (
                                             <MdRadioButtonChecked />
@@ -325,6 +346,7 @@ const PartnerProfilePopup = (props) => {
                                                 3
                                             )
                                         }
+                                        disabled={props.type!=='edit'}
                                     >
                                         {Number(certificate) === 3 ? (
                                             <MdRadioButtonChecked />
@@ -352,6 +374,7 @@ const PartnerProfilePopup = (props) => {
                                                         el
                                                     )
                                                 }
+                                                disabled={props.type!=='edit'}
                                             >
                                                 {keyword === el ? (
                                                     <MdRadioButtonChecked />
@@ -371,15 +394,19 @@ const PartnerProfilePopup = (props) => {
                                     name="info"
                                     onChange={onChangePartnerData}
                                     value={info}
+                                    readOnly={props.type!=='edit'}
                                 />
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <button className="save_btn" onClick={onClickSave}>
+            {
+              props.type ==='edit' &&
+              <button className="save_btn" onClick={onClickSave}>
                 저장하기
-            </button>
+              </button>
+            }
         </Fragment>
     );
 };

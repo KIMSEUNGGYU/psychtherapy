@@ -2,7 +2,6 @@
 const { Model, Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const moment = require("moment");
-const db = require('./userdetails')
 
 module.exports = (sequelize, DataTypes) => {
   class schedules extends Model {
@@ -23,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       partnerId: DataTypes.INTEGER,
       roomId: DataTypes.STRING,
       startedAt: DataTypes.DATE,
+      note: DataTypes.STRING,
     },
     {
       sequelize,
@@ -100,6 +100,22 @@ module.exports = (sequelize, DataTypes) => {
       where: { id: scheduleId, partnerId },
     });
 
+  schedules.getNote = async condition => {
+    console.log('condition', condition)
+    return await schedules.findOne({
+      raw: true,
+      attributes: ["id","note"],
+      where: { ...condition }
+    })
+  }
+
+  schedules.writeNote = async (note, condition, transaction) =>
+    await schedules.update(
+      { note },
+      { where: { ...condition }},
+      { transaction },
+    )
+
   schedules.getSchedule = async (models, condition) => {
     const name = condition.userId ? [sequelize.col("partnerDetail.name"),"name"] : [sequelize.col("userDetail.name"),"name"];
     return await schedules.findAll({
@@ -116,7 +132,8 @@ module.exports = (sequelize, DataTypes) => {
           "startedAt",
         ],
         name,
-        "partnerID",
+        "partnerId",
+        "userId"
       ],
       include: [
         {

@@ -11,6 +11,9 @@ const Chat = (props) => {
         moment().valueOf() < moment(started_at).add(30, "minutes").valueOf();
     const [content, setContent] = useState("");
     const [toggle, setToggle] = useState(false);
+
+    const [note,setNote] = useState('');
+
     const ref = useRef(null);
     useEffect(() => {
         if (ref.current) {
@@ -32,8 +35,8 @@ const Chat = (props) => {
         if (type === 0) {
             props.getUser();
         } else if (type === 1) {
-            props.getPartner({
-                id: user_id
+            props.getPartnerNote({
+                roomId: id,
             });
         }
     }, []);
@@ -43,6 +46,12 @@ const Chat = (props) => {
             ref.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [ref, props.room]);
+
+    useEffect(() => {
+        if (props.note) {
+            setNote(props.note.note? props.note.note : '');
+        }
+    }, [props.note]);
 
     const onSubmit = () => {
         const payload = {
@@ -75,6 +84,15 @@ const Chat = (props) => {
         alert(`${remain}분 남았습니다`);
     };
 
+    const onSaveNote = () => {
+        console.log('onSave',note)
+        props.putPartnerNote({roomId: id, note})
+        if(!status) {
+            props.leaveRoom();
+            props.history.push("/detail");
+        }
+    }
+
     return (
         <div className="chat_box flex_box between">
             {/* <button onClick={onClickLeave}>나가기</button> */}
@@ -93,8 +111,8 @@ const Chat = (props) => {
                     </div>
                 )}
             </div>
-            <div className={`chat_contents_box full`}>
-                <div className="contents">
+            <div className={`chat_contents_box ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : user}`}`}>
+                <div className={`contents ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : user}`}`}>
                     <ul>
                         {props.room.messages.map((el, key) => {
                             const me = user_id === el.user;
@@ -119,6 +137,7 @@ const Chat = (props) => {
                     <div ref={ref} />
                 </div>
                 {
+                    status &&
                     <div className="enter_box">
                         <input
                             type="text"
@@ -134,39 +153,37 @@ const Chat = (props) => {
                     </div>
                 }
             </div>
-            {/* <div className={`chat_note ${status ? 'split' : 'full'}`}>
-                {
-                    !status &&
-                    <div className="enter_box">
-                        <button className="button">
-                            저장하고 뒤로가기
-                        </button>
+            {
+                type===1 &&
+                <div className={`chat_note ${status && type==1 ? 'split' : 'full'}`}>
+                    {
+                        !status &&
+                        <div className="enter_box">
+                            <button className="button" onClick={()=>onSaveNote()}>
+                                저장하고 뒤로가기
+                            </button>
+                        </div>
+                    }
+                    <div>
+                        <ul style={{ display: 'flex', justifyContent:'center' }}>
+                            상담 노트
+                        </ul>
+                        <div ref={ref} />
                     </div>
-                }
-                <div>
-                    <ul style={{ display: 'flex', justifyContent:'center' }}>
-                        {
-                            type===0 ? '자주 쓰는 문구' : '상담 노트'
-                        }
-                    </ul>
-                    <div ref={ref} />
+                    <p className="content">
+                        <textarea defaultValue={note} onChange={(e)=>setNote(e.target.value)}/>
+                    </p>
+
+                    {
+                        status &&
+                        <div className="enter_box">
+                            <button className="button" onClick={()=>onSaveNote()}>
+                                저장하기
+                            </button>
+                        </div>
+                    }
                 </div>
-                <p className="content">
-                    <textarea
-                    />
-                </p>
-                {
-                    type===1 && status &&
-                    <div className="enter_box">
-                        <button className="button">
-                            저장하기
-                        </button>
-                        <button className="button">
-                            상담 예약
-                        </button>
-                    </div>
-                }
-            </div> */}
+            }
         </div>
     );
 };

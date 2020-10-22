@@ -120,7 +120,15 @@ export const api = {
         );
     },
     getUser: async (payload) => {
-        return await api_manager.get("/user/detail", payload);
+        let query=''
+        let condition=''
+        if(payload) {
+            if (payload["userId"]) condition+=`userId=${payload["userId"]}&`
+            if (payload["partnerId"]) condition+=`partnerId=${payload["partnerId"]}&`
+            query =`?${condition.slice(0,-1)}`;
+        }
+        
+        return await api_manager.get(`/user/detail${query}`, payload);
     }
 };
 

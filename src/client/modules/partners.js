@@ -9,6 +9,7 @@ const GET_PARTNERS = "GET_PARTNERS";
 const GET_PARTNERS_SUCCESS = "GET_PARTNERS_SUCCESS";
 const GET_PARTNERS_FAILURE = "GET_PARTNERS_FAILURE";
 
+
 export const actions = {
     getPartner: (payload) => ({
         type: GET_PARTNER,
@@ -34,7 +35,7 @@ export const actions = {
     getPartnersFailure: (payload) => ({
         type: GET_PARTNERS_FAILURE,
         payload
-    })
+    }),
 };
 
 export function reducer(
@@ -129,7 +130,7 @@ export const api = {
         return await api_manager.get(
             `/partner?page=${page}&size=${size}&gender=${gender}&level=${level}&certificate=${certificate}&keyword=${keyword}`
         );
-    }
+    },
 };
 
 function* getPartnerFunc(action) {

@@ -297,4 +297,93 @@
             }
         }
     }
+
+    &.user_profile {
+        .popup {
+            width: 66rem;
+            height: 38rem; 
+            overflow-y: scroll;
+            .sub-title {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .table_box {
+                table {
+                    width: 100%;
+                    text-align: left;
+                    thead {
+                        border: 1px solid rgba(0, 0, 0, 0.125);
+                    }
+                    tbody {
+                        tr {
+                            padding: 0 1rem;
+                            line-height: 2.5rem;
+                            // &:nth-of-type(2n - 1) {
+                            //     background: #eee;
+                            // }
+                            td {
+                                padding: 0 1rem;
+                                border-left: 1px solid rgba(0, 0, 0, 0.125);
+                                border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+                                &:last-child {
+                                    border-right: 1px solid rgba(0, 0, 0, 0.125);
+                                }
+                            }
+                            td.actions {
+                                button {
+                                    font-size: 1rem;
+                                    &.reserve_status_btn {
+                                        border-radius: 1px;
+                                        border: 1px solid #6ab4a5;
+                                        font-weight: 600;
+                                        padding: 0.7rem 0.7rem;
+                                        color: #6ab4a5;
+                                        font-size: 0.75rem;
+                                        line-height: 0rem;
+            
+                                        &:disabled {
+                                            cursor: not-allowed;
+                                            line-height: 0rem;
+                                            padding: 0.7rem 0.7rem;
+                                            border: 1px solid #b0b0b0;
+                                            color: #b0b0b0;
+                                        }
+                                    }
+                                }
+                                text-align: right;
+                                border-left: none;
+                            }
+                        }
+                    }
+                }
+            }
+            .input_box {
+                margin-bottom: 4rem;
+                ul {
+                    li {
+                        display: flex;
+                        margin-bottom: 1.5rem;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                        .label {
+                            width: 10rem;
+                        }
+                        input {
+                            width: 20rem;
+                        }
+                        .radio_btn_box {
+                            width: 20rem;
+                            button {
+                                text-align: left;
+                                width: 5rem;
+                                margin-right: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
