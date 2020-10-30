@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
     sendMessage: (payload) => dispatch(chatActions.sendMessage(payload)),
     getPartnerNote: (payload) => dispatch(scheduleActions.getPartnerNote(payload)),
     putPartnerNote: (payload) => dispatch(scheduleActions.putPartnerNote(payload)),
+    outRoom: () => dispatch(chatActions.outRoom()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
