@@ -12,6 +12,7 @@ const Chat = props => {
     const [content, setContent] = useState("");
     const [toggle, setToggle] = useState(false);
 
+    const [remain, setRemain] = useState(1800);
     const [note,setNote] = useState('');
 
     const ref = useRef(null);
@@ -53,6 +54,7 @@ const Chat = props => {
         }
     }, [props.note]);
     // 수정
+
     useEffect(() => {
         const outRoom = () => {
             console.log("exe timeout");
@@ -64,19 +66,20 @@ const Chat = props => {
 
         const alert_time = moment(started_at)
             .add(30, "minutes")
-            .subtract(60, "seconds")
+            .subtract(5, "minutes")
             .format(format);
 
         const out_time = moment(started_at)
             .add(30, "minutes")
-            .add(90, "seconds")
             .format(format);
 
         const checkTime = () => {
+            setRemain(1800 - Math.floor(moment().diff(moment(started_at)) / 1000));
             if (moment().format(format) === alert_time) {
-                alert("시간이 1분 남았습니다.");
+                alert("시간이 5분 남았습니다.");
             }
             if (moment().format(format) === out_time) {
+                alert("시간이 종료되었습니다.");
                 outRoom();
             }
         };
@@ -114,9 +117,7 @@ const Chat = props => {
     };
 
     const onClickAlert = () => {
-        const remain =
-            30 - Math.floor(moment().diff(moment(started_at)) / 60000);
-        alert(`${remain}분 남았습니다`);
+        alert(`${Math.floor(remain/60)}분 남았습니다`);
     };
 
     const onSaveNote = () => {
@@ -146,8 +147,12 @@ const Chat = props => {
                     </div>
                 )}
             </div>
-            <div className={`chat_contents_box ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : user}`}`}>
-                <div className={`contents ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : user}`}`}>
+            <div className={`chat_contents_box ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : 'user'}`}`}>
+                <div className={`contents ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : 'user'}`}`}>
+                    {
+                        type==1 && status &&
+                    <h1>남은 시간: {Math.floor(remain/60)}분 {remain%60}초</h1>
+                    }
                     <ul>
                         {props.room.messages.map((el, key) => {
                             const me = user_id === el.user;
