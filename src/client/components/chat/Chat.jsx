@@ -56,10 +56,10 @@ const Chat = props => {
     // 수정
 
     useEffect(() => {
-        const outRoom = () => {
-            props.outRoom();
-            props.history.push("/detail");
-        };
+        // const outRoom = () => {
+        //     props.outRoom();
+        //     props.history.push("/detail");
+        // };
 
         const format = "YYYY-MM-DD hh:mm:ss A";
 
@@ -73,10 +73,10 @@ const Chat = props => {
             if (moment().format(format) === alert_time) {
                 alert("시간이 5분 남았습니다.");
             }
-            if (1800 - Math.floor(moment().diff(moment(started_at)) / 1000)<0) {
-                alert("시간이 종료되었습니다.");
-                outRoom();
-            }
+            // if (1800 - Math.floor(moment().diff(moment(started_at)) / 1000)<0) {
+            //     alert("시간이 종료되었습니다.");
+            //     outRoom();
+            // }
         };
 
         const setIntervalFunc = setInterval(() => checkTime(), 1000);
@@ -111,6 +111,11 @@ const Chat = props => {
         props.history.push("/detail");
     };
 
+    const onClickEnd = () => {
+        props.outRoom();
+        props.history.push("/detail");
+    }
+
     const onClickAlert = () => {
         alert(`${Math.floor(remain/60)}분 남았습니다`);
     };
@@ -132,6 +137,10 @@ const Chat = props => {
                         <ul>
                             <li onClick={onClickAlert}>잔여 시간 확인</li>
                             <li onClick={onClickLeave}>채팅방 나가기</li>
+                            {
+                                type===1 &&
+                                <li onClick={onClickEnd}>상담 종료하기</li>
+                            }
                         </ul>
                     </div>
                 )}
