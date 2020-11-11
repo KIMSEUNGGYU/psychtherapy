@@ -57,7 +57,6 @@ const Chat = props => {
 
     useEffect(() => {
         const outRoom = () => {
-            console.log("exe timeout");
             props.outRoom();
             props.history.push("/detail");
         };
@@ -69,26 +68,22 @@ const Chat = props => {
             .subtract(5, "minutes")
             .format(format);
 
-        const out_time = moment(started_at)
-            .add(30, "minutes")
-            .format(format);
-
         const checkTime = () => {
             setRemain(1800 - Math.floor(moment().diff(moment(started_at)) / 1000));
             if (moment().format(format) === alert_time) {
                 alert("시간이 5분 남았습니다.");
             }
-            if (moment().format(format) === out_time) {
+            if (1800 - Math.floor(moment().diff(moment(started_at)) / 1000)<0) {
                 alert("시간이 종료되었습니다.");
                 outRoom();
             }
         };
-        if (status) {
-            const setIntervalFunc = setInterval(() => checkTime(), 1000);
-            return () => {
-                clearInterval(setIntervalFunc);
-            };
-        }
+
+        const setIntervalFunc = setInterval(() => checkTime(), 1000);
+        return () => {
+            clearInterval(setIntervalFunc);
+        };
+
     }, []);
 
     const onSubmit = () => {
@@ -123,10 +118,6 @@ const Chat = props => {
     const onSaveNote = () => {
         console.log('onSave',note)
         props.putPartnerNote({roomId: id, note})
-        if(!status) {
-            props.leaveRoom();
-            props.history.push("/detail");
-        }
     }
 
     return (
@@ -139,19 +130,17 @@ const Chat = props => {
                 {toggle && (
                     <div className="toggle_box">
                         <ul>
-                            {status && (
-                                <li onClick={onClickAlert}>잔여 시간 확인</li>
-                            )}
+                            <li onClick={onClickAlert}>잔여 시간 확인</li>
                             <li onClick={onClickLeave}>채팅방 나가기</li>
                         </ul>
                     </div>
                 )}
             </div>
-            <div className={`chat_contents_box ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : 'user'}`}`}>
-                <div className={`contents ${status? `${type===1 ? 'split' : 'full user'}` : `full ${type===1 ? 'partner' : 'user'}`}`}>
+            <div className={`chat_contents_box ${type===1 ? 'split' : 'full user'}`}>
+                <div className={`contents ${type===1 ? 'split' : 'full user'}`}>
                     {
-                        type==1 && status &&
-                    <h1>남은 시간: {Math.floor(remain/60)}분 {remain%60}초</h1>
+                        type==1 && 
+                        <h1>남은 시간: {Math.floor(remain/60)}분 {remain%60}초</h1>
                     }
                     <ul>
                         {props.room.messages.map((el, key) => {
@@ -176,34 +165,25 @@ const Chat = props => {
                     </ul>
                     <div ref={ref} />
                 </div>
-                {
-                    status &&
-                    <div className="enter_box">
-                        <input
-                            type="text"
-                            value={content}
-                            onKeyPress={onKeyPress}
-                            onChange={(e) => setContent(e.target.value)}
-                            placeholder={status && "메세지를 입력하세요"}
-                            readOnly={!status}
-                        />
-                        <button className="submit_btn" onClick={onSubmit}>
-                            <MdSend />
-                        </button>
-                    </div>
-                }
+                
+                <div className="enter_box">
+                    <input
+                        type="text"
+                        value={content}
+                        onKeyPress={onKeyPress}
+                        onChange={(e) => setContent(e.target.value)}
+                        placeholder={status && "메세지를 입력하세요"}
+                        readOnly={!status}
+                    />
+                    <button className="submit_btn" onClick={onSubmit}>
+                        <MdSend />
+                    </button>
+                </div>
+                
             </div>
             {
                 type===1 &&
-                <div className={`chat_note ${status && type==1 ? 'split' : 'full'}`}>
-                    {
-                        !status &&
-                        <div className="enter_box">
-                            <button className="button" onClick={()=>onSaveNote()}>
-                                저장하고 뒤로가기
-                            </button>
-                        </div>
-                    }
+                <div className={`chat_note ${type==1 ? 'split' : 'full'}`}>
                     <div>
                         <ul style={{ display: 'flex', justifyContent:'center' }}>
                             상담 노트
@@ -213,15 +193,11 @@ const Chat = props => {
                     <p className="content">
                         <textarea defaultValue={note} onChange={(e)=>setNote(e.target.value)}/>
                     </p>
-
-                    {
-                        status &&
                         <div className="enter_box">
                             <button className="button" onClick={()=>onSaveNote()}>
                                 저장하기
                             </button>
                         </div>
-                    }
                 </div>
             }
         </div>

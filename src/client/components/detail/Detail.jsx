@@ -123,7 +123,7 @@ const Detail = (props) => {
                 className: "reserve_status_btn",
                 callbackFunc: (roomId, startAt) => {
                     props.history.push(
-                        `/chat/${roomId}/${
+                        `/chat_log/${roomId}/${
                             userInfo.type === 0
                                 ? props.user.id
                                 : props.partner.id

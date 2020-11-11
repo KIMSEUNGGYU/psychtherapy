@@ -20,7 +20,8 @@ import {
     PageScheduleManagement,
     PagePricing,
     PageDetail,
-    PageChat
+    PageChat,
+    PageChatLog,
 } from "client/pages";
 import { Header, Footer, RefreshToken } from "client/components";
 
@@ -56,6 +57,11 @@ const App = (props) => {
                     exact
                     path="/chat/:room_id/:user_id/:started_at"
                     component={PageChat}
+                />
+                <PrivateRoute
+                    exact
+                    path="/chat_log/:room_id/:user_id/:started_at"
+                    component={PageChatLog}
                 />
                 <AdminPrivateRoute
                     exact

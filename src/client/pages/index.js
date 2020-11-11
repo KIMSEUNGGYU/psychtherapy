@@ -9,6 +9,8 @@ import PageAdminPartners from "client/pages/PageAdminPartners";
 import PagePricing from "client/pages/PagePricing";
 import PageDetail from "client/pages/PageDetail";
 import PageChat from "client/pages/PageChat";
+import PageChatLog from "client/pages/PageChatLog";
+
 
 export {
     PageHome,
@@ -21,5 +23,6 @@ export {
     PageScheduleManagement,
     PagePricing,
     PageDetail,
-    PageChat
+    PageChat,
+    PageChatLog,
 };
