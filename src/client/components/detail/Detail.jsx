@@ -39,8 +39,13 @@ const Detail = (props) => {
             if (props.partner.schedules) {
                 let tempReserved = [];
                 let tempEndConsultation = [];
+
+                let tempUsers = [];
+                let tempLastDate = [];
+
                 props.partner.schedules.forEach((el) => {
-                    
+                    let userIdx = tempUsers.indexOf(el["name"]);
+
                     if (el["reservation"] === 1) {
                         const currentTime = moment();
                         const reservedTime = moment(el["startedAt"]);
@@ -48,7 +53,17 @@ const Detail = (props) => {
                             .duration(currentTime.diff(reservedTime))
                             .asMinutes();
                         if (duration > 30) {
-                            tempEndConsultation.push(el);
+                            if(userIdx === -1) {
+                                tempUsers.push(el["name"]);
+                                tempLastDate.push(el["startedAt"]);
+                                tempEndConsultation.push(el);
+                            }
+                            else {
+                                if(tempLastDate[userIdx]<el["startedAt"]) {
+                                    tempLastDate[userIdx] = el["startedAt"];
+                                    tempEndConsultation[userIdx] = el;
+                                }
+                            }
                         }
                         if (duration <= 30) {
                             tempReserved.push(el);
@@ -87,48 +102,35 @@ const Detail = (props) => {
 
     const endConsultationTableProps = {
         userType: userInfo.type,
-        getInfo: {
-            callbackFunc: (userId,partnerId) =>
-            userInfo.type===0 
-            ? Popup.partnerProfilePopup({
-                className: "partner_profile",
-                type: "read_only",
-                id: partnerId,
-                setQueryData: () => ({
-                    page: 1
-                })
-            }) 
-            : Popup.userProfilePopup({
-                className: "user_profile",
-                type: "read_only",
-                userId,
-                partnerId,
-                setQueryData: () => ({
-                    page: 1
-                })
-            }) 
-        },
-        ths: {
+        ths: userInfo.type === 0 ? {
             scheduleId: "예약 번호 (ID)",
-            name: userInfo.type === 0 ? "상담자" : "내담자",
+            name: "상담자",
             consultDay: "상담 일자",
             startedAt: "상담 시작 시간",
             endAt: "상담 종료 시간",
-        },
+        }
+        : {
+            scheduleId: "예약 번호 (ID)",
+            name: "내담자",
+            consultDay: "최근 상담 일자",
+        }
+        ,
         tds: endConsultation,
         actions: [
             {
                 commonBtn: true,
                 userType: userInfo.type,
                 className: "reserve_status_btn",
-                callbackFunc: (roomId, startAt) => {
-                    props.history.push(
-                        `/chat_log/${roomId}/${
-                            userInfo.type === 0
-                                ? props.user.id
-                                : props.partner.id
-                        }/${startAt}`
-                    );
+                callbackFunc: (userId, partnerId) => {
+                    Popup.userProfilePopup({
+                        className: "user_profile",
+                        type: "read_only",
+                        userId,
+                        partnerId,
+                        setQueryData: () => ({
+                            page: 1
+                        })
+                    }) 
                 }
             }
         ],
@@ -164,12 +166,17 @@ const Detail = (props) => {
         label: {
             age: "나이",
             email: "아이디 / 이메일",
+            phoneNumber: "연락처",
             gender: "성별",
             point: "잔여 포인트"
         },
         value: {
             age: props.user.name,
             email: props.user.email,
+            phoneNumber: props.user.phoneNumber ? props.user.phoneNumber.replace(
+                /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,
+                "$1-$2-$3"
+            ) : "",
             gender: props.user.gender === 1 ? "남자" : "여자",
             point: props.user.point
         }
@@ -182,10 +189,8 @@ const Detail = (props) => {
             email: "아이디 / 이메일",
             phoneNumber: "연락처",
             gender: "성별",
-            level: "파트너 등급",
             certificate: "관련 자격증",
-            chatCost: "상담 가격",
-            keyword: "상담 키워드"
+            keyword: "전문 분야",
         },
         value: {
             name: props.partner.name,
@@ -234,7 +239,7 @@ const Detail = (props) => {
                 ) : (
                     <InfoBox {...infoBoxPartnerProps} />
                 )}
-                <p className="sub_title">상담 내역</p>
+                <p className="sub_title">{userInfo.type === 1 ? "내담자" : "상담 내역"}</p>
                 <Table {...endConsultationTableProps} />
                 <p className="sub_title">예약 내역</p>
                 <Table {...reservationTableProps} />

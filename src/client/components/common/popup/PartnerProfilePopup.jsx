@@ -24,7 +24,6 @@ const PartnerProfilePopup = (props) => {
         info,
         keyword,
         chatCost,
-        level,
         certificate,
         image
     } = partnerData;
@@ -237,59 +236,6 @@ const PartnerProfilePopup = (props) => {
                                 </span>
                             </li>{" "}
                             <li>
-                                <span className="label">레벨</span>
-                                <div className="radio_btn_box">
-                                    <button
-                                        className={`${
-                                            Number(level) === 1 && "active"
-                                        }`}
-                                        onClick={(e) =>
-                                            onClickPartnerData(e, "level", 1)
-                                        }
-                                        disabled={props.type!=='edit'}
-                                    >
-                                        {Number(level) === 1 ? (
-                                            <MdRadioButtonChecked />
-                                        ) : (
-                                            <MdRadioButtonUnchecked />
-                                        )}
-                                        마스터
-                                    </button>{" "}
-                                    <button
-                                        className={`${
-                                            Number(level) === 2 && "active"
-                                        }`}
-                                        onClick={(e) =>
-                                            onClickPartnerData(e, "level", 2)
-                                        }
-                                        disabled={props.type!=='edit'}
-                                    >
-                                        {Number(level) === 2 ? (
-                                            <MdRadioButtonChecked />
-                                        ) : (
-                                            <MdRadioButtonUnchecked />
-                                        )}
-                                        전문가
-                                    </button>{" "}
-                                    <button
-                                        className={`${
-                                            Number(level) === 3 && "active"
-                                        }`}
-                                        onClick={(e) =>
-                                            onClickPartnerData(e, "level", 3)
-                                        }
-                                        disabled={props.type!=='edit'}
-                                    >
-                                        {Number(level) === 3 ? (
-                                            <MdRadioButtonChecked />
-                                        ) : (
-                                            <MdRadioButtonUnchecked />
-                                        )}
-                                        일반
-                                    </button>{" "}
-                                </div>
-                            </li>
-                            <li>
                                 <span className="label">자격증</span>
                                 <div className="radio_btn_box">
                                     <button
@@ -311,7 +257,7 @@ const PartnerProfilePopup = (props) => {
                                         ) : (
                                             <MdRadioButtonUnchecked />
                                         )}
-                                        1급
+                                        공인 심리 전문가(1급)
                                     </button>{" "}
                                     <button
                                         className={`${
@@ -332,7 +278,7 @@ const PartnerProfilePopup = (props) => {
                                         ) : (
                                             <MdRadioButtonUnchecked />
                                         )}
-                                        2급
+                                        전문가
                                     </button>{" "}
                                     <button
                                         className={`${
@@ -353,12 +299,12 @@ const PartnerProfilePopup = (props) => {
                                         ) : (
                                             <MdRadioButtonUnchecked />
                                         )}
-                                        3급
+                                        수련생
                                     </button>{" "}
                                 </div>
                             </li>
                             <li className="keyword_box">
-                                <span className="label">키워드</span>
+                                <span className="label">전문 분야</span>
                                 <div className="checkbox_box">
                                     {keywords.map((el, key) => {
                                         return (

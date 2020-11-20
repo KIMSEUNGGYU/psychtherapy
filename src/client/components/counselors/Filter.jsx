@@ -91,7 +91,7 @@ const Filter = props => {
                 </ul>
             </div>
             <div className="filter_content">
-                <p className="sub_title">고민 키워드</p>
+                <p className="sub_title">전문 분야</p>
                 {keywords.map((el, key) => {
                     return (
                         <span

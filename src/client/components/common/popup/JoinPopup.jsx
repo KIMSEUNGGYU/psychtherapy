@@ -85,7 +85,6 @@ const JoinPopup = (props) => {
             if (handleValidation() === false) {
                 return;
             }
-            delete joinData.phoneNumber;
 
             props.postUser({ joinData, callbackFunc });
         }
@@ -147,7 +146,7 @@ const JoinPopup = (props) => {
         }
 
         //Phone num value check
-        if (activeTab === 1 && !PhoneNumberPatternMatch(joinData.phoneNumber)) {
+        if (!PhoneNumberPatternMatch(joinData.phoneNumber)) {
             setInputError({
                 errorMessage: "전화번호 형식이 잘못되었습니다.",
                 inputStyle: "phoneNumber"
@@ -253,22 +252,20 @@ const JoinPopup = (props) => {
                                 onChange={onChange}
                             />
                         </li>
-                        {activeTab === 1 && (
-                            <li>
-                                <span className="label">휴대폰 번호</span>
-                                <input
-                                    className={
-                                        inputError.inputStyle === "phoneNumber"
-                                            ? "error"
-                                            : ""
-                                    }
-                                    type="text"
-                                    name="phoneNumber"
-                                    value={joinData.phoneNumber}
-                                    onChange={onChange}
-                                />
-                            </li>
-                        )}
+                        <li>
+                            <span className="label">휴대폰 번호</span>
+                            <input
+                                className={
+                                    inputError.inputStyle === "phoneNumber"
+                                        ? "error"
+                                        : ""
+                                }
+                                type="text"
+                                name="phoneNumber"
+                                value={joinData.phoneNumber}
+                                onChange={onChange}
+                            />
+                        </li>
                         <li>
                             <span className="label">성별</span>
                             <input
@@ -317,21 +314,14 @@ const JoinPopup = (props) => {
                     className="join_btn"
                     onClick={onSubmit}
                     disabled={
-                        activeTab === 1
-                            ? !joinData.email ||
-                              !joinData.name ||
-                              !joinData.password ||
-                              !joinData.phoneNumber ||
-                              !joinData.gender ||
-                              !joinData.age ||
-                              props.emailForbidden
-                            : !joinData.email ||
-                              !joinData.password ||
-                              !joinData.name ||
-                              !joinData.gender ||
-                              !joinData.age ||
-                              props.emailForbidden
-                    }
+                            !joinData.email ||
+                            !joinData.name ||
+                            !joinData.password ||
+                            !joinData.phoneNumber ||
+                            !joinData.gender ||
+                            !joinData.age ||
+                            props.emailForbidden
+                        }
                 >
                     가입하기
                 </button>

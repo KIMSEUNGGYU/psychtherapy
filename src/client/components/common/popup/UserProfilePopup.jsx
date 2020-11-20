@@ -14,6 +14,7 @@ const UserProfilePopup = (props) => {
         name,
         gender,
         age,
+        phoneNumber,
     } = userData;
     const [endConsultation, setEndConsultation] = useState([]);
 
@@ -138,6 +139,15 @@ const UserProfilePopup = (props) => {
                             </button>
                         </div>
                     </li>
+                    <li>
+                        <span className="label">연락처</span>
+                        <input
+                            type="text"
+                            name="phoneNumber"
+                            value={phoneNumber ? phoneNumber : ""}
+                            readOnly={props.type!=='edit'}
+                        />{" "}
+                    </li>{" "}
                 </ul>
             </div>
             <p className="sub-title">상담내역</p>

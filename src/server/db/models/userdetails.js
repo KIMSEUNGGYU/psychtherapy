@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       gender: DataTypes.TINYINT,
       age: DataTypes.TINYINT,
+      phoneNumber: DataTypes.STRING,
     },
     {
       sequelize,
@@ -31,9 +32,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  userDetails.signup = async (userId, name, age, gender, transaction) => {
+  userDetails.signup = async (userId, name, age, gender, phoneNumber, transaction) => {
     return await userDetails.create(
-      { userId, name, age, gender },
+      { userId, name, age, gender, phoneNumber },
       { transaction },
     );
   };

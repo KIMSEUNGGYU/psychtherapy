@@ -38,8 +38,7 @@ const AdminPartners = (props) => {
             age: "나이",
             url: "동영상 링크",
             chatCost: "상담가",
-            keyword: "키워드",
-            level: "레벨",
+            keyword: "전문분야",
             certificate: "자격증"
         },
         tds: props.partners,

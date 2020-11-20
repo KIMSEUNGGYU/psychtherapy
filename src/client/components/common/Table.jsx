@@ -44,16 +44,7 @@ const Table = (props) => {
                                     if (ele === "name") {
                                         return (
                                             <td key={i}>
-                                                <button 
-                                                    onClick={
-                                                        () => getInfo.callbackFunc(
-                                                            userType===0 ? null : el["userId"],
-                                                            el["partnerId"]
-                                                        )
-                                                    }
-                                                >
-                                                    {el[ele]}
-                                                </button>
+                                                {el[ele]}
                                             </td>
                                         );
                                     }
@@ -62,7 +53,7 @@ const Table = (props) => {
                                 })}
                                 {actions &&
                                     actions.map((action, actionKey) => {
-                                        console.log(actions,"act?")
+                                        //console.log(actions,"act?")
                                         if (action.commonBtn) {
                                             const currentTime = moment();
                                             const reservedTime = moment(
@@ -136,15 +127,15 @@ const Table = (props) => {
                                                                 onClick={() =>
                                                                 action.callbackFunc(
                                                                     el[
-                                                                        "roomId"
+                                                                        "userId"
                                                                     ],
                                                                     el[
-                                                                        "startedAt"
+                                                                        "partnerId"
                                                                     ]
                                                                 )
                                                             }
                                                         >
-                                                            상담내역
+                                                            상세 정보
                                                             </button> : ""}
                                                         </td>
                                                     );

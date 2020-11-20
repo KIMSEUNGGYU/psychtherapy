@@ -5,7 +5,7 @@ const crypto = require("crypto");
 
 exports.userSignup = async (user) => {
   user.type = 0;
-  const { email, password, name, age, gender, type } = user;
+  const { email, password, name, age, gender, phoneNumber, type } = user;
   let hashPassword = crypto
     .createHash("sha512")
     .update(password)
@@ -20,7 +20,7 @@ exports.userSignup = async (user) => {
       type,
       transaction
     ); // users 테이블에 데이터를 넣고, 해당 id 값 가져옴
-    await models.userDetails.signup(id, name, age, gender, transaction); // usersDetails 테이블에 데이터를 삽입
+    await models.userDetails.signup(id, name, age, gender, phoneNumber, transaction); // usersDetails 테이블에 데이터를 삽입
     await models.points.signup(id, transaction);
     transaction.commit(); // 각 테이블에 저장 (에러가 안나올 경우)
     return true;
