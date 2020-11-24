@@ -8,7 +8,7 @@ const Scheduler = props => {
     const [edit, setEdit] = useState(false);
     const [deletedArr, setDeletedArr] = useState([]);
     const [enteredArr, setEnteredArr] = useState([]);
-
+    const [day, setDay] = useState(0)
     useEffect(() => {
         if (props.times.length) {
             setSchedules(props.times);
@@ -59,6 +59,18 @@ const Scheduler = props => {
                         min={moment().format("YYYY-MM-DD")}
                         onChange={e => props.setScheduleDate(e.target.value)}
                     ></input>
+                    {
+                        history.location.pathname.includes("schedule") &&
+                        <>
+                            <label><input type="checkbox" checked={day===0} onClick={()=>setDay(0)}/>월</label>
+                            <label><input type="checkbox" checked={day===1} onClick={()=>setDay(1)}/>화</label>
+                            <label><input type="checkbox" checked={day===2} onClick={()=>setDay(2)}/>수</label>
+                            <label><input type="checkbox" checked={day===3} onClick={()=>setDay(3)}/>목</label>
+                            <label><input type="checkbox" checked={day===4} onClick={()=>setDay(4)}/>금</label>
+                            <label><input type="checkbox" checked={day===5} onClick={()=>setDay(5)}/>토</label>
+                            <label><input type="checkbox" checked={day===6} onClick={()=>setDay(6)}/>일</label>
+                        </>
+                    }
                 </p>
                 <div className="date_pick_box"></div>
                 {history.location.pathname.includes("schedule") && (

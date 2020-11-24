@@ -82,7 +82,7 @@ const Pricing = (props) => {
                                 >
                                     -
                                 </button>
-                                {25000 * prices.normal} POINT
+                                {prices.normal} 회
                                 <button
                                     className="plus_btn"
                                     onClick={() => onClickPlus("normal")}
@@ -136,7 +136,7 @@ const Pricing = (props) => {
                                 >
                                     -
                                 </button>
-                                {75000 * prices.master} POINT
+                                {prices.master} 회
                                 <button
                                     className="plus_btn"
                                     onClick={() => onClickPlus("master")}
@@ -189,7 +189,7 @@ const Pricing = (props) => {
                                 >
                                     -
                                 </button>
-                                {50000 * prices.export} POINT
+                                {prices.export} 회
                                 <button
                                     className="plus_btn"
                                     onClick={() => onClickPlus("export")}

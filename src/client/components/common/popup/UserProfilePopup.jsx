@@ -62,7 +62,7 @@ const UserProfilePopup = (props) => {
             className: "reserve_status_btn",
             callbackFunc: (roomId, startAt) => {
                 props.history.push(
-                    `/chat/${roomId}/${
+                    `/chat_log/${roomId}/${
                         props.partnerId
                     }/${startAt}`
                 );
@@ -79,6 +79,7 @@ const UserProfilePopup = (props) => {
             <p className="title">{props.type==="edit" ? "내담자 정보 입력" : "내담자 정보"}</p>
             <div className="flex_box">
             <p className="sub-title">프로필 설정</p>
+            <button className="next-schedule-btn">다음 상담 예약</button>
             <div className="input_box">
                 <ul>
                     <li>
