@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./ScheduleManagement.scss";
-import { Scheduler } from "client/components";
+import { SchedulerDay } from "client/components";
 import moment from "moment";
 
 const ScheduleManagement = props => {
     const { partner_id } = props.match.params;
     const [times, setTimes] = useState([]);
-    const [scheduleDate, setScheduleDate] = useState(
-        moment().format("YYYY-MM-DD")
-    );
+    const [scheduleArr, setScheduleArr] = useState([])
+
+    const [day, setDay] = useState("mon")
     const m = moment();
     useEffect(() => {
         const payload = {
             partnerId: Number(partner_id),
-            date: moment().format("YYYY-MM-DD")
+            day,
         };
         props.getPartnerScheduleList(payload);
     }, []);
@@ -21,16 +21,20 @@ const ScheduleManagement = props => {
     useEffect(() => {
         const payload = {
             partnerId: Number(partner_id),
-            date: scheduleDate
+            day
         };
         props.getPartnerScheduleList(payload);
-    }, [scheduleDate]);
+    }, [day]);
+
+    useEffect(() => {
+        setScheduleArr(props.schedules);
+    }, [props.schedules]);
 
     useEffect(() => {
         if (props.schedules) {
-            let scheduleArr = [];
+            const schedule=[];
             for (let i = 0; i < 48; i++) {
-                const startedAt = moment(scheduleDate)
+                const startedAt = moment(m.format("YYYY-MM-DD"))
                     .utcOffset("+0900")
                     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
                     .add(i * 30, "minutes")
@@ -38,50 +42,37 @@ const ScheduleManagement = props => {
                 let obj = {
                     startedAt,
                     reservation: 2,
-                    scheduleId: null
                 };
-                props.schedules.forEach(el => {
-                    if (m.valueOf() > moment(startedAt)) {
-                        obj["reservation"] = 3;
-                    } else if (el.startedAt === startedAt) {
-                        obj["reservation"] = el.reservation;
-                        obj["scheduleId"] = el.scheduleId;
+                scheduleArr.forEach(el => {
+                    if (el.time === startedAt.slice(-8)) {
+                        obj["reservation"] = 0;
                     }
+                    delete el.scheduleId;
                 });
-                scheduleArr.push(obj);
+                schedule.push(obj);
             }
-            setTimes(scheduleArr);
+            setTimes(schedule);
         }
-    }, [props.schedules, scheduleDate]);
+    }, [scheduleArr]);
 
-    const onClickSave = (edit, schedules) => {
-        if (edit === "delete") {
-            schedules.forEach(scheduleId => {
-                props.deletePartnerSchedule({
-                    partnerId: Number(partner_id),
-                    scheduleId
-                });
-            });
-        } else {
-            props.postPartnerSchedule({
-                partnerId: Number(partner_id),
-                date: scheduleDate,
-                schedules
-            });
-        }
+    const onClickSave = (scheduleArr) => {
+        //props.deletePartnerSchedule({partnerId: Number(partner_id),day});
+        props.postPartnerSchedule({partnerId: Number(partner_id),schedules: scheduleArr, day});
     };
     const schedulerProps = {
         schedules: props.schedules,
         userType: "partner",
         times,
-        scheduleDate,
-        setScheduleDate,
+        scheduleArr,
+        setScheduleArr,
+        day,
+        setDay,
         onClickSave
     };
     return (
         <div className="container schedule_management">
             <div className="layout">
-                <Scheduler {...schedulerProps} />
+                <SchedulerDay {...schedulerProps} />
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { ScheduleManagement } from "client/components";
 import { actions as partnersActions } from "client/modules/partners";
-import { actions as scheduleActions } from "client/modules/schedule";
+import { actions as scheduleActions } from "client/modules/schedule2";
 
 const mapStateToProps = (state) => ({
     partner: state.partners.partner,

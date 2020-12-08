@@ -3,7 +3,7 @@ import { saga as authSaga } from "client/modules/auth";
 import { saga as adminSaga } from "client/modules/admin";
 import { saga as userSaga } from "client/modules/user";
 import { saga as partnersSaga } from "client/modules/partners";
-import { saga as scheduleSaga } from "client/modules/schedule";
+import { saga as scheduleSaga } from "client/modules/schedule2";
 import { saga as chatSaga } from "client/modules/chat";
 import { saga as pointSaga } from "client/modules/point";
 

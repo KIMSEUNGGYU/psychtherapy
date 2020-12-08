@@ -4,6 +4,8 @@ import Popup from "client/components/common/popup/Popup";
 import Pagination from "client/components/common/Pagination";
 import Table from "client/components/common/Table";
 import Scheduler from "client/components/common/Scheduler";
+import SchedulerDay from "client/components/common/SchedulerDay";
+import SchedulerDate from "client/components/common/SchedulerDate";
 import RefreshToken from "client/components/common/RefreshToken";
 import InfoBox from "client/components/common/InfoBox";
 
@@ -46,6 +48,8 @@ export {
     Counselor,
     CounselingPayment,
     Scheduler,
+    SchedulerDay,
+    SchedulerDate,
     ScheduleManagement,
     Pricing,
     Pagination,
